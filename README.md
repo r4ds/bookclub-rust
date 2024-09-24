@@ -1,6 +1,6 @@
-# DSLC The Rust Programming Language Book Club
+# DSLC Rust Programming Language Book Club
 
-Welcome to the DSLC The Rust Programming Language Book Club!
+Welcome to the DSLC Rust Programming Language Book Club!
 
 We are working together to read [_The Rust Programming Language_](https://doc.rust-lang.org/stable/book/title-page.html) by Steve Klabnik and Carol Nichols, with contributions from the Rust Community (copyright 2024).
 
@@ -18,7 +18,7 @@ If you would like to present, please see the sign-up sheet for your cohort (link
 
 ## How to Present
 
-This repository is structured as a [{bookdown}](https://CRAN.R-project.org/package=bookdown) site.
+This repository is structured as a [{bookdown}](https://CRAN.R-project.org/package=bookdown) site (hopefully soon to convert to Quarto).
 To present, follow these instructions:
 
 Do these steps once:
