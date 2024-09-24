@@ -1,4 +1,4 @@
-# {{{chapter_title}}}
+# Object Oriented Programming Features of Rust
 
 **Learning objectives:**
 
