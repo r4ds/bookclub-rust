@@ -3,10 +3,10 @@
 .Rdata
 .httr-oauth
 .DS_Store
-_book
-_bookdown_files
-bookclub-rust.Rmd
-bookclub-rust.knit.md
-bookclub-rust_files
-libs
+
+# Ignore things during render.
 *.html
+*.rmarkdown
+/.quarto/
+/_site/
+/site_libs/

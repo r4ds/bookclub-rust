@@ -1,0 +1,75 @@
+project:
+  type: website
+
+website:
+  title: "Rust Programming Language Book Club"
+  sidebar:
+    style: "docked"
+    search: true
+    tools:
+      - icon: github
+        href: https://github.com/dslc-io/club-rust
+      - icon: youtube
+        href: https://www.youtube.com/playlist?list=PL3x6DOfs2NGi7HsPRKCXTf8OuyG9IwZeR
+      - icon: mastodon
+        href: https://fosstodon.org/@DSLC
+      - icon: linkedin
+        href: https://www.linkedin.com/company/dslc-io
+    contents:
+      - index.qmd
+      - file: slides/00-club-intro.qmd
+        target: rust_club-club_intro
+      - file: slides/00-intro.qmd
+        target: rust_club-intro
+
+      - file: slides/01-getting_started.qmd
+        target: rust_club-getting_started
+      - file: slides/02-programming_a_guessing_game.qmd
+        target: rust_club-programming_a_guessing_game
+      - file: slides/03-common_programming_concepts.qmd
+        target: rust_club-common_programming_concepts
+      - file: slides/04-understanding_ownership.qmd
+        target: rust_club-understanding_ownership
+      - file: slides/05-using_structs_to_structure_related_data.qmd
+        target: rust_club-using_structs_to_structure_related_data
+      - file: slides/06-enums_and_pattern_matching.qmd
+        target: rust_club-enums_and_pattern_matching
+      - file: slides/07-managing_growing_projects_with_packages_crates_and_modules.qmd
+        target: rust_club-managing_growing_projects_with_packages_crates_and_modules
+      - file: slides/08-common_collections.qmd
+        target: rust_club-common_collections
+      - file: slides/09-error_handling.qmd
+        target: rust_club-error_handling
+      - file: slides/10-generic_types_traits_and_lifetimes.qmd
+        target: rust_club-generic_types_traits_and_lifetimes
+      - file: slides/11-writing_automated_tests.qmd
+        target: rust_club-writing_automated_tests
+      - file: slides/12-an_io_project_building_a_command_line_program.qmd
+        target: rust_club-an_io_project_building_a_command_line_program
+      - file: slides/13-functional_language_features_iterators_and_closures.qmd
+        target: rust_club-functional_language_features_iterators_and_closures
+      - file: slides/14-more_about_cargo_and_cratesio.qmd
+        target: rust_club-more_about_cargo_and_cratesio
+      - file: slides/15-smart_pointers.qmd
+        target: rust_club-smart_pointers
+      - file: slides/16-fearless_concurrency.qmd
+        target: rust_club-fearless_concurrency
+      - file: slides/17-object_oriented_programming_features_of_rust.qmd
+        target: rust_club-object_oriented_programming_features_of_rust
+      - file: slides/18-patterns_and_matching.qmd
+        target: rust_club-patterns_and_matching
+      - file: slides/19-advanced_features.qmd
+        target: rust_club-advanced_features
+      - file: slides/20-final_project_building_a_multithreaded_web_server.qmd
+        target: rust_club-final_project_building_a_multithreaded_web_server
+      - file: slides/21-appendix.qmd
+        target: rust_club-appendix
+
+format:
+  html:
+    theme:
+      dark: darkly
+      light: flatly
+    css: styles.css
+    toc: false
+    link-external-newwindow: true
