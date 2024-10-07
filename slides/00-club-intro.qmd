@@ -24,6 +24,16 @@ title: Club Meetings
     -   Maybe live demo
 -   More info about editing: [this github repo](https://github.com/r4ds/bookclub-rust).
 -   Recorded, available on the [Data Science Learning Community YouTube Channel (DSLC.video)](http://dslc.video).
+- [Sign up to present](https://docs.google.com/spreadsheets/d/1MbPzQ8hhM9Oi198_cj9w6cdtbsG9-eTAqv_W7_KFkYA/edit?gid=0#gid=0)
+
+::: {.notes}
+In case this is your first book club here, this is how things work.
+We'll meet weekly and have a presentation followed by a discussion.
+
+We're working through this book collaboratively so everyone is encouraged to present a session or two.
+Please have a look at the schedule ASAP.
+We need presenters for the next 2 weeks.
+:::
 
 ## Pace
 
@@ -32,6 +42,13 @@ title: Club Meetings
 -   Ok to combine short chapters
 -   Meet ***every*** week except holidays, etc
     -   Ideally can discuss even if presenter unavailable
+- Monday at 2:00 pm PST (2100 GMT)
+
+::: {.notes}
+The schedule will be consistent for the most part but if we need to make adjustments everyone will be notified well ahead of time.
+For example, we will most likely meet for one of the scheduled holiday breaks or combine 2 chapters to one week.
+Daylight savings in the spring comes right at the end of schedule and is particularly gnarly this year I'd like to finish before then.
+:::
 
 ## Learning objectives (LOs)
 
@@ -39,3 +56,9 @@ title: Club Meetings
 -   **Tips:**
     -   "After today's session, you will be able to..."
     -   *Very* roughly **1 per section.**
+
+::: {.notes}
+When writing your presentation it can help to define learning objectives.
+This can help you identify the key points of the chapter, which also helps everyone else.
+It's not strictly required though so don't stress about it.
+:::
