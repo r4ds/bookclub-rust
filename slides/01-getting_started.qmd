@@ -5,27 +5,160 @@ title: "1. Getting Started"
 
 # Learning objectives
 
+By the end of this session you should be able to...
+
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- answer the question "Why Rust?"
+- run a hello, world program
+- understand how to manage projects with `cargo`
 :::
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+## Rust
+
+> A language empowering everyone to build reliable and efficient software.
+
+::: {.notes}
+Let's get started.
+
+Rust says it's a 'language empowering ...'
+The key words that stick out for me are 'reliable' and 'efficient.'
+
+If you're like me, those are the main selling points you've heard related to rust.
+Rust is _efficient_, both in terms of run time and development time.
+And Rust is _reliable_, eliminating bugs related to memory management that come up in languages like C.
+
+By the end of this book, we should have an idea of how well Rust holds up to those statements.
 :::
 
-# SLIDE SECTION
 
-## SLIDE
+## Set up
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+- Install Rust
+- Choose an editor
+- Install extensions
 
-## SLIDE
 
-# SLIDE SECTION
+::: {.notes}
+I assume you can install Rust but if you have issues we can help shortly.
 
-## SLIDE
+It's likely many of us have only used R and RStudio.
+If that's the case, I want to point out some differences you'll encounter.
 
-## SLIDE
+Both R and RStudio come with everything you need to write R code.
+However, with other languges and editors, you often need to install tools specific to that language.
+For example, language servers, debuggers, and package managers.
+You most definitely want to install the Rust tooling for whatever editor you use.
+
+If you aren't sure, I recommend using Visual Studio Code with the rust-analyzer extension.
+You will also need an extension with debugging support.
+You can find a link in the rust-analyzer extension.
+Again, if you need help with this, we can get to that shortly.
+:::
+
+
+## Hello, World
+
+```rust
+fn main() {
+    println!("Hello, world!");
+}
+```
+
+- `fn main()` is required in `main.rs`
+- The `!` in `println!` means macro
+- The `;` is required
+
+
+::: {.notes}
+This is the obligatory hello world.
+Since this is a simple program, it's clear what's going on.
+
+But there are some details worth pointing out.
+
+Every rust program has a `main.rs` file with a `main` function in it.
+This is the entrypoint to the program, the first thing that get's run.
+
+The `!` in `println!` means `println` is a macro.
+A macro is sort of like a function.
+That's a sufficient understanding for now.
+We'll get to the details of what a macro is later in the book.
+
+Lastly, note the `;` which indicated the end of an expression.
+This is generally required for every statement you write.
+:::
+
+## Compile and run
+
+
+```bash
+rustc main.rs
+```
+
+```bash
+./main
+```
+
+::: {.notes}
+Rust is a compiled language so we have to run the compiler `rustc` first.
+
+If you've never used a compiled language before, compiling is the process of translating the Rust code you write into a language the computer can read.
+With interpreted languages like R or Python, this translation happens on the fly.
+But with a compiled language, you have to translate the program before it can run.
+
+Once compiled, you'll have an executable file that you can now run.
+On Mac/Linux, it will be `main`.
+On Windows, it will be `main.exe`.
+:::
+
+
+## Cargo
+
+```toml
+[package]
+name = "hello_cargo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+```
+
+
+::: {.notes}
+Unlike R, where installing dependencies is built into the language, Rust has a separate program for this called `cargo`.
+With `cargo`, you define your dependencies, among other things, in a TOML file.
+:::
+
+## Cargo
+
+::::: nonincremental
+:::: {.columns}
+
+::: {.column}
+- `cargo new project_name`
+- `Cargo.toml`
+- `cargo.lock`
+:::
+
+::: {.column}
+- `project_name/.Rproj`
+- `DESCRIPTION`
+- `renv.lock`
+:::
+
+::::
+
+:::::
+
+::: {.notes}
+More than installing dependencies though, `cargo` helps you manage your Rust projects.
+It let's you create projects, install dependencies, compile, and run your project.
+
+A cargo project is like an RStudio project.
+
+`Cargo.toml` is like `DESCRIPTION` in an R package.
+
+And cargo tracks dependency versions with `cargo.lock`, which is like `renv.lock`.
+
+:::
+
+## Discussion
