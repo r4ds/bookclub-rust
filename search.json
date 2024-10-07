@@ -324,7 +324,7 @@
     "href": "slides/00-club-intro.html#book-club-meetings",
     "title": "Club Meetings",
     "section": "Book club meetings",
-    "text": "Book club meetings\n\nVolunteer leads discussion of a chapter\n\nThis is the best way to learn the material.\n\nPresentations:\n\nReview of material\nQuestions you have\nMaybe live demo\n\nMore info about editing: this github repo.\nRecorded, available on the Data Science Learning Community YouTube Channel (DSLC.video).",
+    "text": "Book club meetings\n\nVolunteer leads discussion of a chapter\n\nThis is the best way to learn the material.\n\nPresentations:\n\nReview of material\nQuestions you have\nMaybe live demo\n\nMore info about editing: this github repo.\nRecorded, available on the Data Science Learning Community YouTube Channel (DSLC.video).\nSign up to present\n\n\nIn case this is your first book club here, this is how things work. We’ll meet weekly and have a presentation followed by a discussion.\nWe’re working through this book collaboratively so everyone is encouraged to present a session or two. Please have a look at the schedule ASAP. We need presenters for the next 2 weeks.",
     "crumbs": [
       "Club Meetings"
     ]
@@ -334,7 +334,7 @@
     "href": "slides/00-club-intro.html#pace",
     "title": "Club Meetings",
     "section": "Pace",
-    "text": "Pace\n\nGoal: 1 chapter/week\nOk to split overwhelming chapters\nOk to combine short chapters\nMeet every week except holidays, etc\n\nIdeally can discuss even if presenter unavailable",
+    "text": "Pace\n\nGoal: 1 chapter/week\nOk to split overwhelming chapters\nOk to combine short chapters\nMeet every week except holidays, etc\n\nIdeally can discuss even if presenter unavailable\n\nMonday at 2:00 pm PST (2100 GMT)\n\n\nThe schedule will be consistent for the most part but if we need to make adjustments everyone will be notified well ahead of time. For example, we will most likely meet for one of the scheduled holiday breaks or combine 2 chapters to one week. Daylight savings in the spring comes right at the end of schedule and is particularly gnarly this year I’d like to finish before then.",
     "crumbs": [
       "Club Meetings"
     ]
@@ -344,49 +344,9 @@
     "href": "slides/00-club-intro.html#learning-objectives-los",
     "title": "Club Meetings",
     "section": "Learning objectives (LOs)",
-    "text": "Learning objectives (LOs)\n\nStudents who study with LOs in mind retain more.\nTips:\n\n“After today’s session, you will be able to…”\nVery roughly 1 per section.\n\n\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "Learning objectives (LOs)\n\nStudents who study with LOs in mind retain more.\nTips:\n\n“After today’s session, you will be able to…”\nVery roughly 1 per section.\n\n\n\nWhen writing your presentation it can help to define learning objectives. This can help you identify the key points of the chapter, which also helps everyone else. It’s not strictly required though so don’t stress about it.\n\n\n\n\nDSLC.io/rust | DSLC.io",
     "crumbs": [
       "Club Meetings"
-    ]
-  },
-  {
-    "objectID": "slides/00-intro.html#slide",
-    "href": "slides/00-intro.html#slide",
-    "title": "Introduction",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "Introduction"
-    ]
-  },
-  {
-    "objectID": "slides/00-intro.html#slide-1",
-    "href": "slides/00-intro.html#slide-1",
-    "title": "Introduction",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "Introduction"
-    ]
-  },
-  {
-    "objectID": "slides/00-intro.html#slide-2",
-    "href": "slides/00-intro.html#slide-2",
-    "title": "Introduction",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "Introduction"
-    ]
-  },
-  {
-    "objectID": "slides/00-intro.html#slide-3",
-    "href": "slides/00-intro.html#slide-3",
-    "title": "Introduction",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "Introduction"
     ]
   },
   {
@@ -840,41 +800,71 @@
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#slide",
-    "href": "slides/01-getting_started.html#slide",
+    "objectID": "slides/01-getting_started.html#rust",
+    "href": "slides/01-getting_started.html#rust",
     "title": "1. Getting Started",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Rust",
+    "text": "Rust\n\nA language empowering everyone to build reliable and efficient software.\n\n\nLet’s get started.\nRust says it’s a ‘language empowering …’ The key words that stick out for me are ‘reliable’ and ‘efficient.’\nIf you’re like me, those are the main selling points you’ve heard related to rust. Rust is efficient, both in terms of run time and development time. And Rust is reliable, eliminating bugs related to memory management that come up in languages like C.\nBy the end of this book, we should have an idea of how well Rust holds up to those statements.",
     "crumbs": [
       "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#slide-1",
-    "href": "slides/01-getting_started.html#slide-1",
+    "objectID": "slides/01-getting_started.html#set-up",
+    "href": "slides/01-getting_started.html#set-up",
     "title": "1. Getting Started",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Set up",
+    "text": "Set up\n\nInstall Rust\nChoose an editor\nInstall extensions\n\n\nI assume you can install Rust but if you have issues we can help shortly.\nIt’s likely many of us have only used R and RStudio. If that’s the case, I want to point out some differences you’ll encounter.\nBoth R and RStudio come with everything you need to write R code. However, with other languges and editors, you often need to install tools specific to that language. For example, language servers, debuggers, and package managers. You most definitely want to install the Rust tooling for whatever editor you use.\nIf you aren’t sure, I recommend using Visual Studio Code with the rust-analyzer extension. You will also need an extension with debugging support. You can find a link in the rust-analyzer extension. Again, if you need help with this, we can get to that shortly.",
     "crumbs": [
       "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#slide-2",
-    "href": "slides/01-getting_started.html#slide-2",
+    "objectID": "slides/01-getting_started.html#hello-world",
+    "href": "slides/01-getting_started.html#hello-world",
     "title": "1. Getting Started",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Hello, World",
+    "text": "Hello, World\nfn main() {\n    println!(\"Hello, world!\");\n}\n\nfn main() is required in main.rs\nThe ! in println! means macro\nThe ; is required\n\n\nThis is the obligatory hello world. Since this is a simple program, it’s clear what’s going on.\nBut there are some details worth pointing out.\nEvery rust program has a main.rs file with a main function in it. This is the entrypoint to the program, the first thing that get’s run.\nThe ! in println! means println is a macro. A macro is sort of like a function. That’s a sufficient understanding for now. We’ll get to the details of what a macro is later in the book.\nLastly, note the ; which indicated the end of an expression. This is generally required for every statement you write.",
     "crumbs": [
       "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#slide-3",
-    "href": "slides/01-getting_started.html#slide-3",
+    "objectID": "slides/01-getting_started.html#compile-and-run",
+    "href": "slides/01-getting_started.html#compile-and-run",
     "title": "1. Getting Started",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "section": "Compile and run",
+    "text": "Compile and run\nrustc main.rs\n./main\n\nRust is a compiled language so we have to run the compiler rustc first.\nIf you’ve never used a compiled language before, compiling is the process of translating the Rust code you write into a language the computer can read. With interpreted languages like R or Python, this translation happens on the fly. But with a compiled language, you have to translate the program before it can run.\nOnce compiled, you’ll have an executable file that you can now run. On Mac/Linux, it will be main. On Windows, it will be main.exe.",
+    "crumbs": [
+      "1. Getting Started"
+    ]
+  },
+  {
+    "objectID": "slides/01-getting_started.html#cargo",
+    "href": "slides/01-getting_started.html#cargo",
+    "title": "1. Getting Started",
+    "section": "Cargo",
+    "text": "Cargo\n[package]\nname = \"hello_cargo\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[dependencies]\n\nUnlike R, where installing dependencies is built into the language, Rust has a separate program for this called cargo. With cargo, you define your dependencies, among other things, in a TOML file.",
+    "crumbs": [
+      "1. Getting Started"
+    ]
+  },
+  {
+    "objectID": "slides/01-getting_started.html#cargo-1",
+    "href": "slides/01-getting_started.html#cargo-1",
+    "title": "1. Getting Started",
+    "section": "Cargo",
+    "text": "Cargo\n\n\n\n\ncargo new project_name\nCargo.toml\ncargo.lock\n\n\n\nproject_name/.Rproj\nDESCRIPTION\nrenv.lock\n\n\n\n\nMore than installing dependencies though, cargo helps you manage your Rust projects. It let’s you create projects, install dependencies, compile, and run your project.\nA cargo project is like an RStudio project.\nCargo.toml is like DESCRIPTION in an R package.\nAnd cargo tracks dependency versions with cargo.lock, which is like renv.lock.",
+    "crumbs": [
+      "1. Getting Started"
+    ]
+  },
+  {
+    "objectID": "slides/01-getting_started.html#discussion",
+    "href": "slides/01-getting_started.html#discussion",
+    "title": "1. Getting Started",
+    "section": "Discussion",
+    "text": "Discussion\n\n\n\nDSLC.io/rust | DSLC.io",
     "crumbs": [
       "1. Getting Started"
     ]
