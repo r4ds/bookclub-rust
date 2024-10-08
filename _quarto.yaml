@@ -8,7 +8,7 @@ website:
     search: true
     tools:
       - icon: github
-        href: https://github.com/r4ds/club-rust
+        href: https://github.com/r4ds/bookclub-rust
       - icon: youtube
         href: https://www.youtube.com/playlist?list=PL3x6DOfs2NGi7HsPRKCXTf8OuyG9IwZeR
       - icon: mastodon
