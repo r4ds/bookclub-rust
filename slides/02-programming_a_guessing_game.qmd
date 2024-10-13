@@ -5,27 +5,292 @@ title: "2. Programming a Guessing Game"
 
 # Learning objectives
 
+By the end of this session you should be able to ...
+
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+-   build a simple command line guessing game, with user interaction
+-   write basic Rust syntax (variables, functions)
+-   use Rust's standard library and external crates
+-   implement error handling in Rust using the `Result` type
+-   control program flow using conditionals (`if`, `else`) and loops (`loop`)
 :::
 
 ::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+-   You can add notes on each slide with blocks like this!
 :::
 
-# SLIDE SECTION
+# Guessing Game
 
-## SLIDE
+Our goal is to implement a guessing game that: 
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+- generates a (secret) random integer between 1 and 100
+- prompts the player to guess the number
+- indicates if the guess is too low or too high
+- prints a congratulatory message and exit if the guess is correct
 
-## SLIDE
+# Setting Up the Project
 
-# SLIDE SECTION
+## Create the new Project
 
-## SLIDE
+``` console
+$ cargo new guessing_game
+$ cd guessing_game
+```
 
-## SLIDE
+-   recall, `cargo` is Rust's package manager and build tool
+-   `cargo new` creates a new project with the given name
+-   by default, this creates a "Hello World" program
+
+## Compile and run it
+
+``` console
+$ cargo run
+```
+
+-   `cargo run` both compiles and runs the project
+-   you should see "Hello, world!" output to your console
+-   you can also just compile with `cargo build`
+
+# Processing a Guess
+
+We will process a guess by:
+
+- prompting the user for input
+- storing the input as a string
+
+## Storing Values with Variables
+
+```rust
+let mut guess = String::new();
+```
+
+- add this to the `main` function in `src/main.rs`
+- use `let` to create variables
+- variables are immutable by default
+- use `let mut` for mutable variable
+
+## Receiving User Input
+
+```rust
+use std::io;
+// ...
+println!("Please input your guess.");
+io::stdin().read_line(&mut guess);
+```
+
+- call `stdin().read_line(&mut guess)` to get user input
+- input is appended to the empty `guess` string
+- `&` indicates a reference to the variable
+- `&mut` is necessary, because references are immutable by default
+
+## Handling Potential Failure with Result
+
+```rust
+io::stdin()
+    .read_line(&mut guess)
+    .expect("Failed to read line");
+```
+
+- `read_line` returns a `Result` type (either `Ok` or `Err`)
+- use `.expect()` to handle errors and crash if an error occurs
+
+## Printing Values with `println!`
+
+```rust
+println!("You guessed: {guess}");
+```
+
+- use `println!` with placeholders (`{}`) for formatted output
+- combines user input and text in one statement
+
+## Testing the First Part
+
+``` console
+$ cargo run
+```
+
+- program now accepts input and prints the guess
+- test by entering values to see the output
+
+## Code checkpoint 1
+
+```rust
+use std::io;
+
+fn main() {
+    let mut guess = String::new();
+    println!("Please input your guess.");
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Failed to read line");
+
+    println!("You guessed: {}", guess);
+}
+```
+
+# Generating a Secret Number
+
+```rust
+use rand::Rng;
+```
+
+- we will need to use the `rand` crate for random number generation
+- use the `use` keyword to bring this crate into scope
+
+## Using a Crate to Get More Functionality
+
+```toml
+[dependencies]
+rand = "0.8.5"
+```
+
+- add the `rand` crate to `Cargo.toml` under `[dependencies]`
+- `cargo build` will fetch and compile external dependencies
+- you can also use `cargo add` to add dependencies
+    - e.g. `cargo add rand`
+
+## Generating a Random Number
+
+```rust
+use rand::Rng;
+let secret_number = rand::thread_rng().gen_range(1..=100);
+```
+
+- this code should now compile
+- `use rand::Rng;` brings the random number generator trait (`Rng`) into scope
+- use `thread_rng()` for random number generation
+
+# Comparing the Guess to the Secret Number
+
+## Matching the Guess to the Secret Number
+
+```rust
+use std::cmp::Ordering;
+match guess.cmp(&secret_number) {
+    Ordering::Less => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal => println!("You win!"),
+}
+```
+
+- use `cmp()` from the standard library to compare `guess` with `secret_number`
+- `cmp()` returns the `Ordering` enum, which has values (`Less`, `Greater`, or `Equal`)
+- `match` will match the appropriate arm of the enum, and print "Too small", "Too big", or "You win!"
+
+## Parsing a String into a Number
+``` rust
+let guess: u32 = guess.trim().parse().expect("Please type a number!");
+```
+
+- `guess` is a string, but we want to compare it to an integer
+- use `trim()` to remove unexpected whitespace from the string
+- use `parse()` to convert the string to an integer
+- this code should now compile
+
+## Code Checkpoint 2
+```rust
+use rand::Rng;
+use std::{cmp::Ordering, io};
+
+fn main() {
+    let secret_number = rand::thread_rng().gen_range(1..=100);
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Failed to read line");
+
+    let guess: u32 = guess.trim().parse().expect("Please type a number!");
+
+    println!("You guessed: {}", guess);
+
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => println!("You win!"),
+    }
+}
+```
+
+# Allowing Multiple Guesses with Looping
+
+```rust
+loop {
+    // all guessing logic here
+}
+```
+
+- add a `loop` to allow repeated guesses
+- place the entire guessing logic inside the loop
+- the program continues to ask for guesses until correct or manually exited
+
+## Quitting After a Correct Guess
+
+```rust
+Ordering::Equal => {
+    println!("You win!");
+    break;
+}
+```
+
+- we can add additional logic to the `Equal` branch of the enum using `{}`
+- add a `break` statement to exit the loop when the guess is correct
+- `break` exits both the loop and the program
+
+## Handling Invalid Input
+
+```rust
+let guess: u32 = match guess.trim().parse() {
+    Ok(num) => num,
+    Err(_) => continue,
+};
+
+```
+
+- currently, we crash on an error by using `.expect()`
+- we could instead handle the error, by matching the `Err` enum 
+- replace `.expect()` with `match` to handle possibility of non-numeric input
+- if parsing fails (`Err`), ignore the guess and continue looping
+
+## Final Code Checkpoint
+```rust
+use rand::Rng;
+use std::{cmp::Ordering, io};
+
+fn main() {
+    let secret_number = rand::thread_rng().gen_range(1..=100);
+
+    loop {
+        println!("Please input your guess.");
+
+        let mut guess = String::new();
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        println!("You guessed: {}", guess);
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
+    }
+}
+```
+
+# Summary
+
+Congrats, we have now successfully built a CLI game in Rust!
+
+We now have a basic understanding of Rust syntax, error handling, and working with external libraries
+
+Next, we’ll dive into deeper concepts like ownership, enums, and more!
