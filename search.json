@@ -1,5 +1,45 @@
 [
   {
+    "objectID": "slides/16-fearless_concurrency.html#slide",
+    "href": "slides/16-fearless_concurrency.html#slide",
+    "title": "16. Fearless Concurrency",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#slide-1",
+    "href": "slides/16-fearless_concurrency.html#slide-1",
+    "title": "16. Fearless Concurrency",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#slide-2",
+    "href": "slides/16-fearless_concurrency.html#slide-2",
+    "title": "16. Fearless Concurrency",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#slide-3",
+    "href": "slides/16-fearless_concurrency.html#slide-3",
+    "title": "16. Fearless Concurrency",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
     "objectID": "slides/18-patterns_and_matching.html#slide",
     "href": "slides/18-patterns_and_matching.html#slide",
     "title": "18. Patterns and Matching",
@@ -40,243 +80,73 @@
     ]
   },
   {
-    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide",
-    "href": "slides/14-more_about_cargo_and_cratesio.html#slide",
-    "title": "14. More about Cargo and Crates.io",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "objectID": "slides/01-getting_started.html#rust",
+    "href": "slides/01-getting_started.html#rust",
+    "title": "1. Getting Started",
+    "section": "Rust",
+    "text": "Rust\n\nA language empowering everyone to build reliable and efficient software.\n\n\nLet’s get started.\nRust says it’s a ‘language empowering …’ The key words that stick out for me are ‘reliable’ and ‘efficient.’\nIf you’re like me, those are the main selling points you’ve heard related to rust. Rust is efficient, both in terms of run time and development time. And Rust is reliable, eliminating bugs related to memory management that come up in languages like C.\nBy the end of this book, we should have an idea of how well Rust holds up to those statements.",
     "crumbs": [
-      "14. More about Cargo and Crates.io"
+      "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-1",
-    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-1",
-    "title": "14. More about Cargo and Crates.io",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "objectID": "slides/01-getting_started.html#set-up",
+    "href": "slides/01-getting_started.html#set-up",
+    "title": "1. Getting Started",
+    "section": "Set up",
+    "text": "Set up\n\nInstall Rust\nChoose an editor\nInstall extensions\n\n\nI assume you can install Rust but if you have issues we can help shortly.\nIt’s likely many of us have only used R and RStudio. If that’s the case, I want to point out some differences you’ll encounter.\nBoth R and RStudio come with everything you need to write R code. However, with other languges and editors, you often need to install tools specific to that language. For example, language servers, debuggers, and package managers. You most definitely want to install the Rust tooling for whatever editor you use.\nIf you aren’t sure, I recommend using Visual Studio Code with the rust-analyzer extension. You will also need an extension with debugging support. You can find a link in the rust-analyzer extension. Again, if you need help with this, we can get to that shortly.",
     "crumbs": [
-      "14. More about Cargo and Crates.io"
+      "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-2",
-    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-2",
-    "title": "14. More about Cargo and Crates.io",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "objectID": "slides/01-getting_started.html#hello-world",
+    "href": "slides/01-getting_started.html#hello-world",
+    "title": "1. Getting Started",
+    "section": "Hello, World",
+    "text": "Hello, World\nfn main() {\n    println!(\"Hello, world!\");\n}\n\nfn main() is required in main.rs\nThe ! in println! means macro\nThe ; is required\n\n\nThis is the obligatory hello world. Since this is a simple program, it’s clear what’s going on.\nBut there are some details worth pointing out.\nEvery rust program has a main.rs file with a main function in it. This is the entrypoint to the program, the first thing that get’s run.\nThe ! in println! means println is a macro. A macro is sort of like a function. That’s a sufficient understanding for now. We’ll get to the details of what a macro is later in the book.\nLastly, note the ; which indicated the end of an expression. This is generally required for every statement you write.",
     "crumbs": [
-      "14. More about Cargo and Crates.io"
+      "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-3",
-    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-3",
-    "title": "14. More about Cargo and Crates.io",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "objectID": "slides/01-getting_started.html#compile-and-run",
+    "href": "slides/01-getting_started.html#compile-and-run",
+    "title": "1. Getting Started",
+    "section": "Compile and run",
+    "text": "Compile and run\nrustc main.rs\n./main\n\nRust is a compiled language so we have to run the compiler rustc first.\nIf you’ve never used a compiled language before, compiling is the process of translating the Rust code you write into a language the computer can read. With interpreted languages like R or Python, this translation happens on the fly. But with a compiled language, you have to translate the program before it can run.\nOnce compiled, you’ll have an executable file that you can now run. On Mac/Linux, it will be main. On Windows, it will be main.exe.",
     "crumbs": [
-      "14. More about Cargo and Crates.io"
+      "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/02-programming_a_guessing_game.html#slide",
-    "href": "slides/02-programming_a_guessing_game.html#slide",
-    "title": "2. Programming a Guessing Game",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "objectID": "slides/01-getting_started.html#cargo",
+    "href": "slides/01-getting_started.html#cargo",
+    "title": "1. Getting Started",
+    "section": "Cargo",
+    "text": "Cargo\n[package]\nname = \"hello_cargo\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[dependencies]\n\nUnlike R, where installing dependencies is built into the language, Rust has a separate program for this called cargo. With cargo, you define your dependencies, among other things, in a TOML file.",
     "crumbs": [
-      "2. Programming a Guessing Game"
+      "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/02-programming_a_guessing_game.html#slide-1",
-    "href": "slides/02-programming_a_guessing_game.html#slide-1",
-    "title": "2. Programming a Guessing Game",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "objectID": "slides/01-getting_started.html#cargo-1",
+    "href": "slides/01-getting_started.html#cargo-1",
+    "title": "1. Getting Started",
+    "section": "Cargo",
+    "text": "Cargo\n\n\n\n\ncargo new project_name\nCargo.toml\ncargo.lock\n\n\n\nproject_name/.Rproj\nDESCRIPTION\nrenv.lock\n\n\n\n\nMore than installing dependencies though, cargo helps you manage your Rust projects. It let’s you create projects, install dependencies, compile, and run your project.\nA cargo project is like an RStudio project.\nCargo.toml is like DESCRIPTION in an R package.\nAnd cargo tracks dependency versions with cargo.lock, which is like renv.lock.",
     "crumbs": [
-      "2. Programming a Guessing Game"
+      "1. Getting Started"
     ]
   },
   {
-    "objectID": "slides/02-programming_a_guessing_game.html#slide-2",
-    "href": "slides/02-programming_a_guessing_game.html#slide-2",
-    "title": "2. Programming a Guessing Game",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "objectID": "slides/01-getting_started.html#discussion",
+    "href": "slides/01-getting_started.html#discussion",
+    "title": "1. Getting Started",
+    "section": "Discussion",
+    "text": "Discussion\n\n\n\nDSLC.io/rust | DSLC.io",
     "crumbs": [
-      "2. Programming a Guessing Game"
-    ]
-  },
-  {
-    "objectID": "slides/02-programming_a_guessing_game.html#slide-3",
-    "href": "slides/02-programming_a_guessing_game.html#slide-3",
-    "title": "2. Programming a Guessing Game",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "2. Programming a Guessing Game"
-    ]
-  },
-  {
-    "objectID": "slides/19-advanced_features.html#slide",
-    "href": "slides/19-advanced_features.html#slide",
-    "title": "19. Advanced Features",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "19. Advanced Features"
-    ]
-  },
-  {
-    "objectID": "slides/19-advanced_features.html#slide-1",
-    "href": "slides/19-advanced_features.html#slide-1",
-    "title": "19. Advanced Features",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "19. Advanced Features"
-    ]
-  },
-  {
-    "objectID": "slides/19-advanced_features.html#slide-2",
-    "href": "slides/19-advanced_features.html#slide-2",
-    "title": "19. Advanced Features",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "19. Advanced Features"
-    ]
-  },
-  {
-    "objectID": "slides/19-advanced_features.html#slide-3",
-    "href": "slides/19-advanced_features.html#slide-3",
-    "title": "19. Advanced Features",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "19. Advanced Features"
-    ]
-  },
-  {
-    "objectID": "slides/15-smart_pointers.html#slide",
-    "href": "slides/15-smart_pointers.html#slide",
-    "title": "15. Smart Pointers",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "15. Smart Pointers"
-    ]
-  },
-  {
-    "objectID": "slides/15-smart_pointers.html#slide-1",
-    "href": "slides/15-smart_pointers.html#slide-1",
-    "title": "15. Smart Pointers",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "15. Smart Pointers"
-    ]
-  },
-  {
-    "objectID": "slides/15-smart_pointers.html#slide-2",
-    "href": "slides/15-smart_pointers.html#slide-2",
-    "title": "15. Smart Pointers",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "15. Smart Pointers"
-    ]
-  },
-  {
-    "objectID": "slides/15-smart_pointers.html#slide-3",
-    "href": "slides/15-smart_pointers.html#slide-3",
-    "title": "15. Smart Pointers",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "15. Smart Pointers"
-    ]
-  },
-  {
-    "objectID": "slides/08-common_collections.html#slide",
-    "href": "slides/08-common_collections.html#slide",
-    "title": "8. Common Collections",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "8. Common Collections"
-    ]
-  },
-  {
-    "objectID": "slides/08-common_collections.html#slide-1",
-    "href": "slides/08-common_collections.html#slide-1",
-    "title": "8. Common Collections",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "8. Common Collections"
-    ]
-  },
-  {
-    "objectID": "slides/08-common_collections.html#slide-2",
-    "href": "slides/08-common_collections.html#slide-2",
-    "title": "8. Common Collections",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "8. Common Collections"
-    ]
-  },
-  {
-    "objectID": "slides/08-common_collections.html#slide-3",
-    "href": "slides/08-common_collections.html#slide-3",
-    "title": "8. Common Collections",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "8. Common Collections"
-    ]
-  },
-  {
-    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide",
-    "href": "slides/05-using_structs_to_structure_related_data.html#slide",
-    "title": "5. Using Structs to Structure Related Data",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "5. Using Structs to Structure Related Data"
-    ]
-  },
-  {
-    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-1",
-    "href": "slides/05-using_structs_to_structure_related_data.html#slide-1",
-    "title": "5. Using Structs to Structure Related Data",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "5. Using Structs to Structure Related Data"
-    ]
-  },
-  {
-    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-2",
-    "href": "slides/05-using_structs_to_structure_related_data.html#slide-2",
-    "title": "5. Using Structs to Structure Related Data",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "5. Using Structs to Structure Related Data"
-    ]
-  },
-  {
-    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-3",
-    "href": "slides/05-using_structs_to_structure_related_data.html#slide-3",
-    "title": "5. Using Structs to Structure Related Data",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "5. Using Structs to Structure Related Data"
+      "1. Getting Started"
     ]
   },
   {
@@ -320,363 +190,43 @@
     ]
   },
   {
-    "objectID": "slides/00-club-intro.html#book-club-meetings",
-    "href": "slides/00-club-intro.html#book-club-meetings",
-    "title": "Club Meetings",
-    "section": "Book club meetings",
-    "text": "Book club meetings\n\nVolunteer leads discussion of a chapter\n\nThis is the best way to learn the material.\n\nPresentations:\n\nReview of material\nQuestions you have\nMaybe live demo\n\nMore info about editing: this github repo.\nRecorded, available on the Data Science Learning Community YouTube Channel (DSLC.video).\nSign up to present\n\n\nIn case this is your first book club here, this is how things work. We’ll meet weekly and have a presentation followed by a discussion.\nWe’re working through this book collaboratively so everyone is encouraged to present a session or two. Please have a look at the schedule ASAP. We need presenters for the next 2 weeks.",
-    "crumbs": [
-      "Club Meetings"
-    ]
-  },
-  {
-    "objectID": "slides/00-club-intro.html#pace",
-    "href": "slides/00-club-intro.html#pace",
-    "title": "Club Meetings",
-    "section": "Pace",
-    "text": "Pace\n\nGoal: 1 chapter/week\nOk to split overwhelming chapters\nOk to combine short chapters\nMeet every week except holidays, etc\n\nIdeally can discuss even if presenter unavailable\n\nMonday at 2:00 pm PST (2100 GMT)\n\n\nThe schedule will be consistent for the most part but if we need to make adjustments everyone will be notified well ahead of time. For example, we will most likely meet for one of the scheduled holiday breaks or combine 2 chapters to one week. Daylight savings in the spring comes right at the end of schedule and is particularly gnarly this year I’d like to finish before then.",
-    "crumbs": [
-      "Club Meetings"
-    ]
-  },
-  {
-    "objectID": "slides/00-club-intro.html#learning-objectives-los",
-    "href": "slides/00-club-intro.html#learning-objectives-los",
-    "title": "Club Meetings",
-    "section": "Learning objectives (LOs)",
-    "text": "Learning objectives (LOs)\n\nStudents who study with LOs in mind retain more.\nTips:\n\n“After today’s session, you will be able to…”\nVery roughly 1 per section.\n\n\n\nWhen writing your presentation it can help to define learning objectives. This can help you identify the key points of the chapter, which also helps everyone else. It’s not strictly required though so don’t stress about it.\n\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "Club Meetings"
-    ]
-  },
-  {
-    "objectID": "slides/20-final_project_building_a_multithreaded_web_server.html#slide",
-    "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide",
-    "title": "20. Final Project: Building a Multithreaded Web Server",
+    "objectID": "slides/19-advanced_features.html#slide",
+    "href": "slides/19-advanced_features.html#slide",
+    "title": "19. Advanced Features",
     "section": "SLIDE",
     "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
     "crumbs": [
-      "20. Final Project: Building a Multithreaded Web Server"
+      "19. Advanced Features"
     ]
   },
   {
-    "objectID": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-1",
-    "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-1",
-    "title": "20. Final Project: Building a Multithreaded Web Server",
+    "objectID": "slides/19-advanced_features.html#slide-1",
+    "href": "slides/19-advanced_features.html#slide-1",
+    "title": "19. Advanced Features",
     "section": "SLIDE",
     "text": "SLIDE",
     "crumbs": [
-      "20. Final Project: Building a Multithreaded Web Server"
+      "19. Advanced Features"
     ]
   },
   {
-    "objectID": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-2",
-    "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-2",
-    "title": "20. Final Project: Building a Multithreaded Web Server",
+    "objectID": "slides/19-advanced_features.html#slide-2",
+    "href": "slides/19-advanced_features.html#slide-2",
+    "title": "19. Advanced Features",
     "section": "SLIDE",
     "text": "SLIDE",
     "crumbs": [
-      "20. Final Project: Building a Multithreaded Web Server"
+      "19. Advanced Features"
     ]
   },
   {
-    "objectID": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-3",
-    "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-3",
-    "title": "20. Final Project: Building a Multithreaded Web Server",
+    "objectID": "slides/19-advanced_features.html#slide-3",
+    "href": "slides/19-advanced_features.html#slide-3",
+    "title": "19. Advanced Features",
     "section": "SLIDE",
     "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
     "crumbs": [
-      "20. Final Project: Building a Multithreaded Web Server"
-    ]
-  },
-  {
-    "objectID": "slides/06-enums_and_pattern_matching.html#slide",
-    "href": "slides/06-enums_and_pattern_matching.html#slide",
-    "title": "6. Enums and Pattern Matching",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "6. Enums and Pattern Matching"
-    ]
-  },
-  {
-    "objectID": "slides/06-enums_and_pattern_matching.html#slide-1",
-    "href": "slides/06-enums_and_pattern_matching.html#slide-1",
-    "title": "6. Enums and Pattern Matching",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "6. Enums and Pattern Matching"
-    ]
-  },
-  {
-    "objectID": "slides/06-enums_and_pattern_matching.html#slide-2",
-    "href": "slides/06-enums_and_pattern_matching.html#slide-2",
-    "title": "6. Enums and Pattern Matching",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "6. Enums and Pattern Matching"
-    ]
-  },
-  {
-    "objectID": "slides/06-enums_and_pattern_matching.html#slide-3",
-    "href": "slides/06-enums_and_pattern_matching.html#slide-3",
-    "title": "6. Enums and Pattern Matching",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "6. Enums and Pattern Matching"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Welcome",
-    "section": "",
-    "text": "This is a companion for the book The Rust Programming Language by Steve Klabnik and Carol Nichols, with contributions from the Rust Community (copyright 2024).\nEach chapter title to the left is a link to a slide deck.\n\nThese slides are being developed by this club.\nEach deck will open in its own tab.\nYou may want to type “s” at the start of each deck to open the speaker notes.\nJoin the Data Science Learning Community to participate in the discussion!\n\nWe follow the Data Science Learning Community Code of Conduct.",
-    "crumbs": [
-      "Welcome"
-    ]
-  },
-  {
-    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide",
-    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide",
-    "title": "17. Object Oriented Programming Features of Rust",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "17. Object Oriented Programming Features of Rust"
-    ]
-  },
-  {
-    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-1",
-    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-1",
-    "title": "17. Object Oriented Programming Features of Rust",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "17. Object Oriented Programming Features of Rust"
-    ]
-  },
-  {
-    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-2",
-    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-2",
-    "title": "17. Object Oriented Programming Features of Rust",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "17. Object Oriented Programming Features of Rust"
-    ]
-  },
-  {
-    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-3",
-    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-3",
-    "title": "17. Object Oriented Programming Features of Rust",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "17. Object Oriented Programming Features of Rust"
-    ]
-  },
-  {
-    "objectID": "slides/21-appendix.html#slide",
-    "href": "slides/21-appendix.html#slide",
-    "title": "21. Appendix",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "21. Appendix"
-    ]
-  },
-  {
-    "objectID": "slides/21-appendix.html#slide-1",
-    "href": "slides/21-appendix.html#slide-1",
-    "title": "21. Appendix",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "21. Appendix"
-    ]
-  },
-  {
-    "objectID": "slides/21-appendix.html#slide-2",
-    "href": "slides/21-appendix.html#slide-2",
-    "title": "21. Appendix",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "21. Appendix"
-    ]
-  },
-  {
-    "objectID": "slides/21-appendix.html#slide-3",
-    "href": "slides/21-appendix.html#slide-3",
-    "title": "21. Appendix",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "21. Appendix"
-    ]
-  },
-  {
-    "objectID": "slides/16-fearless_concurrency.html#slide",
-    "href": "slides/16-fearless_concurrency.html#slide",
-    "title": "16. Fearless Concurrency",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "16. Fearless Concurrency"
-    ]
-  },
-  {
-    "objectID": "slides/16-fearless_concurrency.html#slide-1",
-    "href": "slides/16-fearless_concurrency.html#slide-1",
-    "title": "16. Fearless Concurrency",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "16. Fearless Concurrency"
-    ]
-  },
-  {
-    "objectID": "slides/16-fearless_concurrency.html#slide-2",
-    "href": "slides/16-fearless_concurrency.html#slide-2",
-    "title": "16. Fearless Concurrency",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "16. Fearless Concurrency"
-    ]
-  },
-  {
-    "objectID": "slides/16-fearless_concurrency.html#slide-3",
-    "href": "slides/16-fearless_concurrency.html#slide-3",
-    "title": "16. Fearless Concurrency",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "16. Fearless Concurrency"
-    ]
-  },
-  {
-    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide",
-    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide",
-    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "7. Managing Growing Projects with Packages, Crates, and Modules"
-    ]
-  },
-  {
-    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-1",
-    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-1",
-    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "7. Managing Growing Projects with Packages, Crates, and Modules"
-    ]
-  },
-  {
-    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-2",
-    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-2",
-    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "7. Managing Growing Projects with Packages, Crates, and Modules"
-    ]
-  },
-  {
-    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-3",
-    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-3",
-    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "7. Managing Growing Projects with Packages, Crates, and Modules"
-    ]
-  },
-  {
-    "objectID": "slides/04-understanding_ownership.html#slide",
-    "href": "slides/04-understanding_ownership.html#slide",
-    "title": "4. Understanding Ownership",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "4. Understanding Ownership"
-    ]
-  },
-  {
-    "objectID": "slides/04-understanding_ownership.html#slide-1",
-    "href": "slides/04-understanding_ownership.html#slide-1",
-    "title": "4. Understanding Ownership",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "4. Understanding Ownership"
-    ]
-  },
-  {
-    "objectID": "slides/04-understanding_ownership.html#slide-2",
-    "href": "slides/04-understanding_ownership.html#slide-2",
-    "title": "4. Understanding Ownership",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "4. Understanding Ownership"
-    ]
-  },
-  {
-    "objectID": "slides/04-understanding_ownership.html#slide-3",
-    "href": "slides/04-understanding_ownership.html#slide-3",
-    "title": "4. Understanding Ownership",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "4. Understanding Ownership"
-    ]
-  },
-  {
-    "objectID": "slides/12-an_io_project_building_a_command_line_program.html#slide",
-    "href": "slides/12-an_io_project_building_a_command_line_program.html#slide",
-    "title": "12. An I/O Project: Building a Command Line Program",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
-    "crumbs": [
-      "12. An I/O Project: Building a Command Line Program"
-    ]
-  },
-  {
-    "objectID": "slides/12-an_io_project_building_a_command_line_program.html#slide-1",
-    "href": "slides/12-an_io_project_building_a_command_line_program.html#slide-1",
-    "title": "12. An I/O Project: Building a Command Line Program",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "12. An I/O Project: Building a Command Line Program"
-    ]
-  },
-  {
-    "objectID": "slides/12-an_io_project_building_a_command_line_program.html#slide-2",
-    "href": "slides/12-an_io_project_building_a_command_line_program.html#slide-2",
-    "title": "12. An I/O Project: Building a Command Line Program",
-    "section": "SLIDE",
-    "text": "SLIDE",
-    "crumbs": [
-      "12. An I/O Project: Building a Command Line Program"
-    ]
-  },
-  {
-    "objectID": "slides/12-an_io_project_building_a_command_line_program.html#slide-3",
-    "href": "slides/12-an_io_project_building_a_command_line_program.html#slide-3",
-    "title": "12. An I/O Project: Building a Command Line Program",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
-    "crumbs": [
-      "12. An I/O Project: Building a Command Line Program"
+      "19. Advanced Features"
     ]
   },
   {
@@ -717,6 +267,86 @@
     "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
     "crumbs": [
       "9. Error Handling"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide",
+    "href": "slides/05-using_structs_to_structure_related_data.html#slide",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-1",
+    "href": "slides/05-using_structs_to_structure_related_data.html#slide-1",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-2",
+    "href": "slides/05-using_structs_to_structure_related_data.html#slide-2",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-3",
+    "href": "slides/05-using_structs_to_structure_related_data.html#slide-3",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/20-final_project_building_a_multithreaded_web_server.html#slide",
+    "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide",
+    "title": "20. Final Project: Building a Multithreaded Web Server",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "20. Final Project: Building a Multithreaded Web Server"
+    ]
+  },
+  {
+    "objectID": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-1",
+    "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-1",
+    "title": "20. Final Project: Building a Multithreaded Web Server",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "20. Final Project: Building a Multithreaded Web Server"
+    ]
+  },
+  {
+    "objectID": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-2",
+    "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-2",
+    "title": "20. Final Project: Building a Multithreaded Web Server",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "20. Final Project: Building a Multithreaded Web Server"
+    ]
+  },
+  {
+    "objectID": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-3",
+    "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-3",
+    "title": "20. Final Project: Building a Multithreaded Web Server",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "20. Final Project: Building a Multithreaded Web Server"
     ]
   },
   {
@@ -800,73 +430,443 @@
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#rust",
-    "href": "slides/01-getting_started.html#rust",
-    "title": "1. Getting Started",
-    "section": "Rust",
-    "text": "Rust\n\nA language empowering everyone to build reliable and efficient software.\n\n\nLet’s get started.\nRust says it’s a ‘language empowering …’ The key words that stick out for me are ‘reliable’ and ‘efficient.’\nIf you’re like me, those are the main selling points you’ve heard related to rust. Rust is efficient, both in terms of run time and development time. And Rust is reliable, eliminating bugs related to memory management that come up in languages like C.\nBy the end of this book, we should have an idea of how well Rust holds up to those statements.",
+    "objectID": "slides/02-programming_a_guessing_game.html#create-the-new-project",
+    "href": "slides/02-programming_a_guessing_game.html#create-the-new-project",
+    "title": "2. Programming a Guessing Game",
+    "section": "Create the new Project",
+    "text": "Create the new Project\n$ cargo new guessing_game\n$ cd guessing_game\n\nrecall, cargo is Rust’s package manager and build tool\ncargo new creates a new project with the given name\nby default, this creates a “Hello World” program",
     "crumbs": [
-      "1. Getting Started"
+      "2. Programming a Guessing Game"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#set-up",
-    "href": "slides/01-getting_started.html#set-up",
-    "title": "1. Getting Started",
-    "section": "Set up",
-    "text": "Set up\n\nInstall Rust\nChoose an editor\nInstall extensions\n\n\nI assume you can install Rust but if you have issues we can help shortly.\nIt’s likely many of us have only used R and RStudio. If that’s the case, I want to point out some differences you’ll encounter.\nBoth R and RStudio come with everything you need to write R code. However, with other languges and editors, you often need to install tools specific to that language. For example, language servers, debuggers, and package managers. You most definitely want to install the Rust tooling for whatever editor you use.\nIf you aren’t sure, I recommend using Visual Studio Code with the rust-analyzer extension. You will also need an extension with debugging support. You can find a link in the rust-analyzer extension. Again, if you need help with this, we can get to that shortly.",
+    "objectID": "slides/02-programming_a_guessing_game.html#compile-and-run-it",
+    "href": "slides/02-programming_a_guessing_game.html#compile-and-run-it",
+    "title": "2. Programming a Guessing Game",
+    "section": "Compile and run it",
+    "text": "Compile and run it\n$ cargo run\n\ncargo run both compiles and runs the project\nyou should see “Hello, world!” output to your console\nyou can also just compile with cargo build",
     "crumbs": [
-      "1. Getting Started"
+      "2. Programming a Guessing Game"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#hello-world",
-    "href": "slides/01-getting_started.html#hello-world",
-    "title": "1. Getting Started",
-    "section": "Hello, World",
-    "text": "Hello, World\nfn main() {\n    println!(\"Hello, world!\");\n}\n\nfn main() is required in main.rs\nThe ! in println! means macro\nThe ; is required\n\n\nThis is the obligatory hello world. Since this is a simple program, it’s clear what’s going on.\nBut there are some details worth pointing out.\nEvery rust program has a main.rs file with a main function in it. This is the entrypoint to the program, the first thing that get’s run.\nThe ! in println! means println is a macro. A macro is sort of like a function. That’s a sufficient understanding for now. We’ll get to the details of what a macro is later in the book.\nLastly, note the ; which indicated the end of an expression. This is generally required for every statement you write.",
+    "objectID": "slides/02-programming_a_guessing_game.html#storing-values-with-variables",
+    "href": "slides/02-programming_a_guessing_game.html#storing-values-with-variables",
+    "title": "2. Programming a Guessing Game",
+    "section": "Storing Values with Variables",
+    "text": "Storing Values with Variables\nlet mut guess = String::new();\n\nadd this to the main function in src/main.rs\nuse let to create variables\nvariables are immutable by default\nuse let mut for mutable variable",
     "crumbs": [
-      "1. Getting Started"
+      "2. Programming a Guessing Game"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#compile-and-run",
-    "href": "slides/01-getting_started.html#compile-and-run",
-    "title": "1. Getting Started",
-    "section": "Compile and run",
-    "text": "Compile and run\nrustc main.rs\n./main\n\nRust is a compiled language so we have to run the compiler rustc first.\nIf you’ve never used a compiled language before, compiling is the process of translating the Rust code you write into a language the computer can read. With interpreted languages like R or Python, this translation happens on the fly. But with a compiled language, you have to translate the program before it can run.\nOnce compiled, you’ll have an executable file that you can now run. On Mac/Linux, it will be main. On Windows, it will be main.exe.",
+    "objectID": "slides/02-programming_a_guessing_game.html#receiving-user-input",
+    "href": "slides/02-programming_a_guessing_game.html#receiving-user-input",
+    "title": "2. Programming a Guessing Game",
+    "section": "Receiving User Input",
+    "text": "Receiving User Input\nuse std::io;\n// ...\nprintln!(\"Please input your guess.\");\nio::stdin().read_line(&mut guess);\n\ncall stdin().read_line(&mut guess) to get user input\ninput is appended to the empty guess string\n& indicates a reference to the variable\n&mut is necessary, because references are immutable by default",
     "crumbs": [
-      "1. Getting Started"
+      "2. Programming a Guessing Game"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#cargo",
-    "href": "slides/01-getting_started.html#cargo",
-    "title": "1. Getting Started",
-    "section": "Cargo",
-    "text": "Cargo\n[package]\nname = \"hello_cargo\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[dependencies]\n\nUnlike R, where installing dependencies is built into the language, Rust has a separate program for this called cargo. With cargo, you define your dependencies, among other things, in a TOML file.",
+    "objectID": "slides/02-programming_a_guessing_game.html#handling-potential-failure-with-result",
+    "href": "slides/02-programming_a_guessing_game.html#handling-potential-failure-with-result",
+    "title": "2. Programming a Guessing Game",
+    "section": "Handling Potential Failure with Result",
+    "text": "Handling Potential Failure with Result\nio::stdin()\n    .read_line(&mut guess)\n    .expect(\"Failed to read line\");\n\nread_line returns a Result type (either Ok or Err)\nuse .expect() to handle errors and crash if an error occurs",
     "crumbs": [
-      "1. Getting Started"
+      "2. Programming a Guessing Game"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#cargo-1",
-    "href": "slides/01-getting_started.html#cargo-1",
-    "title": "1. Getting Started",
-    "section": "Cargo",
-    "text": "Cargo\n\n\n\n\ncargo new project_name\nCargo.toml\ncargo.lock\n\n\n\nproject_name/.Rproj\nDESCRIPTION\nrenv.lock\n\n\n\n\nMore than installing dependencies though, cargo helps you manage your Rust projects. It let’s you create projects, install dependencies, compile, and run your project.\nA cargo project is like an RStudio project.\nCargo.toml is like DESCRIPTION in an R package.\nAnd cargo tracks dependency versions with cargo.lock, which is like renv.lock.",
+    "objectID": "slides/02-programming_a_guessing_game.html#printing-values-with-println",
+    "href": "slides/02-programming_a_guessing_game.html#printing-values-with-println",
+    "title": "2. Programming a Guessing Game",
+    "section": "Printing Values with println!",
+    "text": "Printing Values with println!\nprintln!(\"You guessed: {guess}\");\n\nuse println! with placeholders ({}) for formatted output\ncombines user input and text in one statement",
     "crumbs": [
-      "1. Getting Started"
+      "2. Programming a Guessing Game"
     ]
   },
   {
-    "objectID": "slides/01-getting_started.html#discussion",
-    "href": "slides/01-getting_started.html#discussion",
-    "title": "1. Getting Started",
-    "section": "Discussion",
-    "text": "Discussion\n\n\n\nDSLC.io/rust | DSLC.io",
+    "objectID": "slides/02-programming_a_guessing_game.html#testing-the-first-part",
+    "href": "slides/02-programming_a_guessing_game.html#testing-the-first-part",
+    "title": "2. Programming a Guessing Game",
+    "section": "Testing the First Part",
+    "text": "Testing the First Part\n$ cargo run\n\nprogram now accepts input and prints the guess\ntest by entering values to see the output",
     "crumbs": [
-      "1. Getting Started"
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#code-checkpoint-1",
+    "href": "slides/02-programming_a_guessing_game.html#code-checkpoint-1",
+    "title": "2. Programming a Guessing Game",
+    "section": "Code checkpoint 1",
+    "text": "Code checkpoint 1\nuse std::io;\n\nfn main() {\n    let mut guess = String::new();\n    println!(\"Please input your guess.\");\n    io::stdin()\n        .read_line(&mut guess)\n        .expect(\"Failed to read line\");\n\n    println!(\"You guessed: {}\", guess);\n}",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#using-a-crate-to-get-more-functionality",
+    "href": "slides/02-programming_a_guessing_game.html#using-a-crate-to-get-more-functionality",
+    "title": "2. Programming a Guessing Game",
+    "section": "Using a Crate to Get More Functionality",
+    "text": "Using a Crate to Get More Functionality\n[dependencies]\nrand = \"0.8.5\"\n\nadd the rand crate to Cargo.toml under [dependencies]\ncargo build will fetch and compile external dependencies\nyou can also use cargo add to add dependencies\n\ne.g. cargo add rand",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#generating-a-random-number",
+    "href": "slides/02-programming_a_guessing_game.html#generating-a-random-number",
+    "title": "2. Programming a Guessing Game",
+    "section": "Generating a Random Number",
+    "text": "Generating a Random Number\nuse rand::Rng;\nlet secret_number = rand::thread_rng().gen_range(1..=100);\n\nthis code should now compile\nuse rand::Rng; brings the random number generator trait (Rng) into scope\nuse thread_rng() for random number generation",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#matching-the-guess-to-the-secret-number",
+    "href": "slides/02-programming_a_guessing_game.html#matching-the-guess-to-the-secret-number",
+    "title": "2. Programming a Guessing Game",
+    "section": "Matching the Guess to the Secret Number",
+    "text": "Matching the Guess to the Secret Number\nuse std::cmp::Ordering;\nmatch guess.cmp(&secret_number) {\n    Ordering::Less =&gt; println!(\"Too small!\"),\n    Ordering::Greater =&gt; println!(\"Too big!\"),\n    Ordering::Equal =&gt; println!(\"You win!\"),\n}\n\nuse cmp() from the standard library to compare guess with secret_number\ncmp() returns the Ordering enum, which has values (Less, Greater, or Equal)\nmatch will match the appropriate arm of the enum, and print “Too small”, “Too big”, or “You win!”",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#parsing-a-string-into-a-number",
+    "href": "slides/02-programming_a_guessing_game.html#parsing-a-string-into-a-number",
+    "title": "2. Programming a Guessing Game",
+    "section": "Parsing a String into a Number",
+    "text": "Parsing a String into a Number\nlet guess: u32 = guess.trim().parse().expect(\"Please type a number!\");\n\nguess is a string, but we want to compare it to an integer\nuse trim() to remove unexpected whitespace from the string\nuse parse() to convert the string to an integer\nthis code should now compile",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#code-checkpoint-2",
+    "href": "slides/02-programming_a_guessing_game.html#code-checkpoint-2",
+    "title": "2. Programming a Guessing Game",
+    "section": "Code Checkpoint 2",
+    "text": "Code Checkpoint 2\nuse rand::Rng;\nuse std::{cmp::Ordering, io};\n\nfn main() {\n    let secret_number = rand::thread_rng().gen_range(1..=100);\n    let mut guess = String::new();\n\n    io::stdin()\n        .read_line(&mut guess)\n        .expect(\"Failed to read line\");\n\n    let guess: u32 = guess.trim().parse().expect(\"Please type a number!\");\n\n    println!(\"You guessed: {}\", guess);\n\n    match guess.cmp(&secret_number) {\n        Ordering::Less =&gt; println!(\"Too small!\"),\n        Ordering::Greater =&gt; println!(\"Too big!\"),\n        Ordering::Equal =&gt; println!(\"You win!\"),\n    }\n}",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#quitting-after-a-correct-guess",
+    "href": "slides/02-programming_a_guessing_game.html#quitting-after-a-correct-guess",
+    "title": "2. Programming a Guessing Game",
+    "section": "Quitting After a Correct Guess",
+    "text": "Quitting After a Correct Guess\nOrdering::Equal =&gt; {\n    println!(\"You win!\");\n    break;\n}\n\nwe can add additional logic to the Equal branch of the enum using {}\nadd a break statement to exit the loop when the guess is correct\nbreak exits both the loop and the program",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#handling-invalid-input",
+    "href": "slides/02-programming_a_guessing_game.html#handling-invalid-input",
+    "title": "2. Programming a Guessing Game",
+    "section": "Handling Invalid Input",
+    "text": "Handling Invalid Input\nlet guess: u32 = match guess.trim().parse() {\n    Ok(num) =&gt; num,\n    Err(_) =&gt; continue,\n};\n\ncurrently, we crash on an error by using .expect()\nwe could instead handle the error, by matching the Err enum\nreplace .expect() with match to handle possibility of non-numeric input\nif parsing fails (Err), ignore the guess and continue looping",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "slides/02-programming_a_guessing_game.html#final-code-checkpoint",
+    "href": "slides/02-programming_a_guessing_game.html#final-code-checkpoint",
+    "title": "2. Programming a Guessing Game",
+    "section": "Final Code Checkpoint",
+    "text": "Final Code Checkpoint\nuse rand::Rng;\nuse std::{cmp::Ordering, io};\n\nfn main() {\n    let secret_number = rand::thread_rng().gen_range(1..=100);\n\n    loop {\n        println!(\"Please input your guess.\");\n\n        let mut guess = String::new();\n        io::stdin()\n            .read_line(&mut guess)\n            .expect(\"Failed to read line\");\n\n        let guess: u32 = match guess.trim().parse() {\n            Ok(num) =&gt; num,\n            Err(_) =&gt; continue,\n        };\n\n        println!(\"You guessed: {}\", guess);\n\n        match guess.cmp(&secret_number) {\n            Ordering::Less =&gt; println!(\"Too small!\"),\n            Ordering::Greater =&gt; println!(\"Too big!\"),\n            Ordering::Equal =&gt; {\n                println!(\"You win!\");\n                break;\n            }\n        }\n    }\n}",
+    "crumbs": [
+      "2. Programming a Guessing Game"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "This is a companion for the book The Rust Programming Language by Steve Klabnik and Carol Nichols, with contributions from the Rust Community (copyright 2024).\nEach chapter title to the left is a link to a slide deck.\n\nThese slides are being developed by this club.\nEach deck will open in its own tab.\nYou may want to type “s” at the start of each deck to open the speaker notes.\nJoin the Data Science Learning Community to participate in the discussion!\n\nWe follow the Data Science Learning Community Code of Conduct.",
+    "crumbs": [
+      "Welcome"
+    ]
+  },
+  {
+    "objectID": "slides/00-club-intro.html#book-club-meetings",
+    "href": "slides/00-club-intro.html#book-club-meetings",
+    "title": "Club Meetings",
+    "section": "Book club meetings",
+    "text": "Book club meetings\n\nVolunteer leads discussion of a chapter\n\nThis is the best way to learn the material.\n\nPresentations:\n\nReview of material\nQuestions you have\nMaybe live demo\n\nMore info about editing: this github repo.\nRecorded, available on the Data Science Learning Community YouTube Channel (DSLC.video).\nSign up to present\n\n\nIn case this is your first book club here, this is how things work. We’ll meet weekly and have a presentation followed by a discussion.\nWe’re working through this book collaboratively so everyone is encouraged to present a session or two. Please have a look at the schedule ASAP. We need presenters for the next 2 weeks.",
+    "crumbs": [
+      "Club Meetings"
+    ]
+  },
+  {
+    "objectID": "slides/00-club-intro.html#pace",
+    "href": "slides/00-club-intro.html#pace",
+    "title": "Club Meetings",
+    "section": "Pace",
+    "text": "Pace\n\nGoal: 1 chapter/week\nOk to split overwhelming chapters\nOk to combine short chapters\nMeet every week except holidays, etc\n\nIdeally can discuss even if presenter unavailable\n\nMonday at 2:00 pm PST (2100 GMT)\n\n\nThe schedule will be consistent for the most part but if we need to make adjustments everyone will be notified well ahead of time. For example, we will most likely meet for one of the scheduled holiday breaks or combine 2 chapters to one week. Daylight savings in the spring comes right at the end of schedule and is particularly gnarly this year I’d like to finish before then.",
+    "crumbs": [
+      "Club Meetings"
+    ]
+  },
+  {
+    "objectID": "slides/00-club-intro.html#learning-objectives-los",
+    "href": "slides/00-club-intro.html#learning-objectives-los",
+    "title": "Club Meetings",
+    "section": "Learning objectives (LOs)",
+    "text": "Learning objectives (LOs)\n\nStudents who study with LOs in mind retain more.\nTips:\n\n“After today’s session, you will be able to…”\nVery roughly 1 per section.\n\n\n\nWhen writing your presentation it can help to define learning objectives. This can help you identify the key points of the chapter, which also helps everyone else. It’s not strictly required though so don’t stress about it.\n\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "Club Meetings"
+    ]
+  },
+  {
+    "objectID": "slides/21-appendix.html#slide",
+    "href": "slides/21-appendix.html#slide",
+    "title": "21. Appendix",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "21. Appendix"
+    ]
+  },
+  {
+    "objectID": "slides/21-appendix.html#slide-1",
+    "href": "slides/21-appendix.html#slide-1",
+    "title": "21. Appendix",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "21. Appendix"
+    ]
+  },
+  {
+    "objectID": "slides/21-appendix.html#slide-2",
+    "href": "slides/21-appendix.html#slide-2",
+    "title": "21. Appendix",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "21. Appendix"
+    ]
+  },
+  {
+    "objectID": "slides/21-appendix.html#slide-3",
+    "href": "slides/21-appendix.html#slide-3",
+    "title": "21. Appendix",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "21. Appendix"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#slide",
+    "href": "slides/15-smart_pointers.html#slide",
+    "title": "15. Smart Pointers",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#slide-1",
+    "href": "slides/15-smart_pointers.html#slide-1",
+    "title": "15. Smart Pointers",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#slide-2",
+    "href": "slides/15-smart_pointers.html#slide-2",
+    "title": "15. Smart Pointers",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#slide-3",
+    "href": "slides/15-smart_pointers.html#slide-3",
+    "title": "15. Smart Pointers",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide",
+    "title": "17. Object Oriented Programming Features of Rust",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "17. Object Oriented Programming Features of Rust"
+    ]
+  },
+  {
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-1",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-1",
+    "title": "17. Object Oriented Programming Features of Rust",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "17. Object Oriented Programming Features of Rust"
+    ]
+  },
+  {
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-2",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-2",
+    "title": "17. Object Oriented Programming Features of Rust",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "17. Object Oriented Programming Features of Rust"
+    ]
+  },
+  {
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-3",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-3",
+    "title": "17. Object Oriented Programming Features of Rust",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "17. Object Oriented Programming Features of Rust"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#slide",
+    "href": "slides/06-enums_and_pattern_matching.html#slide",
+    "title": "6. Enums and Pattern Matching",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#slide-1",
+    "href": "slides/06-enums_and_pattern_matching.html#slide-1",
+    "title": "6. Enums and Pattern Matching",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#slide-2",
+    "href": "slides/06-enums_and_pattern_matching.html#slide-2",
+    "title": "6. Enums and Pattern Matching",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#slide-3",
+    "href": "slides/06-enums_and_pattern_matching.html#slide-3",
+    "title": "6. Enums and Pattern Matching",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#slide",
+    "href": "slides/04-understanding_ownership.html#slide",
+    "title": "4. Understanding Ownership",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#slide-1",
+    "href": "slides/04-understanding_ownership.html#slide-1",
+    "title": "4. Understanding Ownership",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#slide-2",
+    "href": "slides/04-understanding_ownership.html#slide-2",
+    "title": "4. Understanding Ownership",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#slide-3",
+    "href": "slides/04-understanding_ownership.html#slide-3",
+    "title": "4. Understanding Ownership",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#slide",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-1",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-1",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-2",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-2",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-3",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-3",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
     ]
   },
   {
@@ -907,6 +907,126 @@
     "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
     "crumbs": [
       "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/12-an_io_project_building_a_command_line_program.html#slide",
+    "href": "slides/12-an_io_project_building_a_command_line_program.html#slide",
+    "title": "12. An I/O Project: Building a Command Line Program",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "12. An I/O Project: Building a Command Line Program"
+    ]
+  },
+  {
+    "objectID": "slides/12-an_io_project_building_a_command_line_program.html#slide-1",
+    "href": "slides/12-an_io_project_building_a_command_line_program.html#slide-1",
+    "title": "12. An I/O Project: Building a Command Line Program",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "12. An I/O Project: Building a Command Line Program"
+    ]
+  },
+  {
+    "objectID": "slides/12-an_io_project_building_a_command_line_program.html#slide-2",
+    "href": "slides/12-an_io_project_building_a_command_line_program.html#slide-2",
+    "title": "12. An I/O Project: Building a Command Line Program",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "12. An I/O Project: Building a Command Line Program"
+    ]
+  },
+  {
+    "objectID": "slides/12-an_io_project_building_a_command_line_program.html#slide-3",
+    "href": "slides/12-an_io_project_building_a_command_line_program.html#slide-3",
+    "title": "12. An I/O Project: Building a Command Line Program",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "12. An I/O Project: Building a Command Line Program"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-1",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-1",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-2",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-2",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-3",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-3",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#slide",
+    "href": "slides/08-common_collections.html#slide",
+    "title": "8. Common Collections",
+    "section": "SLIDE",
+    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#slide-1",
+    "href": "slides/08-common_collections.html#slide-1",
+    "title": "8. Common Collections",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#slide-2",
+    "href": "slides/08-common_collections.html#slide-2",
+    "title": "8. Common Collections",
+    "section": "SLIDE",
+    "text": "SLIDE",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#slide-3",
+    "href": "slides/08-common_collections.html#slide-3",
+    "title": "8. Common Collections",
+    "section": "SLIDE",
+    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "crumbs": [
+      "8. Common Collections"
     ]
   }
 ]

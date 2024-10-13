@@ -28,6 +28,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -333,15 +398,19 @@
 </section>
 <section id="learning-objectives" class="title-slide slide level1 center">
 <h1>Learning objectives</h1>
+<p>By the end of this session you should be able to …</p>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>build a simple command line guessing game, with user interaction</li>
+<li>write basic Rust syntax (variables, functions)</li>
+<li>use Rust’s standard library and external crates</li>
+<li>implement error handling in Rust using the <code>Result</code> type</li>
+<li>control program flow using conditionals (<code>if</code>, <code>else</code>) and loops (<code>loop</code>)</li>
 </ul>
 </div>
 <aside class="notes">
 <ul>
 <li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -356,39 +425,281 @@
       }</style></aside>
 </section>
 
-<section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
-
-</section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="guessing-game" class="title-slide slide level1 center">
+<h1>Guessing Game</h1>
+<p>Our goal is to implement a guessing game that:</p>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li class="fragment">generates a (secret) random integer between 1 and 100</li>
+<li class="fragment">prompts the player to guess the number</li>
+<li class="fragment">indicates if the guess is too low or too high</li>
+<li class="fragment">prints a congratulatory message and exit if the guess is correct</li>
 </ul>
 </section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
-</section></section>
+
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="setting-up-the-project" class="title-slide slide level1 center">
+<h1>Setting Up the Project</h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="create-the-new-project" class="slide level2">
+<h2>Create the new Project</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource console number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a></a>$ cargo new guessing_game</span>
+<span id="cb1-2"><a></a>$ cd guessing_game</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">recall, <code>cargo</code> is Rust’s package manager and build tool</li>
+<li class="fragment"><code>cargo new</code> creates a new project with the given name</li>
+<li class="fragment">by default, this creates a “Hello World” program</li>
+</ul>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
+<section id="compile-and-run-it" class="slide level2">
+<h2>Compile and run it</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource console number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>$ cargo run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment"><code>cargo run</code> both compiles and runs the project</li>
+<li class="fragment">you should see “Hello, world!” output to your console</li>
+<li class="fragment">you can also just compile with <code>cargo build</code></li>
+</ul>
+</section></section>
+<section>
+<section id="processing-a-guess" class="title-slide slide level1 center">
+<h1>Processing a Guess</h1>
+<p>We will process a guess by:</p>
+<ul>
+<li class="fragment">prompting the user for input</li>
+<li class="fragment">storing the input as a string</li>
+</ul>
+</section>
+<section id="storing-values-with-variables" class="slide level2">
+<h2>Storing Values with Variables</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="kw">let</span> <span class="kw">mut</span> guess <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>new()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">add this to the <code>main</code> function in <code>src/main.rs</code></li>
+<li class="fragment">use <code>let</code> to create variables</li>
+<li class="fragment">variables are immutable by default</li>
+<li class="fragment">use <code>let mut</code> for mutable variable</li>
+</ul>
+</section>
+<section id="receiving-user-input" class="slide level2">
+<h2>Receiving User Input</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="kw">use</span> <span class="pp">std::</span>io<span class="op">;</span></span>
+<span id="cb4-2"><a></a><span class="co">// ...</span></span>
+<span id="cb4-3"><a></a><span class="pp">println!</span>(<span class="st">"Please input your guess."</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a></a><span class="pp">io::</span>stdin()<span class="op">.</span>read_line(<span class="op">&amp;</span><span class="kw">mut</span> guess)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">call <code>stdin().read_line(&amp;mut guess)</code> to get user input</li>
+<li class="fragment">input is appended to the empty <code>guess</code> string</li>
+<li class="fragment"><code>&amp;</code> indicates a reference to the variable</li>
+<li class="fragment"><code>&amp;mut</code> is necessary, because references are immutable by default</li>
+</ul>
+</section>
+<section id="handling-potential-failure-with-result" class="slide level2">
+<h2>Handling Potential Failure with Result</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="pp">io::</span>stdin()</span>
+<span id="cb5-2"><a></a>    <span class="op">.</span>read_line(<span class="op">&amp;</span><span class="kw">mut</span> guess)</span>
+<span id="cb5-3"><a></a>    <span class="op">.</span>expect(<span class="st">"Failed to read line"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment"><code>read_line</code> returns a <code>Result</code> type (either <code>Ok</code> or <code>Err</code>)</li>
+<li class="fragment">use <code>.expect()</code> to handle errors and crash if an error occurs</li>
+</ul>
+</section>
+<section id="printing-values-with-println" class="slide level2">
+<h2>Printing Values with <code>println!</code></h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a><span class="pp">println!</span>(<span class="st">"You guessed: {guess}"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">use <code>println!</code> with placeholders (<code>{}</code>) for formatted output</li>
+<li class="fragment">combines user input and text in one statement</li>
+</ul>
+</section>
+<section id="testing-the-first-part" class="slide level2">
+<h2>Testing the First Part</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource console number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a></a>$ cargo run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">program now accepts input and prints the guess</li>
+<li class="fragment">test by entering values to see the output</li>
+</ul>
+</section>
+<section id="code-checkpoint-1" class="slide level2">
+<h2>Code checkpoint 1</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="kw">use</span> <span class="pp">std::</span>io<span class="op">;</span></span>
+<span id="cb8-2"><a></a></span>
+<span id="cb8-3"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb8-4"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> guess <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb8-5"><a></a>    <span class="pp">println!</span>(<span class="st">"Please input your guess."</span>)<span class="op">;</span></span>
+<span id="cb8-6"><a></a>    <span class="pp">io::</span>stdin()</span>
+<span id="cb8-7"><a></a>        <span class="op">.</span>read_line(<span class="op">&amp;</span><span class="kw">mut</span> guess)</span>
+<span id="cb8-8"><a></a>        <span class="op">.</span>expect(<span class="st">"Failed to read line"</span>)<span class="op">;</span></span>
+<span id="cb8-9"><a></a></span>
+<span id="cb8-10"><a></a>    <span class="pp">println!</span>(<span class="st">"You guessed: {}"</span><span class="op">,</span> guess)<span class="op">;</span></span>
+<span id="cb8-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="generating-a-secret-number" class="title-slide slide level1 center">
+<h1>Generating a Secret Number</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a><span class="kw">use</span> <span class="pp">rand::</span>Rng<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">we will need to use the <code>rand</code> crate for random number generation</li>
+<li class="fragment">use the <code>use</code> keyword to bring this crate into scope</li>
+</ul>
+</section>
+<section id="using-a-crate-to-get-more-functionality" class="slide level2">
+<h2>Using a Crate to Get More Functionality</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource toml number-lines code-with-copy"><code class="sourceCode toml"><span id="cb10-1"><a></a><span class="kw">[dependencies]</span></span>
+<span id="cb10-2"><a></a><span class="dt">rand</span> <span class="op">=</span> <span class="st">"0.8.5"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">add the <code>rand</code> crate to <code>Cargo.toml</code> under <code>[dependencies]</code></li>
+<li class="fragment"><code>cargo build</code> will fetch and compile external dependencies</li>
+<li class="fragment">you can also use <code>cargo add</code> to add dependencies
+<ul>
+<li class="fragment">e.g.&nbsp;<code>cargo add rand</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="generating-a-random-number" class="slide level2">
+<h2>Generating a Random Number</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb11-1"><a></a><span class="kw">use</span> <span class="pp">rand::</span>Rng<span class="op">;</span></span>
+<span id="cb11-2"><a></a><span class="kw">let</span> secret_number <span class="op">=</span> <span class="pp">rand::</span>thread_rng()<span class="op">.</span>gen_range(<span class="dv">1</span><span class="op">..=</span><span class="dv">100</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">this code should now compile</li>
+<li class="fragment"><code>use rand::Rng;</code> brings the random number generator trait (<code>Rng</code>) into scope</li>
+<li class="fragment">use <code>thread_rng()</code> for random number generation</li>
+</ul>
+</section></section>
+<section>
+<section id="comparing-the-guess-to-the-secret-number" class="title-slide slide level1 center">
+<h1>Comparing the Guess to the Secret Number</h1>
+
+</section>
+<section id="matching-the-guess-to-the-secret-number" class="slide level2">
+<h2>Matching the Guess to the Secret Number</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb12-1"><a></a><span class="kw">use</span> <span class="pp">std::cmp::</span>Ordering<span class="op">;</span></span>
+<span id="cb12-2"><a></a><span class="cf">match</span> guess<span class="op">.</span>cmp(<span class="op">&amp;</span>secret_number) <span class="op">{</span></span>
+<span id="cb12-3"><a></a>    <span class="pp">Ordering::</span>Less <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Too small!"</span>)<span class="op">,</span></span>
+<span id="cb12-4"><a></a>    <span class="pp">Ordering::</span>Greater <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Too big!"</span>)<span class="op">,</span></span>
+<span id="cb12-5"><a></a>    <span class="pp">Ordering::</span>Equal <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"You win!"</span>)<span class="op">,</span></span>
+<span id="cb12-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">use <code>cmp()</code> from the standard library to compare <code>guess</code> with <code>secret_number</code></li>
+<li class="fragment"><code>cmp()</code> returns the <code>Ordering</code> enum, which has values (<code>Less</code>, <code>Greater</code>, or <code>Equal</code>)</li>
+<li class="fragment"><code>match</code> will match the appropriate arm of the enum, and print “Too small”, “Too big”, or “You win!”</li>
+</ul>
+</section>
+<section id="parsing-a-string-into-a-number" class="slide level2">
+<h2>Parsing a String into a Number</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb13-1"><a></a><span class="kw">let</span> guess<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> guess<span class="op">.</span>trim()<span class="op">.</span>parse()<span class="op">.</span>expect(<span class="st">"Please type a number!"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment"><code>guess</code> is a string, but we want to compare it to an integer</li>
+<li class="fragment">use <code>trim()</code> to remove unexpected whitespace from the string</li>
+<li class="fragment">use <code>parse()</code> to convert the string to an integer</li>
+<li class="fragment">this code should now compile</li>
+</ul>
+</section>
+<section id="code-checkpoint-2" class="slide level2">
+<h2>Code Checkpoint 2</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb14-1"><a></a><span class="kw">use</span> <span class="pp">rand::</span>Rng<span class="op">;</span></span>
+<span id="cb14-2"><a></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span><span class="pp">cmp::</span>Ordering<span class="op">,</span> io<span class="op">};</span></span>
+<span id="cb14-3"><a></a></span>
+<span id="cb14-4"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb14-5"><a></a>    <span class="kw">let</span> secret_number <span class="op">=</span> <span class="pp">rand::</span>thread_rng()<span class="op">.</span>gen_range(<span class="dv">1</span><span class="op">..=</span><span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb14-6"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> guess <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb14-7"><a></a></span>
+<span id="cb14-8"><a></a>    <span class="pp">io::</span>stdin()</span>
+<span id="cb14-9"><a></a>        <span class="op">.</span>read_line(<span class="op">&amp;</span><span class="kw">mut</span> guess)</span>
+<span id="cb14-10"><a></a>        <span class="op">.</span>expect(<span class="st">"Failed to read line"</span>)<span class="op">;</span></span>
+<span id="cb14-11"><a></a></span>
+<span id="cb14-12"><a></a>    <span class="kw">let</span> guess<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> guess<span class="op">.</span>trim()<span class="op">.</span>parse()<span class="op">.</span>expect(<span class="st">"Please type a number!"</span>)<span class="op">;</span></span>
+<span id="cb14-13"><a></a></span>
+<span id="cb14-14"><a></a>    <span class="pp">println!</span>(<span class="st">"You guessed: {}"</span><span class="op">,</span> guess)<span class="op">;</span></span>
+<span id="cb14-15"><a></a></span>
+<span id="cb14-16"><a></a>    <span class="cf">match</span> guess<span class="op">.</span>cmp(<span class="op">&amp;</span>secret_number) <span class="op">{</span></span>
+<span id="cb14-17"><a></a>        <span class="pp">Ordering::</span>Less <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Too small!"</span>)<span class="op">,</span></span>
+<span id="cb14-18"><a></a>        <span class="pp">Ordering::</span>Greater <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Too big!"</span>)<span class="op">,</span></span>
+<span id="cb14-19"><a></a>        <span class="pp">Ordering::</span>Equal <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"You win!"</span>)<span class="op">,</span></span>
+<span id="cb14-20"><a></a>    <span class="op">}</span></span>
+<span id="cb14-21"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="allowing-multiple-guesses-with-looping" class="title-slide slide level1 center">
+<h1>Allowing Multiple Guesses with Looping</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb15-1"><a></a><span class="cf">loop</span> <span class="op">{</span></span>
+<span id="cb15-2"><a></a>    <span class="co">// all guessing logic here</span></span>
+<span id="cb15-3"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">add a <code>loop</code> to allow repeated guesses</li>
+<li class="fragment">place the entire guessing logic inside the loop</li>
+<li class="fragment">the program continues to ask for guesses until correct or manually exited</li>
+</ul>
+</section>
+<section id="quitting-after-a-correct-guess" class="slide level2">
+<h2>Quitting After a Correct Guess</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb16-1"><a></a><span class="pp">Ordering::</span>Equal <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb16-2"><a></a>    <span class="pp">println!</span>(<span class="st">"You win!"</span>)<span class="op">;</span></span>
+<span id="cb16-3"><a></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb16-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">we can add additional logic to the <code>Equal</code> branch of the enum using <code>{}</code></li>
+<li class="fragment">add a <code>break</code> statement to exit the loop when the guess is correct</li>
+<li class="fragment"><code>break</code> exits both the loop and the program</li>
+</ul>
+</section>
+<section id="handling-invalid-input" class="slide level2">
+<h2>Handling Invalid Input</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb17-1"><a></a><span class="kw">let</span> guess<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="cf">match</span> guess<span class="op">.</span>trim()<span class="op">.</span>parse() <span class="op">{</span></span>
+<span id="cb17-2"><a></a>    <span class="cn">Ok</span>(num) <span class="op">=&gt;</span> num<span class="op">,</span></span>
+<span id="cb17-3"><a></a>    <span class="cn">Err</span>(_) <span class="op">=&gt;</span> <span class="cf">continue</span><span class="op">,</span></span>
+<span id="cb17-4"><a></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">currently, we crash on an error by using <code>.expect()</code></li>
+<li class="fragment">we could instead handle the error, by matching the <code>Err</code> enum</li>
+<li class="fragment">replace <code>.expect()</code> with <code>match</code> to handle possibility of non-numeric input</li>
+<li class="fragment">if parsing fails (<code>Err</code>), ignore the guess and continue looping</li>
+</ul>
+</section>
+<section id="final-code-checkpoint" class="slide level2">
+<h2>Final Code Checkpoint</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb18-1"><a></a><span class="kw">use</span> <span class="pp">rand::</span>Rng<span class="op">;</span></span>
+<span id="cb18-2"><a></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span><span class="pp">cmp::</span>Ordering<span class="op">,</span> io<span class="op">};</span></span>
+<span id="cb18-3"><a></a></span>
+<span id="cb18-4"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb18-5"><a></a>    <span class="kw">let</span> secret_number <span class="op">=</span> <span class="pp">rand::</span>thread_rng()<span class="op">.</span>gen_range(<span class="dv">1</span><span class="op">..=</span><span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb18-6"><a></a></span>
+<span id="cb18-7"><a></a>    <span class="cf">loop</span> <span class="op">{</span></span>
+<span id="cb18-8"><a></a>        <span class="pp">println!</span>(<span class="st">"Please input your guess."</span>)<span class="op">;</span></span>
+<span id="cb18-9"><a></a></span>
+<span id="cb18-10"><a></a>        <span class="kw">let</span> <span class="kw">mut</span> guess <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb18-11"><a></a>        <span class="pp">io::</span>stdin()</span>
+<span id="cb18-12"><a></a>            <span class="op">.</span>read_line(<span class="op">&amp;</span><span class="kw">mut</span> guess)</span>
+<span id="cb18-13"><a></a>            <span class="op">.</span>expect(<span class="st">"Failed to read line"</span>)<span class="op">;</span></span>
+<span id="cb18-14"><a></a></span>
+<span id="cb18-15"><a></a>        <span class="kw">let</span> guess<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="cf">match</span> guess<span class="op">.</span>trim()<span class="op">.</span>parse() <span class="op">{</span></span>
+<span id="cb18-16"><a></a>            <span class="cn">Ok</span>(num) <span class="op">=&gt;</span> num<span class="op">,</span></span>
+<span id="cb18-17"><a></a>            <span class="cn">Err</span>(_) <span class="op">=&gt;</span> <span class="cf">continue</span><span class="op">,</span></span>
+<span id="cb18-18"><a></a>        <span class="op">};</span></span>
+<span id="cb18-19"><a></a></span>
+<span id="cb18-20"><a></a>        <span class="pp">println!</span>(<span class="st">"You guessed: {}"</span><span class="op">,</span> guess)<span class="op">;</span></span>
+<span id="cb18-21"><a></a></span>
+<span id="cb18-22"><a></a>        <span class="cf">match</span> guess<span class="op">.</span>cmp(<span class="op">&amp;</span>secret_number) <span class="op">{</span></span>
+<span id="cb18-23"><a></a>            <span class="pp">Ordering::</span>Less <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Too small!"</span>)<span class="op">,</span></span>
+<span id="cb18-24"><a></a>            <span class="pp">Ordering::</span>Greater <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Too big!"</span>)<span class="op">,</span></span>
+<span id="cb18-25"><a></a>            <span class="pp">Ordering::</span>Equal <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb18-26"><a></a>                <span class="pp">println!</span>(<span class="st">"You win!"</span>)<span class="op">;</span></span>
+<span id="cb18-27"><a></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb18-28"><a></a>            <span class="op">}</span></span>
+<span id="cb18-29"><a></a>        <span class="op">}</span></span>
+<span id="cb18-30"><a></a>    <span class="op">}</span></span>
+<span id="cb18-31"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
+<p>Congrats, we have now successfully built a CLI game in Rust!</p>
+<p>We now have a basic understanding of Rust syntax, error handling, and working with external libraries</p>
+<p>Next, we’ll dive into deeper concepts like ownership, enums, and more!</p>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 <p><a href="../" target="rust_club-index">DSLC.io/rust</a> | <a href="https://DSLC.io" target="_blank">DSLC.io</a></p>
 </div>
 </div>
-</section></section>
+</section>
     </div>
   </div>
 
