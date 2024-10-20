@@ -1,31 +1,487 @@
 ---
 engine: knitr
 title: "3. Common Programming Concepts"
+
 ---
 
-# Learning objectives
+## Topics Covered:
 
-::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+::: {.nonincremental}
+-   Data Types 
+    -   Scalar 
+    -   Compound
+-   Variables, Mutability, Constants, and Shadowing
+-   Functions and Control Flow
+-   Error Handling
 :::
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+
+# Data Types in Rust
+
+# Scalar types
+
+## Integers
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+
+| Length  | Signed  | Unsigned |
+|---------|---------|----------|
+| 8-bit   | `i8`    | `u8`     |
+| 16-bit  | `i16`   | `u16`    |
+| 32-bit  | `i32`   | `u32`    |
+| 64-bit  | `i64`   | `u64`    |
+| 128-bit | `i128`  | `u128`   |
+| arch    | `isize` | `usize`  |
 :::
 
-# SLIDE SECTION
+::: {.column width="10%"}
+:::
 
-## SLIDE
+::: {.column width="50%"}
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+Signed variants can store numbers from -(2n - 1) to 2n - 1 - 1
+inclusive
 
-## SLIDE
+-   `i8`: -(27) to 27 - 1, which equals -128 to 127. 
+-   `u8`: 0- 2n - 1, that is 0 to 28 - 1, which equals 0 to 255
 
-# SLIDE SECTION
+:::
 
-## SLIDE
+::::
 
-## SLIDE
+## *Integer overflow*
+
+Rust uses *two's complement wrapping* to handle integer overflow silently. However, it offers explicit ways to manage overflow:
+
+-   `wrapping_*` methods: Always wrap values (e.g., `wrapping_add`).
+-   `checked_*` methods: Return None if overflow occurs.
+-   `overflowing_*` methods: Return the result along with a boolean indicating overflow.
+-   `saturating_*` methods: Clamp the result to the type’s minimum or maximum value.
+
+## Floating-Point Numbers {.nonincremental}
+
+Types: `f32` and `f64` (primitive types)
+
+
+
+```rust
+  let pi: f64 = 3.14159;
+```
+::: {.nonincremental}
+-   All floating-point types are signed. 
+-   `f32`: single-precision float
+-   `f64`: double precision float
+:::
+
+## Booleans and Characters {.nonincremental}
+
+**Boolean**: `bool`
+
+```rust
+  let flag = true;
+```
+
+**Character**: `char` ^[Note that we specify `char` literals with single quotes, as opposed to string literals, which use double quotes.]
+
+```rust
+  let emoji = '😻';
+```
+::: {.nonincremental}
+-   `char` type is four bytes in size and represents a Unicode Scalar
+    Value.
+-   It can represent more than just ASCII
+:::
+
+::: aside
+:::
+
+
+# Compound types
+
+## Tuples 
+
+Group values of different types:
+
+```rust
+  let tup: (i32, f64, u8) = (500, 6.4, 1);
+  let (x, y, z) = tup; // Destructuring
+```
+
+-   Tuples have a fixed length.
+
+
+## Arrays {.nonincremental}
+
+Fixed-length collections of the same type:
+
+```rust
+  let arr = [1, 2, 3, 4, 5];
+  let first = arr[0];
+```
+
+## *Initializing arrays*
+
+```rust
+  let a = [3; 5]; // [3, 3, 3, 3, 3]
+```
+
+
+**Short-hand:**
+
+::: {.nonincremental}
+-   `value of elements`; then `number of elements`
+:::
+
+```rust
+let a = [3; 5];
+```
+
+## Accessing Array Elements
+
+You can access elements of an array using indexing:
+
+::: {.nonincremental}
+-   0-based indexing (e.g., `x[0]`)
+:::
+
+```rust
+fn main() {     
+    let a = [1, 2, 3, 4, 5];      
+    let first = a[0];     
+    let second = a[1]; 
+}
+```
+
+# Variables and Mutability
+
+## Immutable Variables
+
+Variables in Rust are **immutable** by default:
+
+```rust
+  let x = 5;
+  x = 6; // Error: Cannot assign to immutable variable
+```
+
+## Making Variables Mutable
+
+Use the `mut` keyword to make variables mutable:
+
+```rust
+  let mut y = 10;
+  y += 5; // Now valid because `y` is mutable
+```
+
+## Constants
+
+Declared with `const` and are always immutable:
+
+```rust
+  const MAX_SCORE: u32 = 100_000;
+```
+::: {.nonincremental}
+-   Must always be annotated with a type
+-   Can be declared in global or function scope
+-   Cannot be computed at runtime
+:::
+
+## Shadowing
+
+**Shadowing** allows reusing a variable name:
+
+```rust
+  let x = 5;
+  let x = x + 1; // Shadows the previous `x`
+  {
+      let x = x * 2;
+      println!("Inner scope x: {x}");
+  }
+  println!("Outer scope x: {x}");
+```
+
+## Differences between `mut` and Shadowing
+
+|              | `mut`               | shadowing                      |
+| ------------ | ------------------- | ------------------------------ |
+| Type         | Same type           | Can change type (use of `let`) |
+| Use of `let` | When first declared | All instances of variable use  |
+
+
+
+# Functions in Rust
+
+## Defining Functions
+
+```rust
+fn main() {
+    println!("Hello, world!");
+    another_function();
+}
+
+fn another_function() {
+    println!("This is another function.");
+}
+```
+
+## Function Parameters
+
+Functions can accept parameters/arguments:
+
+```rust
+  fn add(a: i32, b: i32) -> i32 {
+      a + b
+  }
+  println!("{}", add(3, 5));
+```
+
+## Return Values
+
+Return the last expression from the function body:
+
+```{.rust code-line-numbers="2"}
+  fn square(x: i32) -> i32 {
+      x * x
+  }
+```
+
+
+
+# Control Flow in Rust
+
+## `if` Expressions
+
+```rust
+fn main() {
+    let number = 3;
+
+    if number < 5 {
+        println!("Condition is true");
+    } else {
+        println!("Condition is false");
+    }
+}
+```
+
+-   **Rust will *NOT* automatically try to convert non-Boolean types to a Boolean.**
+-   You must be explicit and always provide `if` with a Boolean as its condition.
+
+## `else if` for Multiple Conditions
+
+```rust
+fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!("Divisible by 4");
+    } else if number % 3 == 0 {
+        println!("Divisible by 3");
+    } else {
+        println!("Not divisible by 4 or 3");
+    }
+}
+```
+
+-   Rust only executes the block for the *first* `true` condition, and once it finds one, it doesn’t even check the rest.
+
+## Using `if` in a `let` Statement
+
+`if` is an expression, hence we can use it on the RHS of a `let` statement to assign the outcome to a variable
+
+```rust
+fn main() {
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+
+    println!("The value of number is: {number}");
+}
+```
+::: {.nonincremental}
+-   `number` variable will be bound to a value based on the outcome of the `if` expression
+-   result values from each arm of the `if` *must* be the same type
+:::
+
+
+## *For example:*
+
+```rust
+fn main() {
+    let condition = true;
+
+    let number = if condition { 5 } else { "six" };
+
+    println!("The value of number is: {number}");
+}
+```
+
+This throws an error because the types of the values in the `if` and `else` blocks are different.
+
+
+
+# Loops in Rust
+
+## Infinite `loop`
+
+```rust
+fn main() {
+    loop {
+        println!("Running forever...");
+    }
+}
+```
+
+## Breaking a `loop` {.nonincremental}
+
+```rust
+fn main() {
+    let mut counter = 0;
+    let result = loop {
+        counter += 1;
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+    println!("Result: {result}");
+}
+```
+-   Code after a `break` or `return` is never executed. 
+-   The compiler treats a `break` expression and a `return` expression as having the value unit, or `()`.
+
+## `while` Loop
+
+*While* a condition evaluates to `true`, the code runs; otherwise, it exits the loop.
+
+```rust
+fn main() {
+    let mut number = 3;
+    while number != 0 {
+        println!("{number}!");
+        number -= 1;
+    }
+    println!("LIFTOFF!!!");
+}
+```
+
+## `for` Loop
+
+`for` are the most commonly used loop construct in Rust.
+
+```rust
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+    for element in a {
+        println!("The value is: {element}");
+    }
+}
+```
+
+## `loop` Labels to Disambiguate {.smaller}
+
+Labeling loops when we have loops inside loops ^[Notice the single quotes before the label name.]
+
+```{.rust code-line-numbers="3,19"}
+fn main() {
+    let mut count = 0;
+    'counting_up: loop {
+        println!("count = {count}");
+        let mut remaining = 10;
+
+        loop {
+            println!("remaining = {remaining}");
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!("End count = {count}");
+}
+```
+
+The `break 'counting_up;` statement will exit the outer loop.
+
+::: aside
+:::
+
+
+# Error Handling in Rust
+
+## Integer Overflow
+
+-   **Debug mode:** Panics on overflow.
+-   **Release mode:** Uses two’s complement wrapping.
+    -   `wrapping_*` methods: Always wrap values (e.g., `wrapping_add`).
+    -   `checked_*` methods: Return None if overflow occurs.
+    -   `overflowing_*` methods: Return the result along with a boolean indicating overflow.
+    -   `saturating_*` methods: Clamp the result to the type’s minimum or maximum value.
+
+## Invalid Array Access
+
+```{.rust code-line-numbers="3,4"}
+fn main() {
+    let arr = [1, 2, 3, 4, 5];
+    let index = 10; // Out of bounds
+    let element = arr[index]; // Causes panic
+}
+```
+
+
+
+# Rust and Other Languages
+
+<!-- | Feature | Rust | Python | R | C++ | -->
+<!-- |---------------|---------------|---------------|---------------|---------------| -->
+<!-- | Arrays | Fixed-size, homogeneous | NumPy arrays | Homogeneous arrays | Fixed-size arrays | -->
+<!-- | Tuples | Immutable, fixed-length | Immutable tuples | Lists act as tuples | `std::tuple` available | -->
+<!-- | Mutability | Requires `mut` or `let` | Lists mutable, tuples not | Vectors mutable | Arrays mutable | -->
+<!-- | Indexing | 0-based | 0-based | 1-based | 0-based | -->
+
+
+## {.smaller .scrollable}
+
+
+| Feature              | **Rust**                                                                    | **R**                                                                | **Python**                                                             | **C/C++**                                                                       |
+| -------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **Arrays**           | Fixed-size, homogeneous types, defined as `[T; N]`.                         | Homogeneous data, multidimensional (using `array()`).                | Homogeneous data, implemented via NumPy (`numpy.array`).               | Fixed-size, homogeneous, defined as `T array[N]`.                               |
+| **Vectors**          | A growable collection with `Vec<T>`.                                        | 1D array, typically with `c()` or `vector()`.                        | Lists mimic vectors, but for true vector operations, use NumPy arrays. | No native vector, use `std::vector` from the Standard Library (C++).            |
+| **Tuples**           | Fixed-length, immutable collection: `(i32, f64)`.                           | Not commonly used, lists behave like tuples.                         | Immutable, ordered sequence: `(1, 2, "text")`.                         | Use `std::tuple` (C++17+) or structures.                                        |
+| **Matrices**         | Not native; use nested `Vec<Vec<T>>` or external libraries like `nalgebra`. | 2D structure (`matrix()`). Can extend to 3D with `array()`.          | Implemented with NumPy as 2D arrays: `numpy.matrix` or `numpy.array`.  | 2D arrays as `T matrix[rows][cols]` or use libraries like Eigen in C++.         |
+| **Mutability**       | Vectors (`Vec<T>`) are mutable; tuples are immutable.                       | Vectors are mutable; matrices can be altered in-place.               | Lists and arrays are mutable; tuples are immutable.                    | Arrays and vectors (`std::vector`) are mutable. Tuples are immutable in C++17+. |
+| **Indexing**         | 0-based indexing (e.g., `x[0]`).                                            | 1-based indexing (e.g., `x[1]`).                                     | 0-based indexing (e.g., `x[0]`).                                       | 0-based indexing (e.g., `x[0]`).                                                |
+| **Size Flexibility** | Arrays are fixed, vectors grow dynamically.                                 | Vectors and lists are dynamic. Arrays and matrices have fixed sizes. | Lists and NumPy arrays are dynamic; tuples are fixed size.             | Arrays are fixed; `std::vector` is dynamic.                                     |
+
+
+*A contiguous mutable array type, written as `Vec<T>`, short for
+‘vector’.*
+
+
+# Practice Exercises {.nonincremental}
+
+1.  **Temperature Conversion:**\
+    Write a function to convert temperatures between Fahrenheit and
+    Celsius.
+
+2.  **Fibonacci Sequence:**\
+    Generate the nth Fibonacci number using recursion.
+
+3.  **Christmas Carol:**\
+    Print the lyrics to “The Twelve Days of Christmas” with loops to
+    reduce repetition.
+
+
+
+# Summary
+
+-   Key features include strict typing, mutability control, and advanced
+    error handling.
+-   Control flow in Rust is similar to other languages but with added
+    safety guarantees.
+
+
