@@ -28,6 +28,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -331,64 +396,546 @@
 </div>
 
 </section>
-<section id="learning-objectives" class="title-slide slide level1 center">
-<h1>Learning objectives</h1>
+<section id="topics-covered" class="slide level2">
+<h2>Topics Covered:</h2>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>Data Types
+<ul>
+<li>Scalar</li>
+<li>Compound</li>
+</ul></li>
+<li>Variables, Mutability, Constants, and Shadowing</li>
+<li>Functions and Control Flow</li>
+<li>Error Handling</li>
 </ul>
 </div>
-<aside class="notes">
-<ul>
-<li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+</section>
+<section id="data-types-in-rust" class="title-slide slide level1 center">
+<h1>Data Types in Rust</h1>
+
 </section>
 
 <section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="scalar-types" class="title-slide slide level1 center">
+<h1>Scalar types</h1>
 
 </section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="integers" class="slide level2">
+<h2>Integers</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Length</th>
+<th>Signed</th>
+<th>Unsigned</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>8-bit</td>
+<td><code>i8</code></td>
+<td><code>u8</code></td>
+</tr>
+<tr class="even">
+<td>16-bit</td>
+<td><code>i16</code></td>
+<td><code>u16</code></td>
+</tr>
+<tr class="odd">
+<td>32-bit</td>
+<td><code>i32</code></td>
+<td><code>u32</code></td>
+</tr>
+<tr class="even">
+<td>64-bit</td>
+<td><code>i64</code></td>
+<td><code>u64</code></td>
+</tr>
+<tr class="odd">
+<td>128-bit</td>
+<td><code>i128</code></td>
+<td><code>u128</code></td>
+</tr>
+<tr class="even">
+<td>arch</td>
+<td><code>isize</code></td>
+<td><code>usize</code></td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:50%;">
+<p>Signed variants can store numbers from -(2n - 1) to 2n - 1&nbsp;- 1 inclusive</p>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li class="fragment"><code>i8</code>: -(27) to 27&nbsp;- 1, which equals -128 to 127.</li>
+<li class="fragment"><code>u8</code>: 0- 2n - 1, that is 0 to 28&nbsp;- 1, which equals 0 to 255</li>
+</ul>
+</div></div>
+</section>
+<section id="integer-overflow" class="slide level2">
+<h2><em>Integer overflow</em></h2>
+<p>Rust uses <em>two’s complement wrapping</em> to handle integer overflow silently. However, it offers explicit ways to manage overflow:</p>
+<ul>
+<li class="fragment"><code>wrapping_*</code> methods: Always wrap values (e.g., <code>wrapping_add</code>).</li>
+<li class="fragment"><code>checked_*</code> methods: Return None if overflow occurs.</li>
+<li class="fragment"><code>overflowing_*</code> methods: Return the result along with a boolean indicating overflow.</li>
+<li class="fragment"><code>saturating_*</code> methods: Clamp the result to the type’s minimum or maximum value.</li>
 </ul>
 </section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+<section id="floating-point-numbers" class="slide level2 nonincremental">
+<h2>Floating-Point Numbers</h2>
+<p>Types: <code>f32</code> and <code>f64</code> (primitive types)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a></a>  <span class="kw">let</span> pi<span class="op">:</span> <span class="dt">f64</span> <span class="op">=</span> <span class="dv">3.14159</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li>All floating-point types are signed.</li>
+<li><code>f32</code>: single-precision float</li>
+<li><code>f64</code>: double precision float</li>
+</ul>
+</div>
+</section>
+<section id="booleans-and-characters" class="slide level2 nonincremental">
+<h2>Booleans and Characters</h2>
+<p><strong>Boolean</strong>: <code>bool</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a>  <span class="kw">let</span> flag <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Character</strong>: <code>char</code> <sup>1</sup></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a>  <span class="kw">let</span> emoji <span class="op">=</span> <span class="ch">'😻'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li><code>char</code>&nbsp;type is four bytes in size and represents a Unicode Scalar Value.</li>
+<li>It can represent more than just ASCII</li>
+</ul>
+</div>
+
+<aside><div>
+
+</div><ol class="aside-footnotes"><li id="fn1"><p>Note that we specify&nbsp;<code>char</code>&nbsp;literals with single quotes, as opposed to string literals, which use double quotes.</p></li></ol></aside></section></section>
+<section>
+<section id="compound-types" class="title-slide slide level1 center">
+<h1>Compound types</h1>
+
+</section>
+<section id="tuples" class="slide level2">
+<h2>Tuples</h2>
+<p>Group values of different types:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a>  <span class="kw">let</span> tup<span class="op">:</span> (<span class="dt">i32</span><span class="op">,</span> <span class="dt">f64</span><span class="op">,</span> <span class="dt">u8</span>) <span class="op">=</span> (<span class="dv">500</span><span class="op">,</span> <span class="dv">6.4</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb4-2"><a></a>  <span class="kw">let</span> (x<span class="op">,</span> y<span class="op">,</span> z) <span class="op">=</span> tup<span class="op">;</span> <span class="co">// Destructuring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">Tuples have a fixed length.</li>
+</ul>
+</section>
+<section id="arrays" class="slide level2 nonincremental">
+<h2>Arrays</h2>
+<p>Fixed-length collections of the same type:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a>  <span class="kw">let</span> arr <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb5-2"><a></a>  <span class="kw">let</span> first <span class="op">=</span> arr[<span class="dv">0</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="initializing-arrays" class="slide level2">
+<h2><em>Initializing arrays</em></h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a>  <span class="kw">let</span> a <span class="op">=</span> [<span class="dv">3</span><span class="op">;</span> <span class="dv">5</span>]<span class="op">;</span> <span class="co">// [3, 3, 3, 3, 3]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Short-hand:</strong></p>
+<div>
+<ul>
+<li><code>value of elements</code>; then <code>number of elements</code></li>
+</ul>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a><span class="kw">let</span> a <span class="op">=</span> [<span class="dv">3</span><span class="op">;</span> <span class="dv">5</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="accessing-array-elements" class="slide level2">
+<h2>Accessing Array Elements</h2>
+<p>You can access elements of an array using indexing:</p>
+<div>
+<ul>
+<li>0-based indexing (e.g., <code>x[0]</code>)</li>
+</ul>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span>     </span>
+<span id="cb8-2"><a></a>    <span class="kw">let</span> a <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span>      </span>
+<span id="cb8-3"><a></a>    <span class="kw">let</span> first <span class="op">=</span> a[<span class="dv">0</span>]<span class="op">;</span>     </span>
+<span id="cb8-4"><a></a>    <span class="kw">let</span> second <span class="op">=</span> a[<span class="dv">1</span>]<span class="op">;</span> </span>
+<span id="cb8-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="variables-and-mutability" class="title-slide slide level1 center">
+<h1>Variables and Mutability</h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="immutable-variables" class="slide level2">
+<h2>Immutable Variables</h2>
+<p>Variables in Rust are <strong>immutable</strong> by default:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a>  <span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb9-2"><a></a>  x <span class="op">=</span> <span class="dv">6</span><span class="op">;</span> <span class="co">// Error: Cannot assign to immutable variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
+<section id="making-variables-mutable" class="slide level2">
+<h2>Making Variables Mutable</h2>
+<p>Use the <code>mut</code> keyword to make variables mutable:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb10-1"><a></a>  <span class="kw">let</span> <span class="kw">mut</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb10-2"><a></a>  y <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span> <span class="co">// Now valid because `y` is mutable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="constants" class="slide level2">
+<h2>Constants</h2>
+<p>Declared with <code>const</code> and are always immutable:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb11-1"><a></a>  <span class="kw">const</span> MAX_SCORE<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="dv">100_000</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li>Must always be annotated with a type</li>
+<li>Can be declared in global or function scope</li>
+<li>Cannot be computed at runtime</li>
+</ul>
+</div>
+</section>
+<section id="shadowing" class="slide level2">
+<h2>Shadowing</h2>
+<p><strong>Shadowing</strong> allows reusing a variable name:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb12-1"><a></a>  <span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb12-2"><a></a>  <span class="kw">let</span> x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// Shadows the previous `x`</span></span>
+<span id="cb12-3"><a></a>  <span class="op">{</span></span>
+<span id="cb12-4"><a></a>      <span class="kw">let</span> x <span class="op">=</span> x <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb12-5"><a></a>      <span class="pp">println!</span>(<span class="st">"Inner scope x: {x}"</span>)<span class="op">;</span></span>
+<span id="cb12-6"><a></a>  <span class="op">}</span></span>
+<span id="cb12-7"><a></a>  <span class="pp">println!</span>(<span class="st">"Outer scope x: {x}"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="differences-between-mut-and-shadowing" class="slide level2">
+<h2>Differences between <code>mut</code> and Shadowing</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th><code>mut</code></th>
+<th>shadowing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Type</td>
+<td>Same type</td>
+<td>Can change type (use of <code>let</code>)</td>
+</tr>
+<tr class="even">
+<td>Use of <code>let</code></td>
+<td>When first declared</td>
+<td>All instances of variable use</td>
+</tr>
+</tbody>
+</table>
+</section></section>
+<section>
+<section id="functions-in-rust" class="title-slide slide level1 center">
+<h1>Functions in Rust</h1>
+
+</section>
+<section id="defining-functions" class="slide level2">
+<h2>Defining Functions</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb13-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb13-2"><a></a>    <span class="pp">println!</span>(<span class="st">"Hello, world!"</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a></a>    another_function()<span class="op">;</span></span>
+<span id="cb13-4"><a></a><span class="op">}</span></span>
+<span id="cb13-5"><a></a></span>
+<span id="cb13-6"><a></a><span class="kw">fn</span> another_function() <span class="op">{</span></span>
+<span id="cb13-7"><a></a>    <span class="pp">println!</span>(<span class="st">"This is another function."</span>)<span class="op">;</span></span>
+<span id="cb13-8"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="function-parameters" class="slide level2">
+<h2>Function Parameters</h2>
+<p>Functions can accept parameters/arguments:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb14-1"><a></a>  <span class="kw">fn</span> add(a<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span> b<span class="op">:</span> <span class="dt">i32</span>) <span class="op">-&gt;</span> <span class="dt">i32</span> <span class="op">{</span></span>
+<span id="cb14-2"><a></a>      a <span class="op">+</span> b</span>
+<span id="cb14-3"><a></a>  <span class="op">}</span></span>
+<span id="cb14-4"><a></a>  <span class="pp">println!</span>(<span class="st">"{}"</span><span class="op">,</span> add(<span class="dv">3</span><span class="op">,</span> <span class="dv">5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="return-values" class="slide level2">
+<h2>Return Values</h2>
+<p>Return the last expression from the function body:</p>
+<div class="sourceCode" id="cb15" data-code-line-numbers="2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb15-1"><a></a>  <span class="kw">fn</span> square(x<span class="op">:</span> <span class="dt">i32</span>) <span class="op">-&gt;</span> <span class="dt">i32</span> <span class="op">{</span></span>
+<span id="cb15-2"><a></a>      x <span class="op">*</span> x</span>
+<span id="cb15-3"><a></a>  <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="control-flow-in-rust" class="title-slide slide level1 center">
+<h1>Control Flow in Rust</h1>
+
+</section>
+<section id="if-expressions" class="slide level2">
+<h2><code>if</code> Expressions</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb16-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb16-2"><a></a>    <span class="kw">let</span> number <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb16-3"><a></a></span>
+<span id="cb16-4"><a></a>    <span class="cf">if</span> number <span class="op">&lt;</span> <span class="dv">5</span> <span class="op">{</span></span>
+<span id="cb16-5"><a></a>        <span class="pp">println!</span>(<span class="st">"Condition is true"</span>)<span class="op">;</span></span>
+<span id="cb16-6"><a></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb16-7"><a></a>        <span class="pp">println!</span>(<span class="st">"Condition is false"</span>)<span class="op">;</span></span>
+<span id="cb16-8"><a></a>    <span class="op">}</span></span>
+<span id="cb16-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment"><strong>Rust will <em>NOT</em> automatically try to convert non-Boolean types to a Boolean.</strong></li>
+<li class="fragment">You must be explicit and always provide&nbsp;<code>if</code>&nbsp;with a Boolean as its condition.</li>
+</ul>
+</section>
+<section id="else-if-for-multiple-conditions" class="slide level2">
+<h2><code>else if</code> for Multiple Conditions</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb17-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb17-2"><a></a>    <span class="kw">let</span> number <span class="op">=</span> <span class="dv">6</span><span class="op">;</span></span>
+<span id="cb17-3"><a></a></span>
+<span id="cb17-4"><a></a>    <span class="cf">if</span> number <span class="op">%</span> <span class="dv">4</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">{</span></span>
+<span id="cb17-5"><a></a>        <span class="pp">println!</span>(<span class="st">"Divisible by 4"</span>)<span class="op">;</span></span>
+<span id="cb17-6"><a></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">{</span></span>
+<span id="cb17-7"><a></a>        <span class="pp">println!</span>(<span class="st">"Divisible by 3"</span>)<span class="op">;</span></span>
+<span id="cb17-8"><a></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb17-9"><a></a>        <span class="pp">println!</span>(<span class="st">"Not divisible by 4 or 3"</span>)<span class="op">;</span></span>
+<span id="cb17-10"><a></a>    <span class="op">}</span></span>
+<span id="cb17-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">Rust only executes the block for the <em>first</em>&nbsp;<code>true</code>&nbsp;condition, and once it finds one, it doesn’t even check the rest.</li>
+</ul>
+</section>
+<section id="using-if-in-a-let-statement" class="slide level2">
+<h2>Using <code>if</code> in a <code>let</code> Statement</h2>
+<p><code>if</code>&nbsp;is an expression, hence we can use it on the RHS of a&nbsp;<code>let</code>&nbsp;statement to assign the outcome to a variable</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb18-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb18-2"><a></a>    <span class="kw">let</span> condition <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb18-3"><a></a>    <span class="kw">let</span> number <span class="op">=</span> <span class="cf">if</span> condition <span class="op">{</span> <span class="dv">5</span> <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span> <span class="dv">6</span> <span class="op">};</span></span>
+<span id="cb18-4"><a></a></span>
+<span id="cb18-5"><a></a>    <span class="pp">println!</span>(<span class="st">"The value of number is: {number}"</span>)<span class="op">;</span></span>
+<span id="cb18-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li><code>number</code>&nbsp;variable will be bound to a value based on the outcome of the&nbsp;<code>if</code>&nbsp;expression</li>
+<li>result values from each arm of the&nbsp;<code>if</code>&nbsp;<em>must</em> be the same type</li>
+</ul>
+</div>
+</section>
+<section id="for-example" class="slide level2">
+<h2><em>For example:</em></h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb19-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb19-2"><a></a>    <span class="kw">let</span> condition <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb19-3"><a></a></span>
+<span id="cb19-4"><a></a>    <span class="kw">let</span> number <span class="op">=</span> <span class="cf">if</span> condition <span class="op">{</span> <span class="dv">5</span> <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span> <span class="st">"six"</span> <span class="op">};</span></span>
+<span id="cb19-5"><a></a></span>
+<span id="cb19-6"><a></a>    <span class="pp">println!</span>(<span class="st">"The value of number is: {number}"</span>)<span class="op">;</span></span>
+<span id="cb19-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This throws an error because the types of the values in the <code>if</code> and <code>else</code> blocks are different.</p>
+</section></section>
+<section>
+<section id="loops-in-rust" class="title-slide slide level1 center">
+<h1>Loops in Rust</h1>
+
+</section>
+<section id="infinite-loop" class="slide level2">
+<h2>Infinite <code>loop</code></h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb20-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb20-2"><a></a>    <span class="cf">loop</span> <span class="op">{</span></span>
+<span id="cb20-3"><a></a>        <span class="pp">println!</span>(<span class="st">"Running forever..."</span>)<span class="op">;</span></span>
+<span id="cb20-4"><a></a>    <span class="op">}</span></span>
+<span id="cb20-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="breaking-a-loop" class="slide level2 nonincremental">
+<h2>Breaking a <code>loop</code></h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb21-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb21-2"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> counter <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-3"><a></a>    <span class="kw">let</span> result <span class="op">=</span> <span class="cf">loop</span> <span class="op">{</span></span>
+<span id="cb21-4"><a></a>        counter <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb21-5"><a></a>        <span class="cf">if</span> counter <span class="op">==</span> <span class="dv">10</span> <span class="op">{</span></span>
+<span id="cb21-6"><a></a>            <span class="cf">break</span> counter <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb21-7"><a></a>        <span class="op">}</span></span>
+<span id="cb21-8"><a></a>    <span class="op">};</span></span>
+<span id="cb21-9"><a></a>    <span class="pp">println!</span>(<span class="st">"Result: {result}"</span>)<span class="op">;</span></span>
+<span id="cb21-10"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">Code after a&nbsp;<code>break</code>&nbsp;or&nbsp;<code>return</code>&nbsp;is never executed.</li>
+<li class="fragment">The compiler treats a&nbsp;<code>break</code>&nbsp;expression and a&nbsp;<code>return</code>&nbsp;expression as having the value unit, or&nbsp;<code>()</code>.</li>
+</ul>
+</section>
+<section id="while-loop" class="slide level2">
+<h2><code>while</code> Loop</h2>
+<p><em>While</em> a condition evaluates to&nbsp;<code>true</code>, the code runs; otherwise, it exits the loop.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb22-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb22-2"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> number <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb22-3"><a></a>    <span class="cf">while</span> number <span class="op">!=</span> <span class="dv">0</span> <span class="op">{</span></span>
+<span id="cb22-4"><a></a>        <span class="pp">println!</span>(<span class="st">"{number}!"</span>)<span class="op">;</span></span>
+<span id="cb22-5"><a></a>        number <span class="op">-=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb22-6"><a></a>    <span class="op">}</span></span>
+<span id="cb22-7"><a></a>    <span class="pp">println!</span>(<span class="st">"LIFTOFF!!!"</span>)<span class="op">;</span></span>
+<span id="cb22-8"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="for-loop" class="slide level2">
+<h2><code>for</code> Loop</h2>
+<p><code>for</code>&nbsp;are the most commonly used loop construct in Rust.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb23-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb23-2"><a></a>    <span class="kw">let</span> a <span class="op">=</span> [<span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">;</span></span>
+<span id="cb23-3"><a></a>    <span class="cf">for</span> element <span class="kw">in</span> a <span class="op">{</span></span>
+<span id="cb23-4"><a></a>        <span class="pp">println!</span>(<span class="st">"The value is: {element}"</span>)<span class="op">;</span></span>
+<span id="cb23-5"><a></a>    <span class="op">}</span></span>
+<span id="cb23-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="loop-labels-to-disambiguate" class="slide level2 smaller">
+<h2><code>loop</code> Labels to Disambiguate</h2>
+<p>Labeling loops when we have loops inside loops <sup>1</sup></p>
+<div class="sourceCode" id="cb24" data-code-line-numbers="3,19"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb24-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb24-2"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb24-3"><a></a>    <span class="ot">'counting_up</span><span class="op">:</span> <span class="cf">loop</span> <span class="op">{</span></span>
+<span id="cb24-4"><a></a>        <span class="pp">println!</span>(<span class="st">"count = {count}"</span>)<span class="op">;</span></span>
+<span id="cb24-5"><a></a>        <span class="kw">let</span> <span class="kw">mut</span> remaining <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb24-6"><a></a></span>
+<span id="cb24-7"><a></a>        <span class="cf">loop</span> <span class="op">{</span></span>
+<span id="cb24-8"><a></a>            <span class="pp">println!</span>(<span class="st">"remaining = {remaining}"</span>)<span class="op">;</span></span>
+<span id="cb24-9"><a></a>            <span class="cf">if</span> remaining <span class="op">==</span> <span class="dv">9</span> <span class="op">{</span></span>
+<span id="cb24-10"><a></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb24-11"><a></a>            <span class="op">}</span></span>
+<span id="cb24-12"><a></a>            <span class="cf">if</span> count <span class="op">==</span> <span class="dv">2</span> <span class="op">{</span></span>
+<span id="cb24-13"><a></a>                <span class="cf">break</span> <span class="ot">'counting_up</span><span class="op">;</span></span>
+<span id="cb24-14"><a></a>            <span class="op">}</span></span>
+<span id="cb24-15"><a></a>            remaining <span class="op">-=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb24-16"><a></a>        <span class="op">}</span></span>
+<span id="cb24-17"><a></a></span>
+<span id="cb24-18"><a></a>        count <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb24-19"><a></a>    <span class="op">}</span></span>
+<span id="cb24-20"><a></a>    <span class="pp">println!</span>(<span class="st">"End count = {count}"</span>)<span class="op">;</span></span>
+<span id="cb24-21"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The&nbsp;<code>break 'counting_up;</code>&nbsp;statement will exit the outer loop.</p>
+
+<aside><div>
+
+</div><ol class="aside-footnotes"><li id="fn2"><p>Notice the single quotes before the label name.</p></li></ol></aside></section></section>
+<section>
+<section id="error-handling-in-rust" class="title-slide slide level1 center">
+<h1>Error Handling in Rust</h1>
+
+</section>
+<section id="integer-overflow-1" class="slide level2">
+<h2>Integer Overflow</h2>
+<ul>
+<li class="fragment"><strong>Debug mode:</strong> Panics on overflow.</li>
+<li class="fragment"><strong>Release mode:</strong> Uses two’s complement wrapping.
+<ul>
+<li class="fragment"><code>wrapping_*</code> methods: Always wrap values (e.g., <code>wrapping_add</code>).</li>
+<li class="fragment"><code>checked_*</code> methods: Return None if overflow occurs.</li>
+<li class="fragment"><code>overflowing_*</code> methods: Return the result along with a boolean indicating overflow.</li>
+<li class="fragment"><code>saturating_*</code> methods: Clamp the result to the type’s minimum or maximum value.</li>
+</ul></li>
+</ul>
+</section>
+<section id="invalid-array-access" class="slide level2">
+<h2>Invalid Array Access</h2>
+<div class="sourceCode" id="cb25" data-code-line-numbers="3,4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb25-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb25-2"><a></a>    <span class="kw">let</span> arr <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb25-3"><a></a>    <span class="kw">let</span> index <span class="op">=</span> <span class="dv">10</span><span class="op">;</span> <span class="co">// Out of bounds</span></span>
+<span id="cb25-4"><a></a>    <span class="kw">let</span> element <span class="op">=</span> arr[index]<span class="op">;</span> <span class="co">// Causes panic</span></span>
+<span id="cb25-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="rust-and-other-languages" class="title-slide slide level1 center">
+<h1>Rust and Other Languages</h1>
+<!-- | Feature | Rust | Python | R | C++ | -->
+<!-- |---------------|---------------|---------------|---------------|---------------| -->
+<!-- | Arrays | Fixed-size, homogeneous | NumPy arrays | Homogeneous arrays | Fixed-size arrays | -->
+<!-- | Tuples | Immutable, fixed-length | Immutable tuples | Lists act as tuples | `std::tuple` available | -->
+<!-- | Mutability | Requires `mut` or `let` | Lists mutable, tuples not | Vectors mutable | Arrays mutable | -->
+<!-- | Indexing | 0-based | 0-based | 1-based | 0-based | -->
+</section>
+<section id="section" class="slide level2 smaller scrollable">
+<h2></h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 24%">
+<col style="width: 21%">
+<col style="width: 22%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th><strong>Rust</strong></th>
+<th><strong>R</strong></th>
+<th><strong>Python</strong></th>
+<th><strong>C/C++</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Arrays</strong></td>
+<td>Fixed-size, homogeneous types, defined as <code>[T; N]</code>.</td>
+<td>Homogeneous data, multidimensional (using <code>array()</code>).</td>
+<td>Homogeneous data, implemented via NumPy (<code>numpy.array</code>).</td>
+<td>Fixed-size, homogeneous, defined as <code>T array[N]</code>.</td>
+</tr>
+<tr class="even">
+<td><strong>Vectors</strong></td>
+<td>A growable collection with <code>Vec&lt;T&gt;</code>.</td>
+<td>1D array, typically with <code>c()</code> or <code>vector()</code>.</td>
+<td>Lists mimic vectors, but for true vector operations, use NumPy arrays.</td>
+<td>No native vector, use <code>std::vector</code> from the Standard Library (C++).</td>
+</tr>
+<tr class="odd">
+<td><strong>Tuples</strong></td>
+<td>Fixed-length, immutable collection: <code>(i32, f64)</code>.</td>
+<td>Not commonly used, lists behave like tuples.</td>
+<td>Immutable, ordered sequence: <code>(1, 2, "text")</code>.</td>
+<td>Use <code>std::tuple</code> (C++17+) or structures.</td>
+</tr>
+<tr class="even">
+<td><strong>Matrices</strong></td>
+<td>Not native; use nested <code>Vec&lt;Vec&lt;T&gt;&gt;</code> or external libraries like <code>nalgebra</code>.</td>
+<td>2D structure (<code>matrix()</code>). Can extend to 3D with <code>array()</code>.</td>
+<td>Implemented with NumPy as 2D arrays: <code>numpy.matrix</code> or <code>numpy.array</code>.</td>
+<td>2D arrays as <code>T matrix[rows][cols]</code> or use libraries like Eigen in C++.</td>
+</tr>
+<tr class="odd">
+<td><strong>Mutability</strong></td>
+<td>Vectors (<code>Vec&lt;T&gt;</code>) are mutable; tuples are immutable.</td>
+<td>Vectors are mutable; matrices can be altered in-place.</td>
+<td>Lists and arrays are mutable; tuples are immutable.</td>
+<td>Arrays and vectors (<code>std::vector</code>) are mutable. Tuples are immutable in C++17+.</td>
+</tr>
+<tr class="even">
+<td><strong>Indexing</strong></td>
+<td>0-based indexing (e.g., <code>x[0]</code>).</td>
+<td>1-based indexing (e.g., <code>x[1]</code>).</td>
+<td>0-based indexing (e.g., <code>x[0]</code>).</td>
+<td>0-based indexing (e.g., <code>x[0]</code>).</td>
+</tr>
+<tr class="odd">
+<td><strong>Size Flexibility</strong></td>
+<td>Arrays are fixed, vectors grow dynamically.</td>
+<td>Vectors and lists are dynamic. Arrays and matrices have fixed sizes.</td>
+<td>Lists and NumPy arrays are dynamic; tuples are fixed size.</td>
+<td>Arrays are fixed; <code>std::vector</code> is dynamic.</td>
+</tr>
+</tbody>
+</table>
+<p><em>A contiguous mutable array type, written as&nbsp;<code>Vec&lt;T&gt;</code>, short for ‘vector’.</em></p>
+</section></section>
+<section id="practice-exercises" class="title-slide slide level1 nonincremental center">
+<h1>Practice Exercises</h1>
+<ol type="1">
+<li class="fragment"><p><strong>Temperature Conversion:</strong><br>
+Write a function to convert temperatures between Fahrenheit and Celsius.</p></li>
+<li class="fragment"><p><strong>Fibonacci Sequence:</strong><br>
+Generate the nth Fibonacci number using recursion.</p></li>
+<li class="fragment"><p><strong>Christmas Carol:</strong><br>
+Print the lyrics to “The Twelve Days of Christmas” with loops to reduce repetition.</p></li>
+</ol>
+</section>
+
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
+<ul>
+<li class="fragment">Key features include strict typing, mutability control, and advanced error handling.</li>
+<li class="fragment">Control flow in Rust is similar to other languages but with added safety guarantees.</li>
+</ul>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 <p><a href="../" target="rust_club-index">DSLC.io/rust</a> | <a href="https://DSLC.io" target="_blank">DSLC.io</a></p>
 </div>
 </div>
-</section></section>
+</section>
+
+
     </div>
   </div>
 

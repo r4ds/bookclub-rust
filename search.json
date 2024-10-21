@@ -150,41 +150,291 @@
     ]
   },
   {
-    "objectID": "slides/03-common_programming_concepts.html#slide",
-    "href": "slides/03-common_programming_concepts.html#slide",
+    "objectID": "slides/03-common_programming_concepts.html#topics-covered",
+    "href": "slides/03-common_programming_concepts.html#topics-covered",
     "title": "3. Common Programming Concepts",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Topics Covered:",
+    "text": "Topics Covered:\n\n\nData Types\n\nScalar\nCompound\n\nVariables, Mutability, Constants, and Shadowing\nFunctions and Control Flow\nError Handling",
     "crumbs": [
       "3. Common Programming Concepts"
     ]
   },
   {
-    "objectID": "slides/03-common_programming_concepts.html#slide-1",
-    "href": "slides/03-common_programming_concepts.html#slide-1",
+    "objectID": "slides/03-common_programming_concepts.html#integers",
+    "href": "slides/03-common_programming_concepts.html#integers",
     "title": "3. Common Programming Concepts",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Integers",
+    "text": "Integers\n\n\n\n\n\nLength\nSigned\nUnsigned\n\n\n\n\n8-bit\ni8\nu8\n\n\n16-bit\ni16\nu16\n\n\n32-bit\ni32\nu32\n\n\n64-bit\ni64\nu64\n\n\n128-bit\ni128\nu128\n\n\narch\nisize\nusize\n\n\n\n\n\n\nSigned variants can store numbers from -(2n - 1) to 2n - 1 - 1 inclusive\n\ni8: -(27) to 27 - 1, which equals -128 to 127.\nu8: 0- 2n - 1, that is 0 to 28 - 1, which equals 0 to 255",
     "crumbs": [
       "3. Common Programming Concepts"
     ]
   },
   {
-    "objectID": "slides/03-common_programming_concepts.html#slide-2",
-    "href": "slides/03-common_programming_concepts.html#slide-2",
+    "objectID": "slides/03-common_programming_concepts.html#integer-overflow",
+    "href": "slides/03-common_programming_concepts.html#integer-overflow",
     "title": "3. Common Programming Concepts",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Integer overflow",
+    "text": "Integer overflow\nRust uses two’s complement wrapping to handle integer overflow silently. However, it offers explicit ways to manage overflow:\n\nwrapping_* methods: Always wrap values (e.g., wrapping_add).\nchecked_* methods: Return None if overflow occurs.\noverflowing_* methods: Return the result along with a boolean indicating overflow.\nsaturating_* methods: Clamp the result to the type’s minimum or maximum value.",
     "crumbs": [
       "3. Common Programming Concepts"
     ]
   },
   {
-    "objectID": "slides/03-common_programming_concepts.html#slide-3",
-    "href": "slides/03-common_programming_concepts.html#slide-3",
+    "objectID": "slides/03-common_programming_concepts.html#floating-point-numbers",
+    "href": "slides/03-common_programming_concepts.html#floating-point-numbers",
     "title": "3. Common Programming Concepts",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "section": "Floating-Point Numbers",
+    "text": "Floating-Point Numbers\nTypes: f32 and f64 (primitive types)\n  let pi: f64 = 3.14159;\n\n\nAll floating-point types are signed.\nf32: single-precision float\nf64: double precision float",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#booleans-and-characters",
+    "href": "slides/03-common_programming_concepts.html#booleans-and-characters",
+    "title": "3. Common Programming Concepts",
+    "section": "Booleans and Characters",
+    "text": "Booleans and Characters\nBoolean: bool\n  let flag = true;\nCharacter: char 1\n  let emoji = '😻';\n\n\nchar type is four bytes in size and represents a Unicode Scalar Value.\nIt can represent more than just ASCII\n\n\n\n\n\nNote that we specify char literals with single quotes, as opposed to string literals, which use double quotes.",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#tuples",
+    "href": "slides/03-common_programming_concepts.html#tuples",
+    "title": "3. Common Programming Concepts",
+    "section": "Tuples",
+    "text": "Tuples\nGroup values of different types:\n  let tup: (i32, f64, u8) = (500, 6.4, 1);\n  let (x, y, z) = tup; // Destructuring\n\nTuples have a fixed length.",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#arrays",
+    "href": "slides/03-common_programming_concepts.html#arrays",
+    "title": "3. Common Programming Concepts",
+    "section": "Arrays",
+    "text": "Arrays\nFixed-length collections of the same type:\n  let arr = [1, 2, 3, 4, 5];\n  let first = arr[0];",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#initializing-arrays",
+    "href": "slides/03-common_programming_concepts.html#initializing-arrays",
+    "title": "3. Common Programming Concepts",
+    "section": "Initializing arrays",
+    "text": "Initializing arrays\n  let a = [3; 5]; // [3, 3, 3, 3, 3]\nShort-hand:\n\n\nvalue of elements; then number of elements\n\n\nlet a = [3; 5];",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#accessing-array-elements",
+    "href": "slides/03-common_programming_concepts.html#accessing-array-elements",
+    "title": "3. Common Programming Concepts",
+    "section": "Accessing Array Elements",
+    "text": "Accessing Array Elements\nYou can access elements of an array using indexing:\n\n\n0-based indexing (e.g., x[0])\n\n\nfn main() {     \n    let a = [1, 2, 3, 4, 5];      \n    let first = a[0];     \n    let second = a[1]; \n}",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#immutable-variables",
+    "href": "slides/03-common_programming_concepts.html#immutable-variables",
+    "title": "3. Common Programming Concepts",
+    "section": "Immutable Variables",
+    "text": "Immutable Variables\nVariables in Rust are immutable by default:\n  let x = 5;\n  x = 6; // Error: Cannot assign to immutable variable",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#making-variables-mutable",
+    "href": "slides/03-common_programming_concepts.html#making-variables-mutable",
+    "title": "3. Common Programming Concepts",
+    "section": "Making Variables Mutable",
+    "text": "Making Variables Mutable\nUse the mut keyword to make variables mutable:\n  let mut y = 10;\n  y += 5; // Now valid because `y` is mutable",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#constants",
+    "href": "slides/03-common_programming_concepts.html#constants",
+    "title": "3. Common Programming Concepts",
+    "section": "Constants",
+    "text": "Constants\nDeclared with const and are always immutable:\n  const MAX_SCORE: u32 = 100_000;\n\n\nMust always be annotated with a type\nCan be declared in global or function scope\nCannot be computed at runtime",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#shadowing",
+    "href": "slides/03-common_programming_concepts.html#shadowing",
+    "title": "3. Common Programming Concepts",
+    "section": "Shadowing",
+    "text": "Shadowing\nShadowing allows reusing a variable name:\n  let x = 5;\n  let x = x + 1; // Shadows the previous `x`\n  {\n      let x = x * 2;\n      println!(\"Inner scope x: {x}\");\n  }\n  println!(\"Outer scope x: {x}\");",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#differences-between-mut-and-shadowing",
+    "href": "slides/03-common_programming_concepts.html#differences-between-mut-and-shadowing",
+    "title": "3. Common Programming Concepts",
+    "section": "Differences between mut and Shadowing",
+    "text": "Differences between mut and Shadowing\n\n\n\n\nmut\nshadowing\n\n\n\n\nType\nSame type\nCan change type (use of let)\n\n\nUse of let\nWhen first declared\nAll instances of variable use",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#defining-functions",
+    "href": "slides/03-common_programming_concepts.html#defining-functions",
+    "title": "3. Common Programming Concepts",
+    "section": "Defining Functions",
+    "text": "Defining Functions\nfn main() {\n    println!(\"Hello, world!\");\n    another_function();\n}\n\nfn another_function() {\n    println!(\"This is another function.\");\n}",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#function-parameters",
+    "href": "slides/03-common_programming_concepts.html#function-parameters",
+    "title": "3. Common Programming Concepts",
+    "section": "Function Parameters",
+    "text": "Function Parameters\nFunctions can accept parameters/arguments:\n  fn add(a: i32, b: i32) -&gt; i32 {\n      a + b\n  }\n  println!(\"{}\", add(3, 5));",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#return-values",
+    "href": "slides/03-common_programming_concepts.html#return-values",
+    "title": "3. Common Programming Concepts",
+    "section": "Return Values",
+    "text": "Return Values\nReturn the last expression from the function body:\n  fn square(x: i32) -&gt; i32 {\n      x * x\n  }",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#if-expressions",
+    "href": "slides/03-common_programming_concepts.html#if-expressions",
+    "title": "3. Common Programming Concepts",
+    "section": "if Expressions",
+    "text": "if Expressions\nfn main() {\n    let number = 3;\n\n    if number &lt; 5 {\n        println!(\"Condition is true\");\n    } else {\n        println!(\"Condition is false\");\n    }\n}\n\nRust will NOT automatically try to convert non-Boolean types to a Boolean.\nYou must be explicit and always provide if with a Boolean as its condition.",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#else-if-for-multiple-conditions",
+    "href": "slides/03-common_programming_concepts.html#else-if-for-multiple-conditions",
+    "title": "3. Common Programming Concepts",
+    "section": "else if for Multiple Conditions",
+    "text": "else if for Multiple Conditions\nfn main() {\n    let number = 6;\n\n    if number % 4 == 0 {\n        println!(\"Divisible by 4\");\n    } else if number % 3 == 0 {\n        println!(\"Divisible by 3\");\n    } else {\n        println!(\"Not divisible by 4 or 3\");\n    }\n}\n\nRust only executes the block for the first true condition, and once it finds one, it doesn’t even check the rest.",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#using-if-in-a-let-statement",
+    "href": "slides/03-common_programming_concepts.html#using-if-in-a-let-statement",
+    "title": "3. Common Programming Concepts",
+    "section": "Using if in a let Statement",
+    "text": "Using if in a let Statement\nif is an expression, hence we can use it on the RHS of a let statement to assign the outcome to a variable\nfn main() {\n    let condition = true;\n    let number = if condition { 5 } else { 6 };\n\n    println!(\"The value of number is: {number}\");\n}\n\n\nnumber variable will be bound to a value based on the outcome of the if expression\nresult values from each arm of the if must be the same type",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#for-example",
+    "href": "slides/03-common_programming_concepts.html#for-example",
+    "title": "3. Common Programming Concepts",
+    "section": "For example:",
+    "text": "For example:\nfn main() {\n    let condition = true;\n\n    let number = if condition { 5 } else { \"six\" };\n\n    println!(\"The value of number is: {number}\");\n}\nThis throws an error because the types of the values in the if and else blocks are different.",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#infinite-loop",
+    "href": "slides/03-common_programming_concepts.html#infinite-loop",
+    "title": "3. Common Programming Concepts",
+    "section": "Infinite loop",
+    "text": "Infinite loop\nfn main() {\n    loop {\n        println!(\"Running forever...\");\n    }\n}",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#breaking-a-loop",
+    "href": "slides/03-common_programming_concepts.html#breaking-a-loop",
+    "title": "3. Common Programming Concepts",
+    "section": "Breaking a loop",
+    "text": "Breaking a loop\nfn main() {\n    let mut counter = 0;\n    let result = loop {\n        counter += 1;\n        if counter == 10 {\n            break counter * 2;\n        }\n    };\n    println!(\"Result: {result}\");\n}\n\nCode after a break or return is never executed.\nThe compiler treats a break expression and a return expression as having the value unit, or ().",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#while-loop",
+    "href": "slides/03-common_programming_concepts.html#while-loop",
+    "title": "3. Common Programming Concepts",
+    "section": "while Loop",
+    "text": "while Loop\nWhile a condition evaluates to true, the code runs; otherwise, it exits the loop.\nfn main() {\n    let mut number = 3;\n    while number != 0 {\n        println!(\"{number}!\");\n        number -= 1;\n    }\n    println!(\"LIFTOFF!!!\");\n}",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#for-loop",
+    "href": "slides/03-common_programming_concepts.html#for-loop",
+    "title": "3. Common Programming Concepts",
+    "section": "for Loop",
+    "text": "for Loop\nfor are the most commonly used loop construct in Rust.\nfn main() {\n    let a = [10, 20, 30, 40, 50];\n    for element in a {\n        println!(\"The value is: {element}\");\n    }\n}",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#loop-labels-to-disambiguate",
+    "href": "slides/03-common_programming_concepts.html#loop-labels-to-disambiguate",
+    "title": "3. Common Programming Concepts",
+    "section": "loop Labels to Disambiguate",
+    "text": "loop Labels to Disambiguate\nLabeling loops when we have loops inside loops 1\nfn main() {\n    let mut count = 0;\n    'counting_up: loop {\n        println!(\"count = {count}\");\n        let mut remaining = 10;\n\n        loop {\n            println!(\"remaining = {remaining}\");\n            if remaining == 9 {\n                break;\n            }\n            if count == 2 {\n                break 'counting_up;\n            }\n            remaining -= 1;\n        }\n\n        count += 1;\n    }\n    println!(\"End count = {count}\");\n}\nThe break 'counting_up; statement will exit the outer loop.\n\n\n\nNotice the single quotes before the label name.",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#integer-overflow-1",
+    "href": "slides/03-common_programming_concepts.html#integer-overflow-1",
+    "title": "3. Common Programming Concepts",
+    "section": "Integer Overflow",
+    "text": "Integer Overflow\n\nDebug mode: Panics on overflow.\nRelease mode: Uses two’s complement wrapping.\n\nwrapping_* methods: Always wrap values (e.g., wrapping_add).\nchecked_* methods: Return None if overflow occurs.\noverflowing_* methods: Return the result along with a boolean indicating overflow.\nsaturating_* methods: Clamp the result to the type’s minimum or maximum value.",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#invalid-array-access",
+    "href": "slides/03-common_programming_concepts.html#invalid-array-access",
+    "title": "3. Common Programming Concepts",
+    "section": "Invalid Array Access",
+    "text": "Invalid Array Access\nfn main() {\n    let arr = [1, 2, 3, 4, 5];\n    let index = 10; // Out of bounds\n    let element = arr[index]; // Causes panic\n}",
+    "crumbs": [
+      "3. Common Programming Concepts"
+    ]
+  },
+  {
+    "objectID": "slides/03-common_programming_concepts.html#section",
+    "href": "slides/03-common_programming_concepts.html#section",
+    "title": "3. Common Programming Concepts",
+    "section": "",
+    "text": "Feature\nRust\nR\nPython\nC/C++\n\n\n\n\nArrays\nFixed-size, homogeneous types, defined as [T; N].\nHomogeneous data, multidimensional (using array()).\nHomogeneous data, implemented via NumPy (numpy.array).\nFixed-size, homogeneous, defined as T array[N].\n\n\nVectors\nA growable collection with Vec&lt;T&gt;.\n1D array, typically with c() or vector().\nLists mimic vectors, but for true vector operations, use NumPy arrays.\nNo native vector, use std::vector from the Standard Library (C++).\n\n\nTuples\nFixed-length, immutable collection: (i32, f64).\nNot commonly used, lists behave like tuples.\nImmutable, ordered sequence: (1, 2, \"text\").\nUse std::tuple (C++17+) or structures.\n\n\nMatrices\nNot native; use nested Vec&lt;Vec&lt;T&gt;&gt; or external libraries like nalgebra.\n2D structure (matrix()). Can extend to 3D with array().\nImplemented with NumPy as 2D arrays: numpy.matrix or numpy.array.\n2D arrays as T matrix[rows][cols] or use libraries like Eigen in C++.\n\n\nMutability\nVectors (Vec&lt;T&gt;) are mutable; tuples are immutable.\nVectors are mutable; matrices can be altered in-place.\nLists and arrays are mutable; tuples are immutable.\nArrays and vectors (std::vector) are mutable. Tuples are immutable in C++17+.\n\n\nIndexing\n0-based indexing (e.g., x[0]).\n1-based indexing (e.g., x[1]).\n0-based indexing (e.g., x[0]).\n0-based indexing (e.g., x[0]).\n\n\nSize Flexibility\nArrays are fixed, vectors grow dynamically.\nVectors and lists are dynamic. Arrays and matrices have fixed sizes.\nLists and NumPy arrays are dynamic; tuples are fixed size.\nArrays are fixed; std::vector is dynamic.\n\n\n\nA contiguous mutable array type, written as Vec&lt;T&gt;, short for ‘vector’.",
     "crumbs": [
       "3. Common Programming Concepts"
     ]
