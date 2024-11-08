@@ -1040,41 +1040,201 @@
     ]
   },
   {
-    "objectID": "slides/04-understanding_ownership.html#slide",
-    "href": "slides/04-understanding_ownership.html#slide",
+    "objectID": "slides/04-understanding_ownership.html#learning-objectives-1",
+    "href": "slides/04-understanding_ownership.html#learning-objectives-1",
     "title": "4. Understanding Ownership",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Learning objectives",
+    "text": "Learning objectives\n\nUnderstand Rust’s ownership system\nWork with the borrow checker\nImplement the right ownership model at the right time",
     "crumbs": [
       "4. Understanding Ownership"
     ]
   },
   {
-    "objectID": "slides/04-understanding_ownership.html#slide-1",
-    "href": "slides/04-understanding_ownership.html#slide-1",
+    "objectID": "slides/04-understanding_ownership.html#moves",
+    "href": "slides/04-understanding_ownership.html#moves",
     "title": "4. Understanding Ownership",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Moves",
+    "text": "Moves\nlet x = String::from(\"hello\");\nlet x2 = x;\nprintln!(\"{x}\");",
     "crumbs": [
       "4. Understanding Ownership"
     ]
   },
   {
-    "objectID": "slides/04-understanding_ownership.html#slide-2",
-    "href": "slides/04-understanding_ownership.html#slide-2",
+    "objectID": "slides/04-understanding_ownership.html#moves-1",
+    "href": "slides/04-understanding_ownership.html#moves-1",
     "title": "4. Understanding Ownership",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Moves",
+    "text": "Moves\nlet x = String::from(\"hello\");\ntake_ownership(x);\nprintln!(\"{x}\");\n\nfn take_ownership(_name: String) {\n  ()\n}",
     "crumbs": [
       "4. Understanding Ownership"
     ]
   },
   {
-    "objectID": "slides/04-understanding_ownership.html#slide-3",
-    "href": "slides/04-understanding_ownership.html#slide-3",
+    "objectID": "slides/04-understanding_ownership.html#moves-2",
+    "href": "slides/04-understanding_ownership.html#moves-2",
     "title": "4. Understanding Ownership",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "section": "Moves",
+    "text": "Moves\nlet x = String::from(\"hello\");\ntake_ownership(x.clone());\nprintln!(\"{x}\");\n\nfn take_ownership(_name: String) {\n  ()\n}",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#moves-3",
+    "href": "slides/04-understanding_ownership.html#moves-3",
+    "title": "4. Understanding Ownership",
+    "section": "Moves",
+    "text": "Moves",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#stack-vs-heap",
+    "href": "slides/04-understanding_ownership.html#stack-vs-heap",
+    "title": "4. Understanding Ownership",
+    "section": "Stack vs Heap",
+    "text": "Stack vs Heap\nlet x = 1;\nprintln!(\"{x}\");\nprintln!(\"{x}\");",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#stack",
+    "href": "slides/04-understanding_ownership.html#stack",
+    "title": "4. Understanding Ownership",
+    "section": "Stack",
+    "text": "Stack",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#heap",
+    "href": "slides/04-understanding_ownership.html#heap",
+    "title": "4. Understanding Ownership",
+    "section": "Heap",
+    "text": "Heap",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#boxnew",
+    "href": "slides/04-understanding_ownership.html#boxnew",
+    "title": "4. Understanding Ownership",
+    "section": "Box::new()",
+    "text": "Box::new()\nlet x = Box::new(1);\ntake_ownership(x);\nprintln!(\"{x}\");\n\nfn take_ownership(_name: Box&lt;i32&gt;) {\n  ()\n}",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#boxnew-1",
+    "href": "slides/04-understanding_ownership.html#boxnew-1",
+    "title": "4. Understanding Ownership",
+    "section": "Box::new()",
+    "text": "Box::new()",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#immutable-references",
+    "href": "slides/04-understanding_ownership.html#immutable-references",
+    "title": "4. Understanding Ownership",
+    "section": "Immutable references",
+    "text": "Immutable references\nlet x = String::from(\"hello\");\nborrow(&x);\nprintln!(\"{x}\");\n\nfn borrow(_name: &String) {\n  ()\n}",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#immutable-references-1",
+    "href": "slides/04-understanding_ownership.html#immutable-references-1",
+    "title": "4. Understanding Ownership",
+    "section": "Immutable references",
+    "text": "Immutable references",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#immutable-references-2",
+    "href": "slides/04-understanding_ownership.html#immutable-references-2",
+    "title": "4. Understanding Ownership",
+    "section": "Immutable references",
+    "text": "Immutable references",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#immutable-references-3",
+    "href": "slides/04-understanding_ownership.html#immutable-references-3",
+    "title": "4. Understanding Ownership",
+    "section": "Immutable references",
+    "text": "Immutable references\nlet x = String::from(\"hello\");\nlet x2 = &x;\n\nborrow(&x);\nprintln!(\"{x2}\");\n\nfn borrow(_name: &String) {\n  ()\n}",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#immutable-references-4",
+    "href": "slides/04-understanding_ownership.html#immutable-references-4",
+    "title": "4. Understanding Ownership",
+    "section": "Immutable references",
+    "text": "Immutable references",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#mutable-references",
+    "href": "slides/04-understanding_ownership.html#mutable-references",
+    "title": "4. Understanding Ownership",
+    "section": "Mutable references",
+    "text": "Mutable references\nlet mut x = String::from(\"hello\");\n\nlet x2 = &x;\n\nborrow(&mut x);\n\nprintln!(\"{x2}\");\n\nfn borrow(_name: &mut String) {\n  ()\n}",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#mutable-references-1",
+    "href": "slides/04-understanding_ownership.html#mutable-references-1",
+    "title": "4. Understanding Ownership",
+    "section": "Mutable references",
+    "text": "Mutable references",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#slices",
+    "href": "slides/04-understanding_ownership.html#slices",
+    "title": "4. Understanding Ownership",
+    "section": "Slices",
+    "text": "Slices",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#string-literals-are-slices",
+    "href": "slides/04-understanding_ownership.html#string-literals-are-slices",
+    "title": "4. Understanding Ownership",
+    "section": "String literals are slices",
+    "text": "String literals are slices\nlet hello = \"hello\";\nthere(hello);\n\nfn there(hello2: &str) {\n  println!(\"{hello2} there\")\n}",
+    "crumbs": [
+      "4. Understanding Ownership"
+    ]
+  },
+  {
+    "objectID": "slides/04-understanding_ownership.html#str-as-parameters",
+    "href": "slides/04-understanding_ownership.html#str-as-parameters",
+    "title": "4. Understanding Ownership",
+    "section": "&str as parameters",
+    "text": "&str as parameters\nlet hello = String::from(\"hello\");\nthere(&hello);\n\nfn there(hello2: &str) {\n  println!(\"{hello2} there\")\n}\n\n\n\nDSLC.io/rust | DSLC.io",
     "crumbs": [
       "4. Understanding Ownership"
     ]
