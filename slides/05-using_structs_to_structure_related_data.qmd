@@ -3,29 +3,156 @@ engine: knitr
 title: "5. Using Structs to Structure Related Data"
 ---
 
-# Learning objectives
-
+## Topics covered
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Structs
+- Methods
+- Other associated functions
 :::
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
-:::
+# Introducing Structs
 
-# SLIDE SECTION
+## Defining Structs
 
-## SLIDE
+```rust
+struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+```
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+- Structs are similar to tuples, but with named parts 
+- Similar to R named lists, *key : value* pairs.
+- Defines a new *type*
 
-## SLIDE
+## Instantiating Structs
 
-# SLIDE SECTION
+```rust
+fn main() {
+    let mut user1 = User {
+        email: String::from("someone@example.com"),
+        username: String::from("someusername123"),
+        active: true,
+        sign_in_count: 1,
+    };
+    user1.email = String::from("anotheremail@example.com")
+    println!("User1's email: {}",user1.email)
+}
+```
 
-## SLIDE
+- Instantiate (create) by specifying values for each key
+- To get values, use the `.` notation.  compare to R : `user1$email`
+- To change values, the entire instance must be mutable.
 
-## SLIDE
+
+## Constructor
+
+```rust
+fn build_user(email: String, username: String) -> User {
+    User {
+        active: true,
+        username: username,
+        email: email,
+        sign_in_count: 1,
+    }
+}
+```
+- Struct is returned as it is the last statement
+- We will see shortly that this will be clearer as an associated function
+
+## Field Init Shorthand
+
+```rust
+fn build_user(email: String, username: String) -> User {
+    User {
+        active: true,
+        username,
+        email,
+        sign_in_count: 1,
+    }
+}
+```
+
+- If variable name  is same as field name:
+  - replace `email = email` with just `var`
+  - *field init shorthand*
+
+## Struct update syntax
+
+```rust
+fn main() {
+    // --snip--
+
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+}
+```
+
+- Creates a new `User` from an existing instance `user1` 
+- Note that this *moves* data!
+    - We can no longer use `user1` because we moved the username into `user2`
+    - If we had also given a new username then `user1` would ok.
+
+## Tuple Structs
+
+```rust
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+fn main() {
+    let black = Color(0, 0, 0);
+    let origin = Point(0, 0, 0);
+}
+```
+ 
+- Defines distinct types for `Color` and `Point`
+- Access elements by destructuring 
+- Alternately can use `.0` , `.1` etc. 
+
+## Unit Structs
+
+```rust
+struct AlwaysEqual;
+
+fn main() {
+    let subject = AlwaysEqual;
+}
+```
+
+- Useful for cases where you need a type with a singleton value. (Placeholders or markers)
+- More uses will be clearer when we discuss traits. 
+
+## Ownership of Struct Data
+
+- Examples so far used owned data (e.g. `String`)
+- Ensures fields are valid as long as the struct is valid.
+- Structs can store references but requires *lifetimes* (Chapter 10) 
+
+## Example 
+
+```rust
+struct User {
+    active: bool,
+    username: &str,
+    email: &str,
+    sign_in_count: u64,
+}
+
+fn main() {
+    let user1 = User {
+        active: true,
+        username: "someusername123",
+        email: "someone@example.com",
+        sign_in_count: 1,
+    };
+}
+```
+- Seems reasonable ?
+- [try it out!](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=a5d5e082e85c46e410fda4cfb663c000)
+
+# Example program
+
