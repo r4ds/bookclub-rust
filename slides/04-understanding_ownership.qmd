@@ -2,30 +2,204 @@
 engine: knitr
 title: "4. Understanding Ownership"
 ---
+# Learning objectives 
 
-# Learning objectives
+## Learning objectives 
 
-::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
-:::
+1. Understand Rust's ownership system
+2. Work with the borrow checker 
+3. Implement the right ownership model at the right time
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
-:::
+# What Is Ownership?
 
-# SLIDE SECTION
+## Moves
 
-## SLIDE
+```rust
+let x = String::from("hello");
+let x2 = x;
+println!("{x}");
+```
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+## Moves
 
-## SLIDE
+```rust
+let x = String::from("hello");
+take_ownership(x);
+println!("{x}");
 
-# SLIDE SECTION
+fn take_ownership(_name: String) {
+  ()
+}
+```
 
-## SLIDE
+## Moves
 
-## SLIDE
+```rust
+let x = String::from("hello");
+take_ownership(x.clone());
+println!("{x}");
+
+fn take_ownership(_name: String) {
+  ()
+}
+```
+
+## Moves
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/clone_memory.png")
+```
+
+## Stack vs Heap
+
+```rust
+let x = 1;
+println!("{x}");
+println!("{x}");
+```
+
+## Stack
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/stack.png")
+```
+
+## Heap
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/stack_heap_move.png")
+```
+
+## `Box::new()`
+
+```rust
+let x = Box::new(1);
+take_ownership(x);
+println!("{x}");
+
+fn take_ownership(_name: Box<i32>) {
+  ()
+}
+```
+
+## `Box::new()`
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/box.png")
+```
+
+# References and Borrowing 
+
+## Immutable references
+
+```rust
+let x = String::from("hello");
+borrow(&x);
+println!("{x}");
+
+fn borrow(_name: &String) {
+  ()
+}
+```
+
+## Immutable references
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/dt.png")
+```
+
+## Immutable references
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/dt_borrow.png")
+```
+
+## Immutable references
+
+```rust
+let x = String::from("hello");
+let x2 = &x;
+
+borrow(&x);
+println!("{x2}");
+
+fn borrow(_name: &String) {
+  ()
+}
+```
+
+## Immutable references
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/dt_share.png")
+```
+
+## Mutable references
+
+```rust
+let mut x = String::from("hello");
+
+let x2 = &x;
+
+borrow(&mut x);
+
+println!("{x2}");
+
+fn borrow(_name: &mut String) {
+  ()
+}
+```
+
+## Mutable references
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/dt_pretend.png")
+```
+
+# The Slice Type 
+
+## Slices
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::include_graphics("img/slice_memory.png")
+```
+
+## String literals are slices
+
+```rust
+let hello = "hello";
+there(hello);
+
+fn there(hello2: &str) {
+  println!("{hello2} there")
+}
+```
+
+## `&str` as parameters
+
+```rust
+let hello = String::from("hello");
+there(&hello);
+
+fn there(hello2: &str) {
+  println!("{hello2} there")
+}
+```
