@@ -130,7 +130,7 @@ fn main() {
 
 - Examples so far used owned data (e.g. `String`)
 - Ensures fields are valid as long as the struct is valid.
-- Structs can store references but requires *lifetimes* (Chapter 10) 
+- Structs can store references, but this requires explicitly specifying *lifetimes* to ensure they remain valid (discussed in Chapter 10).
 
 ## Example 
 
@@ -323,7 +323,7 @@ fn main() {
 }
 ```
 
-* Takes ownership but then returns the value - print values inside an expression!  
+* Takes ownership but then returns the value - print values inside an expression aids in debugging complex expressions. 
 * Prints file and line number 
 * Prints to `stderr` rather then `stdout`
 
@@ -358,7 +358,7 @@ fn main() {
 ```
 [Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=%23%5Bderive%28Debug%29%5D%0Astruct+Rectangle+%7B%0A++++width%3A+u32%2C%0A++++height%3A+u32%2C%0A%7D%0A%0Aimpl+Rectangle+%7B%0A++++fn+area%28%26self%29+-%3E+u32+%7B%0A++++++++self.width+*+self.height%0A++++%7D%0A%7D%0A%0Afn+main%28%29+%7B%0A++++let+rect1+%3D+Rectangle+%7B%0A++++++++width%3A+30%2C%0A++++++++height%3A+50%2C%0A++++%7D%3B%0A%0A++++println%21%28%0A++++++++%22The+area+of+the+rectangle+is+%7B%7D+square+pixels.%22%2C%0A++++++++rect1.area%28%29%0A++++%29%3B%0A%7D)
 
-* Methods are like functions but defined in context struct, enum or trait object. (using an `impl` block)
+* Methods are like functions but defined within the context of a struct, enum, or trait object using an `impl` block
 * First parameter is always `self`. 
 
 ## Method calls
@@ -377,7 +377,7 @@ fn main() {
 }
 ```
 * Uses the `.` syntax, automatically passes in `self`
-* No need for `->` as in c++, Rust automatically dereferences as required. 
+* No need for `->` as in c++, Rust automatically dereferences as required to make this more ergonomic!
 
     ```
     p1.distance(&p2);
