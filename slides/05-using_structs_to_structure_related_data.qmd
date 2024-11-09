@@ -156,3 +156,281 @@ fn main() {
 
 # Example program
 
+Calculate the area of a rectangle
+
+## First try
+
+```rust
+fn main() {
+    let width1 = 30;
+    let height1 = 50;
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(width1, height1)
+    );
+}
+
+fn area(width: u32, height: u32) -> u32 {
+    width * height
+}
+```
+::: notes
+- See seperate repo for example project
+- Or use rust playground
+:::
+* Was it width first or height? (Yeah it doesnt matter here but...)
+* We want area of rectangles, not two numbers
+
+## Use Tuples
+
+```rust
+fn main() {
+    let rect1 = (30, 50);
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(rect1)
+    );
+}
+
+fn area(dimensions: (u32, u32)) -> u32 {
+    dimensions.0 * dimensions.1
+}
+```
+
+* Combined the two into a single object, but ...
+* We dont even have argument names to help us now!
+
+## Rectangle struct
+
+```rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(&rect1)
+    );
+}
+
+fn area(rectangle: &Rectangle) -> u32 {
+    rectangle.width * rectangle.height
+}
+```
+* `area` function takes a `Rectangle` - clearer intent
+* Bit more verbose, but less error prone
+
+## Printing Rectangles
+
+```rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("rect1 is {}", rect1);
+}
+```
+
+* Try this in the [rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=struct+Rectangle+%7B%0A++++width%3A+u32%2C%0A++++height%3A+u32%2C%0A%7D%0A%0Afn+main%28%29+%7B%0A++++let+rect1+%3D+Rectangle+%7B%0A++++++++width%3A+30%2C%0A++++++++height%3A+50%2C%0A++++%7D%3B%0A%0A++++println%21%28%22rect1+is+%7B%7D%22%2C+rect1%29%3B%0A%7D)
+* 'implements' refers to *traits* which we will learn more about later.
+* `{}` requires `std::fmt::Display`.  
+* Built in types implement this, but not user types.
+* Get helpful error message!  Try `{:?}` instead!
+
+## Debug printing 
+
+```rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("rect1 is {rect1:?}");
+}
+```
+* Hmm..  "error[E0277]: `Rectangle` doesn't implement `Debug`"
+* But: 
+
+    ```
+    = help: the trait `Debug` is not implemented for `Rectangle`
+    = note: add `#[derive(Debug)]` to `Rectangle` or manually `impl Debug for Rectangle`
+    ```
+
+* Rust *can* do this automatically but we have to tell it to explicitly.
+
+
+
+
+## Try it?
+
+```rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("rect1 is {rect1:?}");
+}
+```
+
+* Rust's helpful error messages can take us far! 
+* Use `{:#?}` to 'pretty print' the debug info
+
+## dbg! Macro
+
+```rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+fn main() {
+    let scale = 2;
+    let rect1 = Rectangle {
+        width: dbg!(30 * scale), // dbg! captures this intermediate value
+        height: 50,
+    };
+    dbg!(&rect1);
+}
+```
+
+* Takes ownership but then returns the value - print values inside an expression!  
+* Prints file and line number 
+* Prints to `stderr` rather then `stdout`
+
+[Rust Playground](
+https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=%23%5Bderive%28Debug%29%5D%0Astruct+Rectangle+%7B%0A++++width%3A+u32%2C%0A++++height%3A+u32%2C%0A%7D%0A%0Afn+main%28%29+%7B%0A++++let+scale+%3D+2%3B%0A++++let+rect1+%3D+Rectangle+%7B%0A++++++++width%3A+dbg%21%2830+*+scale%29%2C+%2F%2F+dbg%21+captures+this+intermediate+value%0A++++++++height%3A+50%2C%0A++++%7D%3B%0A%0A++++dbg%21%28%26rect1%29%3B%0A%7D)
+
+
+## More traits
+* Appendix C has more derivable traits.
+* More on traits in Chapter 10
+
+# Methods
+
+## Defining Methods
+
+```rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle { //implementaiton block
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+} // end impl block
+
+fn main() {
+ ...
+}
+```
+[Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=%23%5Bderive%28Debug%29%5D%0Astruct+Rectangle+%7B%0A++++width%3A+u32%2C%0A++++height%3A+u32%2C%0A%7D%0A%0Aimpl+Rectangle+%7B%0A++++fn+area%28%26self%29+-%3E+u32+%7B%0A++++++++self.width+*+self.height%0A++++%7D%0A%7D%0A%0Afn+main%28%29+%7B%0A++++let+rect1+%3D+Rectangle+%7B%0A++++++++width%3A+30%2C%0A++++++++height%3A+50%2C%0A++++%7D%3B%0A%0A++++println%21%28%0A++++++++%22The+area+of+the+rectangle+is+%7B%7D+square+pixels.%22%2C%0A++++++++rect1.area%28%29%0A++++%29%3B%0A%7D)
+
+* Methods are like functions but defined in context struct, enum or trait object. (using an `impl` block)
+* First parameter is always `self`. 
+
+## Method calls
+
+```rust
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        rect1.area()
+    );
+}
+```
+* Uses the `.` syntax, automatically passes in `self`
+* No need for `->` as in c++, Rust automatically dereferences as required. 
+
+    ```
+    p1.distance(&p2);
+    (&p1).distance(&p2); \\same but more verbose
+    ```
+
+## Self
+
+* `&self` is shorthand for (here) `self : &Self`
+*  `Self` is shorthand for the object type. (`Rectangle`)
+* `&self` or `&mut self`, borrowing, is most common 
+* using just `self` and taking ownership is rare.
+
+## Associated Functions
+```
+impl Rectangle {
+    fn square(size: u32) -> Self {
+        Self {
+            width: size,
+            height: size,
+        }
+    }
+}
+```
+
+* `impl` organizes code related to the type in one place
+* Associated functions are defined in an `impl` block without `self`
+* These functions *can* refer to the `Self` type, and commonly do in 'constructor' functions as above. 
+* Associated functions are called like this: `Rectangle::square(3)`. This should be familiar! `String::new()`.
+
+## Other notes
+
+```rust
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+}
+
+impl Rectangle {
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+```
+
+* Methods can have more arguments then just `self`
+* There can be multiple `impl` blocks.  Not needed here but this is useful for generics and traits in Chapter 10.
+
+# Summary
+
+* *Structs* let you define custom types
+
+* Methods and associated functions for your custom type are defined in `impl` blocks, keeping related code together.
+
+* Next chapter discusses another custom type: *Enums*
