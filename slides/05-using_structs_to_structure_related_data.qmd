@@ -248,8 +248,7 @@ fn main() {
 ```
 
 * Try this in the [rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=struct+Rectangle+%7B%0A++++width%3A+u32%2C%0A++++height%3A+u32%2C%0A%7D%0A%0Afn+main%28%29+%7B%0A++++let+rect1+%3D+Rectangle+%7B%0A++++++++width%3A+30%2C%0A++++++++height%3A+50%2C%0A++++%7D%3B%0A%0A++++println%21%28%22rect1+is+%7B%7D%22%2C+rect1%29%3B%0A%7D)
-* 'implements' refers to *traits* which we will learn more about later.
-* `{}` requires `std::fmt::Display`.  
+* `{}` requires implementing  `std::fmt::Display` *trait*.  
 * Built in types implement this, but not user types.
 * Get helpful error message!  Try `{:?}` instead!
 
@@ -332,7 +331,7 @@ https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=%23%5Bde
 
 
 ## More traits
-* Appendix C has more derivable traits.
+* [Appendix C](https://doc.rust-lang.org/stable/book/appendix-03-derivable-traits.html) has more derivable traits.
 * More on traits in Chapter 10
 
 # Methods
@@ -392,7 +391,7 @@ fn main() {
 * using just `self` and taking ownership is rare.
 
 ## Associated Functions
-```
+```rust
 impl Rectangle {
     fn square(size: u32) -> Self {
         Self {
