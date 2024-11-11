@@ -520,41 +520,231 @@
     ]
   },
   {
-    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide",
-    "href": "slides/05-using_structs_to_structure_related_data.html#slide",
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#topics-covered",
+    "href": "slides/05-using_structs_to_structure_related_data.html#topics-covered",
     "title": "5. Using Structs to Structure Related Data",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Topics covered",
+    "text": "Topics covered\n\n\nStructs\nMethods\nOther associated functions",
     "crumbs": [
       "5. Using Structs to Structure Related Data"
     ]
   },
   {
-    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-1",
-    "href": "slides/05-using_structs_to_structure_related_data.html#slide-1",
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#defining-structs",
+    "href": "slides/05-using_structs_to_structure_related_data.html#defining-structs",
     "title": "5. Using Structs to Structure Related Data",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Defining Structs",
+    "text": "Defining Structs\nstruct User {\n    active: bool,\n    username: String,\n    email: String,\n    sign_in_count: u64,\n}\n\nStructs are similar to tuples, but with named parts\nSimilar to R named lists, key : value pairs.\nDefines a new type",
     "crumbs": [
       "5. Using Structs to Structure Related Data"
     ]
   },
   {
-    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-2",
-    "href": "slides/05-using_structs_to_structure_related_data.html#slide-2",
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#instantiating-structs",
+    "href": "slides/05-using_structs_to_structure_related_data.html#instantiating-structs",
     "title": "5. Using Structs to Structure Related Data",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Instantiating Structs",
+    "text": "Instantiating Structs\nfn main() {\n    let mut user1 = User {\n        email: String::from(\"someone@example.com\"),\n        username: String::from(\"someusername123\"),\n        active: true,\n        sign_in_count: 1,\n    };\n    user1.email = String::from(\"anotheremail@example.com\");\n    println!(\"User1's email: {}\",user1.email)\n}\n\nInstantiate (create) by specifying values for each key\nTo get values, use the . notation. compare to R : user1$email\nTo change values, the entire instance must be mutable.",
     "crumbs": [
       "5. Using Structs to Structure Related Data"
     ]
   },
   {
-    "objectID": "slides/05-using_structs_to_structure_related_data.html#slide-3",
-    "href": "slides/05-using_structs_to_structure_related_data.html#slide-3",
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#constructor",
+    "href": "slides/05-using_structs_to_structure_related_data.html#constructor",
     "title": "5. Using Structs to Structure Related Data",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "section": "Constructor",
+    "text": "Constructor\nfn build_user(email: String, username: String) -&gt; User {\n    User {\n        active: true,\n        username: username,\n        email: email,\n        sign_in_count: 1,\n    }\n}\n\nStruct is returned as it is the last statement\nWe will see shortly that this will be clearer as an associated function",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#shorthand",
+    "href": "slides/05-using_structs_to_structure_related_data.html#shorthand",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Shorthand",
+    "text": "Shorthand\nfn build_user(email: String, username: String) -&gt; User {\n    User {\n        active: true,\n        username,\n        email,\n        sign_in_count: 1,\n    }\n}\n\nIf variable name is same as field name:\n\nreplace var = var with just var\nfield init shorthand",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#struct-update-syntax",
+    "href": "slides/05-using_structs_to_structure_related_data.html#struct-update-syntax",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Struct update syntax",
+    "text": "Struct update syntax\nfn main() {\n    // --snip--\n\n    let user2 = User {\n        email: String::from(\"another@example.com\"),\n        ..user1\n    };\n}\n\nCreates a new User from an existing instance user1\nNote that this moves data!\n\nWe can no longer use user1 because we moved the username into user2\nIf we had also given a new username then user1 would ok.",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#tuple-structs",
+    "href": "slides/05-using_structs_to_structure_related_data.html#tuple-structs",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Tuple Structs",
+    "text": "Tuple Structs\nstruct Color(i32, i32, i32);\nstruct Point(i32, i32, i32);\n\nfn main() {\n    let black = Color(0, 0, 0);\n    let origin = Point(0, 0, 0);\n}\n\nDefines distinct types for Color and Point\nAccess elements by destructuring\nAlternately can use .0 , .1 etc.",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#unit-structs",
+    "href": "slides/05-using_structs_to_structure_related_data.html#unit-structs",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Unit Structs",
+    "text": "Unit Structs\nstruct AlwaysEqual;\n\nfn main() {\n    let subject = AlwaysEqual;\n}\n\nUseful for cases where you need a type with a singleton value. (Placeholders or markers)\nMore uses will be clearer when we discuss traits.",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#references-in-struct",
+    "href": "slides/05-using_structs_to_structure_related_data.html#references-in-struct",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "References in Struct",
+    "text": "References in Struct\nstruct User {\n    active: bool,\n    username: &str,\n    email: &str,\n    sign_in_count: u64,\n}\n\nfn main() {\n    let user1 = User {\n        active: true,\n        username: \"someusername123\",\n        email: \"someone@example.com\",\n        sign_in_count: 1,\n    };\n}\n\nSeems reasonable ?\ntry it out!",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#ownership-of-struct-data",
+    "href": "slides/05-using_structs_to_structure_related_data.html#ownership-of-struct-data",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Ownership of Struct Data",
+    "text": "Ownership of Struct Data\n\nExamples so far used owned data (e.g. String)\nEnsures fields are valid as long as the struct is valid.\nStructs can store references, but this requires explicitly specifying lifetimes to ensure they remain valid (discussed in Chapter 10).",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#first-try",
+    "href": "slides/05-using_structs_to_structure_related_data.html#first-try",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "First try",
+    "text": "First try\nfn main() {\n    let width1 = 30;\n    let height1 = 50;\n\n    println!(\n        \"The area of the rectangle is {} square pixels.\",\n        area(width1, height1)\n    );\n}\n\nfn area(width: u32, height: u32) -&gt; u32 {\n    width * height\n}\n\n\nSee seperate repo for example project\nOr use rust playground\n\n\n\nWas it width first or height? (Yeah it doesnt matter here but…)\nWe want area of rectangles, not two numbers",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#use-tuples",
+    "href": "slides/05-using_structs_to_structure_related_data.html#use-tuples",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Use Tuples",
+    "text": "Use Tuples\nfn main() {\n    let rect1 = (30, 50);\n\n    println!(\n        \"The area of the rectangle is {} square pixels.\",\n        area(rect1)\n    );\n}\n\nfn area(dimensions: (u32, u32)) -&gt; u32 {\n    dimensions.0 * dimensions.1\n}\n\nCombined the two into a single object, but …\nWe dont even have argument names to help us now!",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#rectangle-struct",
+    "href": "slides/05-using_structs_to_structure_related_data.html#rectangle-struct",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Rectangle struct",
+    "text": "Rectangle struct\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\n\nfn main() {\n    let rect1 = Rectangle {\n        width: 30,\n        height: 50,\n    };\n\n    println!(\n        \"The area of the rectangle is {} square pixels.\",\n        area(&rect1)\n    );\n}\n\nfn area(rectangle: &Rectangle) -&gt; u32 {\n    rectangle.width * rectangle.height\n}\n\narea function takes a Rectangle - clearer intent\nBit more verbose, but less error prone",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#printing-rectangles",
+    "href": "slides/05-using_structs_to_structure_related_data.html#printing-rectangles",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Printing Rectangles",
+    "text": "Printing Rectangles\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\n\nfn main() {\n    let rect1 = Rectangle {\n        width: 30,\n        height: 50,\n    };\n\n    println!(\"rect1 is {}\", rect1);\n}\n\nTry this in the rust playground\n{} requires implementing std::fmt::Display trait.\n\nBuilt in types implement this, but not user types.\nGet helpful error message! Try {:?} instead!",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#debug-printing",
+    "href": "slides/05-using_structs_to_structure_related_data.html#debug-printing",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Debug printing",
+    "text": "Debug printing\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\n\nfn main() {\n    let rect1 = Rectangle {\n        width: 30,\n        height: 50,\n    };\n\n    println!(\"rect1 is {rect1:?}\");\n}\n\nHmm.. “error[E0277]: Rectangle doesn’t implement Debug”\nBut:\n= help: the trait `Debug` is not implemented for `Rectangle`\n= note: add `#[derive(Debug)]` to `Rectangle` or manually `impl Debug for Rectangle`\nRust can do this automatically but we have to tell it to explicitly.",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#try-it",
+    "href": "slides/05-using_structs_to_structure_related_data.html#try-it",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Try it?",
+    "text": "Try it?\n#[derive(Debug)]\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\n\nfn main() {\n    let rect1 = Rectangle {\n        width: 30,\n        height: 50,\n    };\n\n    println!(\"rect1 is {rect1:?}\");\n}\n\nRust’s helpful error messages can take us far!\nUse {:#?} to ‘pretty print’ the debug info",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#dbg-macro",
+    "href": "slides/05-using_structs_to_structure_related_data.html#dbg-macro",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "dbg! Macro",
+    "text": "dbg! Macro\n#[derive(Debug)]\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\nfn main() {\n    let scale = 2;\n    let rect1 = Rectangle {\n        width: dbg!(30 * scale), // dbg! captures this intermediate value\n        height: 50,\n    };\n    dbg!(&rect1);\n}\n\nTakes ownership but then returns the value - print values inside an expression aids in debugging complex expressions.\nPrints file and line number\nPrints to stderr rather then stdout\n\nRust Playground",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#more-traits",
+    "href": "slides/05-using_structs_to_structure_related_data.html#more-traits",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "More traits",
+    "text": "More traits\n\nAppendix C has more derivable traits.\nMore on traits in Chapter 10",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#defining-methods",
+    "href": "slides/05-using_structs_to_structure_related_data.html#defining-methods",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Defining Methods",
+    "text": "Defining Methods\n#[derive(Debug)]\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\n\nimpl Rectangle { //implementaiton block\n    fn area(&self) -&gt; u32 {\n        self.width * self.height\n    }\n} // end impl block\n\nfn main() {\n ...\n}\nRust Playground\n\nMethods are like functions but defined within the context of a struct, enum, or trait object using an impl block\nFirst parameter is always self.",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#method-calls",
+    "href": "slides/05-using_structs_to_structure_related_data.html#method-calls",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Method calls",
+    "text": "Method calls\nfn main() {\n    let rect1 = Rectangle {\n        width: 30,\n        height: 50,\n    };\n\n    println!(\n        \"The area of the rectangle is {} square pixels.\",\n        rect1.area()\n    );\n}\n\nUses the . syntax, automatically passes in self\nNo need for -&gt; as in c++, Rust automatically dereferences as required to make this more ergonomic!\np1.distance(&p2);\n(&p1).distance(&p2); \\\\same but more verbose",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#self",
+    "href": "slides/05-using_structs_to_structure_related_data.html#self",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Self",
+    "text": "Self\n\n&self is shorthand for self : &Self\nSelf is shorthand for the object type. (Rectangle)\n&self or &mut self, borrowing, is most common\nusing just self and taking ownership is rare.",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#associated-functions",
+    "href": "slides/05-using_structs_to_structure_related_data.html#associated-functions",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Associated Functions",
+    "text": "Associated Functions\nimpl Rectangle {\n    fn square(size: u32) -&gt; Self {\n        Self {\n            width: size,\n            height: size,\n        }\n    }\n}\n\nAssociated functions are defined in an impl block without self\nimpl organizes code related to the type in one place\nThese functions can refer to the Self type, and commonly do in ‘constructor’ functions as above.\nAssociated functions are called like this: Rectangle::square(3). This should be familiar! String::new().",
+    "crumbs": [
+      "5. Using Structs to Structure Related Data"
+    ]
+  },
+  {
+    "objectID": "slides/05-using_structs_to_structure_related_data.html#other-notes",
+    "href": "slides/05-using_structs_to_structure_related_data.html#other-notes",
+    "title": "5. Using Structs to Structure Related Data",
+    "section": "Other notes",
+    "text": "Other notes\nimpl Rectangle {\n    fn area(&self) -&gt; u32 {\n        self.width * self.height\n    }\n}\n\nimpl Rectangle {\n    fn can_hold(&self, other: &Rectangle) -&gt; bool {\n        self.width &gt; other.width && self.height &gt; other.height\n    }\n}\n\nMethods can have more arguments then just self\nThere can be multiple impl blocks. Not needed here but this is useful for generics and traits in Chapter 10.",
     "crumbs": [
       "5. Using Structs to Structure Related Data"
     ]
