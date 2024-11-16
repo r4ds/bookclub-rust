@@ -3,29 +3,350 @@ engine: knitr
 title: "6. Enums and Pattern Matching"
 ---
 
-# Learning objectives
+# Overview
+- **Enums** allow a value to be one of several predefined variants.
+- **Pattern Matching** allows checking a value against patterns and executing code based on the match.
 
-::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+---
+
+## Defining an Enum
+
+Enums are a way of saying that a value is *one* of a *possible* set of values.
+
+```rust
+enum IpAddrKind {
+    V4,
+    V6,
+}
+
+let four = IpAddrKind::V4;
+let six = IpAddrKind::V6;
+```
+
+Enums can have multiple variants of the same type.
+
+## Using Enums with Structs
+We can define enums that hold data.
+
+```rust
+fn main() {
+enum IpAddrKind {
+    V4,
+    V6,
+}
+
+struct IpAddr {
+    kind: IpAddrKind,
+    address: String,
+}
+
+let home = IpAddr {
+    kind: IpAddrKind::V4,
+    address: String::from("127.0.0.1"),
+};
+
+let loopback = IpAddr {
+    kind: IpAddrKind::V6,
+    address: String::from("::1"),
+};
+}
+```
+## Enums with Data Inside Variants
+
+Enums can hold data in their variants.
+
+*We avoid needing a struct*:
+
+```rust
+fn main() {    
+enum IpAddr {
+    V4(String),
+    V6(String),
+}
+
+let home = IpAddr::V4(String::from("127.0.0.1"));
+
+let loopback = IpAddr::V6(String::from("::1"));
+}
+```
+-   Each variant can hold different types of data.
+
+-   Variants are functions that constructs an instance of the enum.
+
+## Enums *vs.* Structs
+
+|               | **enums**      | **structs**   |
+| ------------- | -------------- | --------- |
+| **type**          | multiple       | same      |
+| **method** | yes            | yes       |
+| **functions** | "variant"  | associated |
+
+## Enums can hold complex data
+
+:::: {columns}
+
+::: {.column width="40%"}
+Enums with other *enums* or *structs*:
+
+```rust
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+```
 :::
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+::: {.column width="10%"}
 :::
 
-# SLIDE SECTION
+::: {.column width="50%"}
+Enums with different types
 
-## SLIDE
+```rust
+enum Message {
+    Quit, // has no data
+    Move { x: i32, y: i32 }, // named fields like a struct
+    Write(String), // A string
+    ChangeColor(i32, i32, i32), // Multiple i32 values
+}
+```
+:::
+::::
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+## Methods in Enums
+We can add methods to enums:
 
-## SLIDE
+```rust
 
-# SLIDE SECTION
+impl Message {
+    fn call(&self) {
+        // method body
+    }
+}
 
-## SLIDE
+let m = Message::Write(String::from("hello"));
+m.call();
+```
 
-## SLIDE
+## The `Option` Enum
+Rust doesn’t have null. 
+
+Instead, it uses the `Option<T>` enum to represent a value that *may* or *may not* be present.
+
+```rust
+
+enum Option<T> {
+    None,
+    Some(T),
+}
+```
+This is used when a value might be missing or absent.
+
+## Using `Option` Enum
+```rust
+fn main() {
+let some_number = Some(5);
+let some_char = Some('e');
+
+let absent_number: Option<i32> = None;
+}
+```
+
+## The `match` Control Flow Construct
+The `match` expression in Rust checks values against patterns, running code based on the match:
+
+```rust
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+```
+## Matching with Values and Binding {.smaller}
+We can bind values inside `match` arms, which is how we extract values from enum variants:
+
+```rust
+#[derive(Debug)] // so we can inspect the state in a minute
+enum UsState {
+    Alabama,
+    Alaska,
+    // --snip--
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("State quarter from {state:?}!");
+            25
+        }
+    }
+}
+```
+
+When we compare that value with each of the match arms, none of them match until we reach `Coin::Quarter(state)`
+
+## Matching with `Option<T>`
+Handling the Option<T> enum using match:
+
+```rust
+fn plus_one(x: Option<i32>) -> Option<i32> {
+        match x {
+            None => None,
+            Some(i) => Some(i + 1),
+        }
+    }
+
+    let five = Some(5);
+    let six = plus_one(five);
+    let none = plus_one(None);
+
+```
+If the Option contains a value (`Some(i)`), we perform an operation on it.
+If it's None, we return `None`.
+
+## Matches Are Exhaustive
+The arms’ patterns *must* cover all possibilities. 
+Consider this version of our `plus_one` function:
+
+```rust
+    fn plus_one(x: Option<i32>) -> Option<i32> {
+        match x {
+            Some(i) => Some(i + 1),
+        }
+    }
+    
+```
+We didn’t handle the None case, so this code will cause a bug.
+
+## Catch-All Patterns and `_` Placeholder {.smaller}
+
+The `_` pattern can be used for values that we don't care about:
+
+```rust
+    let dice_roll = 9;
+    match dice_roll {
+        3 => add_fancy_hat(),
+        7 => remove_fancy_hat(),
+        other => move_player(other),
+    }
+
+    fn add_fancy_hat() {}
+    fn remove_fancy_hat() {}
+    fn move_player(num_spaces: u8) {}
+```
+
+Note that we have to put the catch-all (`other`) arm last because the patterns are evaluated in order
+
+```rust
+    let dice_roll = 9;
+    match dice_roll {
+        3 => add_fancy_hat(),
+        7 => remove_fancy_hat(),
+        _ => reroll(),
+    }
+
+    fn add_fancy_hat() {}
+    fn remove_fancy_hat() {}
+    fn reroll() {}
+```
+The `_` matches any value but *doesn’t bind it* to a variable.
+
+## How Matches Interact with Ownership {.smaller}
+When matching on enums with *non-copyable* types like String, ownership is transferred carefully.
+
+```rust
+fn main() {
+let opt: Option<String> = Some(String::from("Hello world"));
+
+match opt {
+    Some(_) => println!("Some!"),
+    None => println!("None!")
+};
+
+println!("{:?}", opt);
+}
+```
+If we replace `Some(_)` with a variable name, like `Some(s)`, then the program will NOT compile:
+
+```rust
+fn main() {
+let opt: Option<String> = 
+    Some(String::from("Hello world"));
+
+match opt {
+    // _ became s
+    Some(s) => println!("Some: {}", s),
+    None => println!("None!")
+};
+
+println!("{:?}", opt); // opt loses read and own permission
+}
+```
+
+## Using References in `match`
+If we want to avoid moving the data, we can match on a reference:
+
+```rust
+fn main() {
+let opt: Option<String> = Some(String::from("Hello world"));
+
+// opt became &opt
+match &opt {
+    Some(s) => println!("Some: {}", s),
+    None => println!("None!")
+};
+
+println!("{:?}", opt);  // This works because `opt` is borrowed.
+} 
+```
+
+## Concise Control Flow with `if let`
+`if let` provides a more concise way to handle enum variants in a control flow:
+
+*From this: *
+```rust
+    let config_max = Some(3u8);
+    match config_max {
+        Some(max) => println!("The maximum is configured to be {max}"),
+        _ => (),
+    }
+
+```
+
+*To this:*
+
+```rust
+
+let config_max = Some(3u8);
+
+if let Some(max) = config_max {
+    println!("The maximum is configured to be {max}");
+}
+```
+
+`if let` is less verbose than match but loses exhaustive checking.
+
+## Summary
+-   Enums to define types that can be one of several possible variants.
+-   Pattern matching allos us to destructure and `match` on specific patterns.
+-   The `Option` enum is used to safely handle cases where a value might be present or absent.
