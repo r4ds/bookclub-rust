@@ -1190,41 +1190,171 @@
     ]
   },
   {
-    "objectID": "slides/06-enums_and_pattern_matching.html#slide",
-    "href": "slides/06-enums_and_pattern_matching.html#slide",
+    "objectID": "slides/06-enums_and_pattern_matching.html#defining-an-enum",
+    "href": "slides/06-enums_and_pattern_matching.html#defining-an-enum",
     "title": "6. Enums and Pattern Matching",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Defining an Enum",
+    "text": "Defining an Enum\nEnums are a way of saying that a value is one of a possible set of values.\nenum IpAddrKind {\n    V4,\n    V6,\n}\n\nlet four = IpAddrKind::V4;\nlet six = IpAddrKind::V6;\nEnums can have multiple variants of the same type.",
     "crumbs": [
       "6. Enums and Pattern Matching"
     ]
   },
   {
-    "objectID": "slides/06-enums_and_pattern_matching.html#slide-1",
-    "href": "slides/06-enums_and_pattern_matching.html#slide-1",
+    "objectID": "slides/06-enums_and_pattern_matching.html#using-enums-with-structs",
+    "href": "slides/06-enums_and_pattern_matching.html#using-enums-with-structs",
     "title": "6. Enums and Pattern Matching",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Using Enums with Structs",
+    "text": "Using Enums with Structs\nWe can define enums that hold data.\nfn main() {\nenum IpAddrKind {\n    V4,\n    V6,\n}\n\nstruct IpAddr {\n    kind: IpAddrKind,\n    address: String,\n}\n\nlet home = IpAddr {\n    kind: IpAddrKind::V4,\n    address: String::from(\"127.0.0.1\"),\n};\n\nlet loopback = IpAddr {\n    kind: IpAddrKind::V6,\n    address: String::from(\"::1\"),\n};\n}",
     "crumbs": [
       "6. Enums and Pattern Matching"
     ]
   },
   {
-    "objectID": "slides/06-enums_and_pattern_matching.html#slide-2",
-    "href": "slides/06-enums_and_pattern_matching.html#slide-2",
+    "objectID": "slides/06-enums_and_pattern_matching.html#enums-with-data-inside-variants",
+    "href": "slides/06-enums_and_pattern_matching.html#enums-with-data-inside-variants",
     "title": "6. Enums and Pattern Matching",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Enums with Data Inside Variants",
+    "text": "Enums with Data Inside Variants\nEnums can hold data in their variants.\nWe avoid needing a struct:\nfn main() {    \nenum IpAddr {\n    V4(String),\n    V6(String),\n}\n\nlet home = IpAddr::V4(String::from(\"127.0.0.1\"));\n\nlet loopback = IpAddr::V6(String::from(\"::1\"));\n}\n\nEach variant can hold different types of data.\nVariants are functions that constructs an instance of the enum.",
     "crumbs": [
       "6. Enums and Pattern Matching"
     ]
   },
   {
-    "objectID": "slides/06-enums_and_pattern_matching.html#slide-3",
-    "href": "slides/06-enums_and_pattern_matching.html#slide-3",
+    "objectID": "slides/06-enums_and_pattern_matching.html#enums-vs.-structs",
+    "href": "slides/06-enums_and_pattern_matching.html#enums-vs.-structs",
     "title": "6. Enums and Pattern Matching",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "section": "Enums vs. Structs",
+    "text": "Enums vs. Structs\n\n\n\n\nenums\nstructs\n\n\n\n\ntype\nmultiple\nsame\n\n\nmethod\nyes\nyes\n\n\nfunctions\n“variant”\nassociated",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#enums-can-hold-complex-data",
+    "href": "slides/06-enums_and_pattern_matching.html#enums-can-hold-complex-data",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Enums can hold complex data",
+    "text": "Enums can hold complex data\n\n\nEnums with other enums or structs:\nenum IpAddr {\n    V4(Ipv4Addr),\n    V6(Ipv6Addr),\n}\n\n\n\nEnums with different types\nenum Message {\n    Quit, // has no data\n    Move { x: i32, y: i32 }, // named fields like a struct\n    Write(String), // A string\n    ChangeColor(i32, i32, i32), // Multiple i32 values\n}",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#methods-in-enums",
+    "href": "slides/06-enums_and_pattern_matching.html#methods-in-enums",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Methods in Enums",
+    "text": "Methods in Enums\nWe can add methods to enums:\n\nimpl Message {\n    fn call(&self) {\n        // method body\n    }\n}\n\nlet m = Message::Write(String::from(\"hello\"));\nm.call();",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#the-option-enum",
+    "href": "slides/06-enums_and_pattern_matching.html#the-option-enum",
+    "title": "6. Enums and Pattern Matching",
+    "section": "The Option Enum",
+    "text": "The Option Enum\nRust doesn’t have null.\nInstead, it uses the Option&lt;T&gt; enum to represent a value that may or may not be present.\n\nenum Option&lt;T&gt; {\n    None,\n    Some(T),\n}\nThis is used when a value might be missing or absent.",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#using-option-enum",
+    "href": "slides/06-enums_and_pattern_matching.html#using-option-enum",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Using Option Enum",
+    "text": "Using Option Enum\nfn main() {\nlet some_number = Some(5);\nlet some_char = Some('e');\n\nlet absent_number: Option&lt;i32&gt; = None;\n}",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#the-match-control-flow-construct",
+    "href": "slides/06-enums_and_pattern_matching.html#the-match-control-flow-construct",
+    "title": "6. Enums and Pattern Matching",
+    "section": "The match Control Flow Construct",
+    "text": "The match Control Flow Construct\nThe match expression in Rust checks values against patterns, running code based on the match:\nenum Coin {\n    Penny,\n    Nickel,\n    Dime,\n    Quarter,\n}\n\nfn value_in_cents(coin: Coin) -&gt; u8 {\n    match coin {\n        Coin::Penny =&gt; 1,\n        Coin::Nickel =&gt; 5,\n        Coin::Dime =&gt; 10,\n        Coin::Quarter =&gt; 25,\n    }\n}",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#matching-with-values-and-binding",
+    "href": "slides/06-enums_and_pattern_matching.html#matching-with-values-and-binding",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Matching with Values and Binding",
+    "text": "Matching with Values and Binding\nWe can bind values inside match arms, which is how we extract values from enum variants:\n#[derive(Debug)] // so we can inspect the state in a minute\nenum UsState {\n    Alabama,\n    Alaska,\n    // --snip--\n}\n\nenum Coin {\n    Penny,\n    Nickel,\n    Dime,\n    Quarter(UsState),\n}\n\nfn value_in_cents(coin: Coin) -&gt; u8 {\n    match coin {\n        Coin::Penny =&gt; 1,\n        Coin::Nickel =&gt; 5,\n        Coin::Dime =&gt; 10,\n        Coin::Quarter(state) =&gt; {\n            println!(\"State quarter from {state:?}!\");\n            25\n        }\n    }\n}\nWhen we compare that value with each of the match arms, none of them match until we reach Coin::Quarter(state)",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#matching-with-optiont",
+    "href": "slides/06-enums_and_pattern_matching.html#matching-with-optiont",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Matching with Option<T>",
+    "text": "Matching with Option&lt;T&gt;\nHandling the Option enum using match:\nfn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {\n        match x {\n            None =&gt; None,\n            Some(i) =&gt; Some(i + 1),\n        }\n    }\n\n    let five = Some(5);\n    let six = plus_one(five);\n    let none = plus_one(None);\nIf the Option contains a value (Some(i)), we perform an operation on it. If it’s None, we return None.",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#matches-are-exhaustive",
+    "href": "slides/06-enums_and_pattern_matching.html#matches-are-exhaustive",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Matches Are Exhaustive",
+    "text": "Matches Are Exhaustive\nThe arms’ patterns must cover all possibilities. Consider this version of our plus_one function:\n    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {\n        match x {\n            Some(i) =&gt; Some(i + 1),\n        }\n    }\n    \nWe didn’t handle the None case, so this code will cause a bug.",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#catch-all-patterns-and-_-placeholder",
+    "href": "slides/06-enums_and_pattern_matching.html#catch-all-patterns-and-_-placeholder",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Catch-All Patterns and _ Placeholder",
+    "text": "Catch-All Patterns and _ Placeholder\nThe _ pattern can be used for values that we don’t care about:\n    let dice_roll = 9;\n    match dice_roll {\n        3 =&gt; add_fancy_hat(),\n        7 =&gt; remove_fancy_hat(),\n        other =&gt; move_player(other),\n    }\n\n    fn add_fancy_hat() {}\n    fn remove_fancy_hat() {}\n    fn move_player(num_spaces: u8) {}\nNote that we have to put the catch-all (other) arm last because the patterns are evaluated in order\n    let dice_roll = 9;\n    match dice_roll {\n        3 =&gt; add_fancy_hat(),\n        7 =&gt; remove_fancy_hat(),\n        _ =&gt; reroll(),\n    }\n\n    fn add_fancy_hat() {}\n    fn remove_fancy_hat() {}\n    fn reroll() {}\nThe _ matches any value but doesn’t bind it to a variable.",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#how-matches-interact-with-ownership",
+    "href": "slides/06-enums_and_pattern_matching.html#how-matches-interact-with-ownership",
+    "title": "6. Enums and Pattern Matching",
+    "section": "How Matches Interact with Ownership",
+    "text": "How Matches Interact with Ownership\nWhen matching on enums with non-copyable types like String, ownership is transferred carefully.\nfn main() {\nlet opt: Option&lt;String&gt; = Some(String::from(\"Hello world\"));\n\nmatch opt {\n    Some(_) =&gt; println!(\"Some!\"),\n    None =&gt; println!(\"None!\")\n};\n\nprintln!(\"{:?}\", opt);\n}\nIf we replace Some(_) with a variable name, like Some(s), then the program will NOT compile:\nfn main() {\nlet opt: Option&lt;String&gt; = \n    Some(String::from(\"Hello world\"));\n\nmatch opt {\n    // _ became s\n    Some(s) =&gt; println!(\"Some: {}\", s),\n    None =&gt; println!(\"None!\")\n};\n\nprintln!(\"{:?}\", opt); // opt loses read and own permission\n}",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#using-references-in-match",
+    "href": "slides/06-enums_and_pattern_matching.html#using-references-in-match",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Using References in match",
+    "text": "Using References in match\nIf we want to avoid moving the data, we can match on a reference:\nfn main() {\nlet opt: Option&lt;String&gt; = Some(String::from(\"Hello world\"));\n\n// opt became &opt\nmatch &opt {\n    Some(s) =&gt; println!(\"Some: {}\", s),\n    None =&gt; println!(\"None!\")\n};\n\nprintln!(\"{:?}\", opt);  // This works because `opt` is borrowed.\n}",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#concise-control-flow-with-if-let",
+    "href": "slides/06-enums_and_pattern_matching.html#concise-control-flow-with-if-let",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Concise Control Flow with if let",
+    "text": "Concise Control Flow with if let\nif let provides a more concise way to handle enum variants in a control flow:\nFrom this: \n    let config_max = Some(3u8);\n    match config_max {\n        Some(max) =&gt; println!(\"The maximum is configured to be {max}\"),\n        _ =&gt; (),\n    }\nTo this:\n\nlet config_max = Some(3u8);\n\nif let Some(max) = config_max {\n    println!(\"The maximum is configured to be {max}\");\n}\nif let is less verbose than match but loses exhaustive checking.",
+    "crumbs": [
+      "6. Enums and Pattern Matching"
+    ]
+  },
+  {
+    "objectID": "slides/06-enums_and_pattern_matching.html#summary",
+    "href": "slides/06-enums_and_pattern_matching.html#summary",
+    "title": "6. Enums and Pattern Matching",
+    "section": "Summary",
+    "text": "Summary\n\nEnums to define types that can be one of several possible variants.\nPattern matching allos us to destructure and match on specific patterns.\nThe Option enum is used to safely handle cases where a value might be present or absent.\n\n\n\n\nDSLC.io/rust | DSLC.io",
     "crumbs": [
       "6. Enums and Pattern Matching"
     ]

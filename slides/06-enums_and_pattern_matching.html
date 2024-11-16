@@ -28,6 +28,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -331,57 +396,321 @@
 </div>
 
 </section>
-<section id="learning-objectives" class="title-slide slide level1 center">
-<h1>Learning objectives</h1>
-<div>
-<ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
-</ul>
-</div>
-<aside class="notes">
-<ul>
-<li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-
 <section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
-
-</section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="overview" class="title-slide slide level1 center">
+<h1>Overview</h1>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li class="fragment"><strong>Enums</strong> allow a value to be one of several predefined variants.</li>
+<li class="fragment"><strong>Pattern Matching</strong> allows checking a value against patterns and executing code based on the match.</li>
 </ul>
 </section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
-</section></section>
-<section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="defining-an-enum" class="slide level2">
+<h2>Defining an Enum</h2>
+<p>Enums are a way of saying that a value is <em>one</em> of a <em>possible</em> set of values.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a></a><span class="kw">enum</span> IpAddrKind <span class="op">{</span></span>
+<span id="cb1-2"><a></a>    V4<span class="op">,</span></span>
+<span id="cb1-3"><a></a>    V6<span class="op">,</span></span>
+<span id="cb1-4"><a></a><span class="op">}</span></span>
+<span id="cb1-5"><a></a></span>
+<span id="cb1-6"><a></a><span class="kw">let</span> four <span class="op">=</span> <span class="pp">IpAddrKind::</span>V4<span class="op">;</span></span>
+<span id="cb1-7"><a></a><span class="kw">let</span> six <span class="op">=</span> <span class="pp">IpAddrKind::</span>V6<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Enums can have multiple variants of the same type.</p>
+</section>
+<section id="using-enums-with-structs" class="slide level2">
+<h2>Using Enums with Structs</h2>
+<p>We can define enums that hold data.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb2-2"><a></a><span class="kw">enum</span> IpAddrKind <span class="op">{</span></span>
+<span id="cb2-3"><a></a>    V4<span class="op">,</span></span>
+<span id="cb2-4"><a></a>    V6<span class="op">,</span></span>
+<span id="cb2-5"><a></a><span class="op">}</span></span>
+<span id="cb2-6"><a></a></span>
+<span id="cb2-7"><a></a><span class="kw">struct</span> IpAddr <span class="op">{</span></span>
+<span id="cb2-8"><a></a>    kind<span class="op">:</span> IpAddrKind<span class="op">,</span></span>
+<span id="cb2-9"><a></a>    address<span class="op">:</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb2-10"><a></a><span class="op">}</span></span>
+<span id="cb2-11"><a></a></span>
+<span id="cb2-12"><a></a><span class="kw">let</span> home <span class="op">=</span> IpAddr <span class="op">{</span></span>
+<span id="cb2-13"><a></a>    kind<span class="op">:</span> <span class="pp">IpAddrKind::</span>V4<span class="op">,</span></span>
+<span id="cb2-14"><a></a>    address<span class="op">:</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"127.0.0.1"</span>)<span class="op">,</span></span>
+<span id="cb2-15"><a></a><span class="op">};</span></span>
+<span id="cb2-16"><a></a></span>
+<span id="cb2-17"><a></a><span class="kw">let</span> loopback <span class="op">=</span> IpAddr <span class="op">{</span></span>
+<span id="cb2-18"><a></a>    kind<span class="op">:</span> <span class="pp">IpAddrKind::</span>V6<span class="op">,</span></span>
+<span id="cb2-19"><a></a>    address<span class="op">:</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"::1"</span>)<span class="op">,</span></span>
+<span id="cb2-20"><a></a><span class="op">};</span></span>
+<span id="cb2-21"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="enums-with-data-inside-variants" class="slide level2">
+<h2>Enums with Data Inside Variants</h2>
+<p>Enums can hold data in their variants.</p>
+<p><em>We avoid needing a struct</em>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span>    </span>
+<span id="cb3-2"><a></a><span class="kw">enum</span> IpAddr <span class="op">{</span></span>
+<span id="cb3-3"><a></a>    V4(<span class="dt">String</span>)<span class="op">,</span></span>
+<span id="cb3-4"><a></a>    V6(<span class="dt">String</span>)<span class="op">,</span></span>
+<span id="cb3-5"><a></a><span class="op">}</span></span>
+<span id="cb3-6"><a></a></span>
+<span id="cb3-7"><a></a><span class="kw">let</span> home <span class="op">=</span> <span class="pp">IpAddr::</span>V4(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"127.0.0.1"</span>))<span class="op">;</span></span>
+<span id="cb3-8"><a></a></span>
+<span id="cb3-9"><a></a><span class="kw">let</span> loopback <span class="op">=</span> <span class="pp">IpAddr::</span>V6(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"::1"</span>))<span class="op">;</span></span>
+<span id="cb3-10"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment"><p>Each variant can hold different types of data.</p></li>
+<li class="fragment"><p>Variants are functions that constructs an instance of the enum.</p></li>
+</ul>
+</section>
+<section id="enums-vs.-structs" class="slide level2">
+<h2>Enums <em>vs.</em> Structs</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>enums</strong></th>
+<th><strong>structs</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>type</strong></td>
+<td>multiple</td>
+<td>same</td>
+</tr>
+<tr class="even">
+<td><strong>method</strong></td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td><strong>functions</strong></td>
+<td>“variant”</td>
+<td>associated</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="enums-can-hold-complex-data" class="slide level2">
+<h2>Enums can hold complex data</h2>
+<div class="{columns}">
+<div class="column" style="width:40%;">
+<p>Enums with other <em>enums</em> or <em>structs</em>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="kw">enum</span> IpAddr <span class="op">{</span></span>
+<span id="cb4-2"><a></a>    V4(Ipv4Addr)<span class="op">,</span></span>
+<span id="cb4-3"><a></a>    V6(Ipv6Addr)<span class="op">,</span></span>
+<span id="cb4-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:10%;">
 
+</div><div class="column" style="width:50%;">
+<p>Enums with different types</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="kw">enum</span> Message <span class="op">{</span></span>
+<span id="cb5-2"><a></a>    Quit<span class="op">,</span> <span class="co">// has no data</span></span>
+<span id="cb5-3"><a></a>    Move <span class="op">{</span> x<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span> y<span class="op">:</span> <span class="dt">i32</span> <span class="op">},</span> <span class="co">// named fields like a struct</span></span>
+<span id="cb5-4"><a></a>    <span class="bu">Write</span>(<span class="dt">String</span>)<span class="op">,</span> <span class="co">// A string</span></span>
+<span id="cb5-5"><a></a>    ChangeColor(<span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span>)<span class="op">,</span> <span class="co">// Multiple i32 values</span></span>
+<span id="cb5-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="methods-in-enums" class="slide level2">
+<h2>Methods in Enums</h2>
+<p>We can add methods to enums:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a></span>
+<span id="cb6-2"><a></a><span class="kw">impl</span> Message <span class="op">{</span></span>
+<span id="cb6-3"><a></a>    <span class="kw">fn</span> call(<span class="op">&amp;</span><span class="kw">self</span>) <span class="op">{</span></span>
+<span id="cb6-4"><a></a>        <span class="co">// method body</span></span>
+<span id="cb6-5"><a></a>    <span class="op">}</span></span>
+<span id="cb6-6"><a></a><span class="op">}</span></span>
+<span id="cb6-7"><a></a></span>
+<span id="cb6-8"><a></a><span class="kw">let</span> m <span class="op">=</span> <span class="pp">Message::</span><span class="bu">Write</span>(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"hello"</span>))<span class="op">;</span></span>
+<span id="cb6-9"><a></a>m<span class="op">.</span>call()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
+<section id="the-option-enum" class="slide level2">
+<h2>The <code>Option</code> Enum</h2>
+<p>Rust doesn’t have null.</p>
+<p>Instead, it uses the <code>Option&lt;T&gt;</code> enum to represent a value that <em>may</em> or <em>may not</em> be present.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a></span>
+<span id="cb7-2"><a></a><span class="kw">enum</span> <span class="dt">Option</span><span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb7-3"><a></a>    <span class="cn">None</span><span class="op">,</span></span>
+<span id="cb7-4"><a></a>    <span class="cn">Some</span>(T)<span class="op">,</span></span>
+<span id="cb7-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is used when a value might be missing or absent.</p>
+</section>
+<section id="using-option-enum" class="slide level2">
+<h2>Using <code>Option</code> Enum</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb8-2"><a></a><span class="kw">let</span> some_number <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb8-3"><a></a><span class="kw">let</span> some_char <span class="op">=</span> <span class="cn">Some</span>(<span class="ch">'e'</span>)<span class="op">;</span></span>
+<span id="cb8-4"><a></a></span>
+<span id="cb8-5"><a></a><span class="kw">let</span> absent_number<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="cn">None</span><span class="op">;</span></span>
+<span id="cb8-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-match-control-flow-construct" class="slide level2">
+<h2>The <code>match</code> Control Flow Construct</h2>
+<p>The <code>match</code> expression in Rust checks values against patterns, running code based on the match:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a><span class="kw">enum</span> Coin <span class="op">{</span></span>
+<span id="cb9-2"><a></a>    Penny<span class="op">,</span></span>
+<span id="cb9-3"><a></a>    Nickel<span class="op">,</span></span>
+<span id="cb9-4"><a></a>    Dime<span class="op">,</span></span>
+<span id="cb9-5"><a></a>    Quarter<span class="op">,</span></span>
+<span id="cb9-6"><a></a><span class="op">}</span></span>
+<span id="cb9-7"><a></a></span>
+<span id="cb9-8"><a></a><span class="kw">fn</span> value_in_cents(coin<span class="op">:</span> Coin) <span class="op">-&gt;</span> <span class="dt">u8</span> <span class="op">{</span></span>
+<span id="cb9-9"><a></a>    <span class="cf">match</span> coin <span class="op">{</span></span>
+<span id="cb9-10"><a></a>        <span class="pp">Coin::</span>Penny <span class="op">=&gt;</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb9-11"><a></a>        <span class="pp">Coin::</span>Nickel <span class="op">=&gt;</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb9-12"><a></a>        <span class="pp">Coin::</span>Dime <span class="op">=&gt;</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb9-13"><a></a>        <span class="pp">Coin::</span>Quarter <span class="op">=&gt;</span> <span class="dv">25</span><span class="op">,</span></span>
+<span id="cb9-14"><a></a>    <span class="op">}</span></span>
+<span id="cb9-15"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="matching-with-values-and-binding" class="slide level2 smaller">
+<h2>Matching with Values and Binding</h2>
+<p>We can bind values inside <code>match</code> arms, which is how we extract values from enum variants:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb10-1"><a></a><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Debug</span><span class="at">)]</span> <span class="co">// so we can inspect the state in a minute</span></span>
+<span id="cb10-2"><a></a><span class="kw">enum</span> UsState <span class="op">{</span></span>
+<span id="cb10-3"><a></a>    Alabama<span class="op">,</span></span>
+<span id="cb10-4"><a></a>    Alaska<span class="op">,</span></span>
+<span id="cb10-5"><a></a>    <span class="co">// --snip--</span></span>
+<span id="cb10-6"><a></a><span class="op">}</span></span>
+<span id="cb10-7"><a></a></span>
+<span id="cb10-8"><a></a><span class="kw">enum</span> Coin <span class="op">{</span></span>
+<span id="cb10-9"><a></a>    Penny<span class="op">,</span></span>
+<span id="cb10-10"><a></a>    Nickel<span class="op">,</span></span>
+<span id="cb10-11"><a></a>    Dime<span class="op">,</span></span>
+<span id="cb10-12"><a></a>    Quarter(UsState)<span class="op">,</span></span>
+<span id="cb10-13"><a></a><span class="op">}</span></span>
+<span id="cb10-14"><a></a></span>
+<span id="cb10-15"><a></a><span class="kw">fn</span> value_in_cents(coin<span class="op">:</span> Coin) <span class="op">-&gt;</span> <span class="dt">u8</span> <span class="op">{</span></span>
+<span id="cb10-16"><a></a>    <span class="cf">match</span> coin <span class="op">{</span></span>
+<span id="cb10-17"><a></a>        <span class="pp">Coin::</span>Penny <span class="op">=&gt;</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb10-18"><a></a>        <span class="pp">Coin::</span>Nickel <span class="op">=&gt;</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb10-19"><a></a>        <span class="pp">Coin::</span>Dime <span class="op">=&gt;</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb10-20"><a></a>        <span class="pp">Coin::</span>Quarter(state) <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb10-21"><a></a>            <span class="pp">println!</span>(<span class="st">"State quarter from {state:?}!"</span>)<span class="op">;</span></span>
+<span id="cb10-22"><a></a>            <span class="dv">25</span></span>
+<span id="cb10-23"><a></a>        <span class="op">}</span></span>
+<span id="cb10-24"><a></a>    <span class="op">}</span></span>
+<span id="cb10-25"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When we compare that value with each of the match arms, none of them match until we reach <code>Coin::Quarter(state)</code></p>
+</section>
+<section id="matching-with-optiont" class="slide level2">
+<h2>Matching with <code>Option&lt;T&gt;</code></h2>
+<p>Handling the Option<t> enum using match:</t></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb11-1"><a></a><span class="kw">fn</span> plus_one(x<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb11-2"><a></a>        <span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb11-3"><a></a>            <span class="cn">None</span> <span class="op">=&gt;</span> <span class="cn">None</span><span class="op">,</span></span>
+<span id="cb11-4"><a></a>            <span class="cn">Some</span>(i) <span class="op">=&gt;</span> <span class="cn">Some</span>(i <span class="op">+</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb11-5"><a></a>        <span class="op">}</span></span>
+<span id="cb11-6"><a></a>    <span class="op">}</span></span>
+<span id="cb11-7"><a></a></span>
+<span id="cb11-8"><a></a>    <span class="kw">let</span> five <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb11-9"><a></a>    <span class="kw">let</span> six <span class="op">=</span> plus_one(five)<span class="op">;</span></span>
+<span id="cb11-10"><a></a>    <span class="kw">let</span> none <span class="op">=</span> plus_one(<span class="cn">None</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the Option contains a value (<code>Some(i)</code>), we perform an operation on it. If it’s None, we return <code>None</code>.</p>
+</section>
+<section id="matches-are-exhaustive" class="slide level2">
+<h2>Matches Are Exhaustive</h2>
+<p>The arms’ patterns <em>must</em> cover all possibilities. Consider this version of our <code>plus_one</code> function:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb12-1"><a></a>    <span class="kw">fn</span> plus_one(x<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb12-2"><a></a>        <span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb12-3"><a></a>            <span class="cn">Some</span>(i) <span class="op">=&gt;</span> <span class="cn">Some</span>(i <span class="op">+</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb12-4"><a></a>        <span class="op">}</span></span>
+<span id="cb12-5"><a></a>    <span class="op">}</span></span>
+<span id="cb12-6"><a></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We didn’t handle the None case, so this code will cause a bug.</p>
+</section>
+<section id="catch-all-patterns-and-_-placeholder" class="slide level2 smaller">
+<h2>Catch-All Patterns and <code>_</code> Placeholder</h2>
+<p>The <code>_</code> pattern can be used for values that we don’t care about:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb13-1"><a></a>    <span class="kw">let</span> dice_roll <span class="op">=</span> <span class="dv">9</span><span class="op">;</span></span>
+<span id="cb13-2"><a></a>    <span class="cf">match</span> dice_roll <span class="op">{</span></span>
+<span id="cb13-3"><a></a>        <span class="dv">3</span> <span class="op">=&gt;</span> add_fancy_hat()<span class="op">,</span></span>
+<span id="cb13-4"><a></a>        <span class="dv">7</span> <span class="op">=&gt;</span> remove_fancy_hat()<span class="op">,</span></span>
+<span id="cb13-5"><a></a>        other <span class="op">=&gt;</span> move_player(other)<span class="op">,</span></span>
+<span id="cb13-6"><a></a>    <span class="op">}</span></span>
+<span id="cb13-7"><a></a></span>
+<span id="cb13-8"><a></a>    <span class="kw">fn</span> add_fancy_hat() <span class="op">{}</span></span>
+<span id="cb13-9"><a></a>    <span class="kw">fn</span> remove_fancy_hat() <span class="op">{}</span></span>
+<span id="cb13-10"><a></a>    <span class="kw">fn</span> move_player(num_spaces<span class="op">:</span> <span class="dt">u8</span>) <span class="op">{}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that we have to put the catch-all (<code>other</code>) arm last because the patterns are evaluated in order</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb14-1"><a></a>    <span class="kw">let</span> dice_roll <span class="op">=</span> <span class="dv">9</span><span class="op">;</span></span>
+<span id="cb14-2"><a></a>    <span class="cf">match</span> dice_roll <span class="op">{</span></span>
+<span id="cb14-3"><a></a>        <span class="dv">3</span> <span class="op">=&gt;</span> add_fancy_hat()<span class="op">,</span></span>
+<span id="cb14-4"><a></a>        <span class="dv">7</span> <span class="op">=&gt;</span> remove_fancy_hat()<span class="op">,</span></span>
+<span id="cb14-5"><a></a>        _ <span class="op">=&gt;</span> reroll()<span class="op">,</span></span>
+<span id="cb14-6"><a></a>    <span class="op">}</span></span>
+<span id="cb14-7"><a></a></span>
+<span id="cb14-8"><a></a>    <span class="kw">fn</span> add_fancy_hat() <span class="op">{}</span></span>
+<span id="cb14-9"><a></a>    <span class="kw">fn</span> remove_fancy_hat() <span class="op">{}</span></span>
+<span id="cb14-10"><a></a>    <span class="kw">fn</span> reroll() <span class="op">{}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>_</code> matches any value but <em>doesn’t bind it</em> to a variable.</p>
+</section>
+<section id="how-matches-interact-with-ownership" class="slide level2 smaller">
+<h2>How Matches Interact with Ownership</h2>
+<p>When matching on enums with <em>non-copyable</em> types like String, ownership is transferred carefully.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb15-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb15-2"><a></a><span class="kw">let</span> opt<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="cn">Some</span>(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Hello world"</span>))<span class="op">;</span></span>
+<span id="cb15-3"><a></a></span>
+<span id="cb15-4"><a></a><span class="cf">match</span> opt <span class="op">{</span></span>
+<span id="cb15-5"><a></a>    <span class="cn">Some</span>(_) <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Some!"</span>)<span class="op">,</span></span>
+<span id="cb15-6"><a></a>    <span class="cn">None</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"None!"</span>)</span>
+<span id="cb15-7"><a></a><span class="op">};</span></span>
+<span id="cb15-8"><a></a></span>
+<span id="cb15-9"><a></a><span class="pp">println!</span>(<span class="st">"{:?}"</span><span class="op">,</span> opt)<span class="op">;</span></span>
+<span id="cb15-10"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we replace <code>Some(_)</code>&nbsp;with a variable name, like&nbsp;<code>Some(s)</code>, then the program will NOT compile:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb16-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb16-2"><a></a><span class="kw">let</span> opt<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">&gt;</span> <span class="op">=</span> </span>
+<span id="cb16-3"><a></a>    <span class="cn">Some</span>(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Hello world"</span>))<span class="op">;</span></span>
+<span id="cb16-4"><a></a></span>
+<span id="cb16-5"><a></a><span class="cf">match</span> opt <span class="op">{</span></span>
+<span id="cb16-6"><a></a>    <span class="co">// _ became s</span></span>
+<span id="cb16-7"><a></a>    <span class="cn">Some</span>(s) <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Some: {}"</span><span class="op">,</span> s)<span class="op">,</span></span>
+<span id="cb16-8"><a></a>    <span class="cn">None</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"None!"</span>)</span>
+<span id="cb16-9"><a></a><span class="op">};</span></span>
+<span id="cb16-10"><a></a></span>
+<span id="cb16-11"><a></a><span class="pp">println!</span>(<span class="st">"{:?}"</span><span class="op">,</span> opt)<span class="op">;</span> <span class="co">// opt loses read and own permission</span></span>
+<span id="cb16-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="using-references-in-match" class="slide level2">
+<h2>Using References in <code>match</code></h2>
+<p>If we want to avoid moving the data, we can match on a reference:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb17-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb17-2"><a></a><span class="kw">let</span> opt<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="cn">Some</span>(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Hello world"</span>))<span class="op">;</span></span>
+<span id="cb17-3"><a></a></span>
+<span id="cb17-4"><a></a><span class="co">// opt became &amp;opt</span></span>
+<span id="cb17-5"><a></a><span class="cf">match</span> <span class="op">&amp;</span>opt <span class="op">{</span></span>
+<span id="cb17-6"><a></a>    <span class="cn">Some</span>(s) <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Some: {}"</span><span class="op">,</span> s)<span class="op">,</span></span>
+<span id="cb17-7"><a></a>    <span class="cn">None</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"None!"</span>)</span>
+<span id="cb17-8"><a></a><span class="op">};</span></span>
+<span id="cb17-9"><a></a></span>
+<span id="cb17-10"><a></a><span class="pp">println!</span>(<span class="st">"{:?}"</span><span class="op">,</span> opt)<span class="op">;</span>  <span class="co">// This works because `opt` is borrowed.</span></span>
+<span id="cb17-11"><a></a><span class="op">}</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="concise-control-flow-with-if-let" class="slide level2">
+<h2>Concise Control Flow with <code>if let</code></h2>
+<p><code>if let</code> provides a more concise way to handle enum variants in a control flow:</p>
+<p><em>From this: </em></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb18-1"><a></a>    <span class="kw">let</span> config_max <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">3u8</span>)<span class="op">;</span></span>
+<span id="cb18-2"><a></a>    <span class="cf">match</span> config_max <span class="op">{</span></span>
+<span id="cb18-3"><a></a>        <span class="cn">Some</span>(max) <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"The maximum is configured to be {max}"</span>)<span class="op">,</span></span>
+<span id="cb18-4"><a></a>        _ <span class="op">=&gt;</span> ()<span class="op">,</span></span>
+<span id="cb18-5"><a></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>To this:</em></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb19-1"><a></a></span>
+<span id="cb19-2"><a></a><span class="kw">let</span> config_max <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">3u8</span>)<span class="op">;</span></span>
+<span id="cb19-3"><a></a></span>
+<span id="cb19-4"><a></a><span class="cf">if</span> <span class="kw">let</span> <span class="cn">Some</span>(max) <span class="op">=</span> config_max <span class="op">{</span></span>
+<span id="cb19-5"><a></a>    <span class="pp">println!</span>(<span class="st">"The maximum is configured to be {max}"</span>)<span class="op">;</span></span>
+<span id="cb19-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>if let</code> is less verbose than match but loses exhaustive checking.</p>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li class="fragment">Enums to define types that can be one of several possible variants.</li>
+<li class="fragment">Pattern matching allos us to destructure and <code>match</code> on specific patterns.</li>
+<li class="fragment">The <code>Option</code> enum is used to safely handle cases where a value might be present or absent.</li>
+</ul>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
