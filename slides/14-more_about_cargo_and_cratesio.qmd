@@ -4,12 +4,15 @@ title: "14. More about Cargo and Crates.io"
 ---
 
 # Learning Objectives
+
+::: nonincremental
 - Learn more about Cargo's advanced features:
   - Customizing builds with release profiles.
   - Publishing libraries to [crates.io](https://crates.io/).
   - Managing multi-crate projects with workspaces.
   - Installing binaries using Cargo.
   - Extending Cargo with custom commands.
+:::
 
 # Customizing Builds with Release Profiles
 
@@ -27,8 +30,8 @@ opt-level = 0
 opt-level = 3
 ```
 - `opt-level`: Optimization levels (0-3).
-  - Development: Minimize build time.
-  - Production: Maximize runtime performance.
+  - *Development*: Minimize build time.
+  - *Production*: Maximize runtime performance.
 
 # Publishing a Crate to Crates.io
 ## Steps to Publish
@@ -44,7 +47,7 @@ license = "MIT OR Apache-2.0"
 4. Run Publish: `cargo publish`.
 
 ## Important Notes
-- Published versions are permanent.
+- Published versions are *permanent*.
 - You can "yank" a version to prevent new dependencies but retain existing ones.
 
 # Writing Documentation for Crates
