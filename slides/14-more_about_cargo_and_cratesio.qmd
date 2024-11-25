@@ -6,7 +6,7 @@ title: "14. More about Cargo and Crates.io"
 # Learning Objectives
 - Learn more about Cargo's advanced features:
   - Customizing builds with release profiles.
-  - Publishing libraries to crates.io.
+  - Publishing libraries to [crates.io](https://crates.io/).
   - Managing multi-crate projects with workspaces.
   - Installing binaries using Cargo.
   - Extending Cargo with custom commands.
@@ -26,7 +26,7 @@ opt-level = 0
 [profile.release]
 opt-level = 3
 ```
-- opt-level: Optimization levels (0-3).
+- `opt-level`: Optimization levels (0-3).
   - Development: Minimize build time.
   - Production: Maximize runtime performance.
 
@@ -132,8 +132,8 @@ Benefits:
 - Automatically integrates into `cargo --list`.
 
 # Summary
-- Custom builds: Optimize dev and release profiles.
-- Publishing: Share crates via crates.io with clear documentation.
-- Workspaces: Manage multi-crate projects with shared dependencies.
-- Binaries: Install and use tools with cargo install.
-- Extensions: Create custom Cargo commands for specialized workflows.
+- Optimize builds using dev and release profiles.
+- Publish crates to crates.io (with clear documentation!).
+- Manage multi-crate projects with shared dependencies.
+- Install and use binaries with cargo install.
+- Create custom Cargo commands for specialized workflows.
