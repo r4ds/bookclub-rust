@@ -22,6 +22,8 @@ Encourage questions about any points that feel unclear.
 
 - **Package**: A Cargo feature that lets you build, test and share crates. Defined by a `Cargo.toml` file.
 - **Crate**: A tree of modules that produces a library or executable. Rust's compilation unit.
+  - **Binary crate**: An executable with a `main` function as an entry point.
+  - **Library crate**: A crate that can be used by other crates.
 - **Module**: A way to organize code and control scope and visibility.
 - **Paths**: A way of naming an item, such as a struct, function, or module.
 
@@ -41,7 +43,7 @@ $ cd my_project
 - A library crate can be used by other crates, and does not need a `main` entry point.
 
 # Working with Modules
-## Backyard example
+## Control Scope and Privacy with Modules
 - Check out the backyard example!
 
 ## Accessing Module Items
