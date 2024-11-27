@@ -9,10 +9,6 @@ title: "8. Common Collections"
 - THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
 :::
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
-:::
 
 # SLIDE SECTION
 
