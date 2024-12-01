@@ -34,7 +34,7 @@
     "href": "slides/16-fearless_concurrency.html#slide-3",
     "title": "16. Fearless Concurrency",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "16. Fearless Concurrency"
     ]
@@ -74,7 +74,7 @@
     "href": "slides/18-patterns_and_matching.html#slide-3",
     "title": "18. Patterns and Matching",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "18. Patterns and Matching"
     ]
@@ -144,7 +144,7 @@
     "href": "slides/01-getting_started.html#discussion",
     "title": "1. Getting Started",
     "section": "Discussion",
-    "text": "Discussion\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "Discussion",
     "crumbs": [
       "1. Getting Started"
     ]
@@ -474,7 +474,7 @@
     "href": "slides/19-advanced_features.html#slide-3",
     "title": "19. Advanced Features",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "19. Advanced Features"
     ]
@@ -514,7 +514,7 @@
     "href": "slides/09-error_handling.html#slide-3",
     "title": "9. Error Handling",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "9. Error Handling"
     ]
@@ -784,7 +784,7 @@
     "href": "slides/20-final_project_building_a_multithreaded_web_server.html#slide-3",
     "title": "20. Final Project: Building a Multithreaded Web Server",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "20. Final Project: Building a Multithreaded Web Server"
     ]
@@ -824,7 +824,7 @@
     "href": "slides/11-writing_automated_tests.html#slide-3",
     "title": "11. Writing Automated Tests",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "11. Writing Automated Tests"
     ]
@@ -864,7 +864,7 @@
     "href": "slides/13-functional_language_features_iterators_and_closures.html#slide-3",
     "title": "13. Functional Language Features: Iterators and Closures",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "13. Functional Language Features: Iterators and Closures"
     ]
@@ -1064,7 +1064,7 @@
     "href": "slides/00-club-intro.html#learning-objectives-los",
     "title": "Club Meetings",
     "section": "Learning objectives (LOs)",
-    "text": "Learning objectives (LOs)\n\nStudents who study with LOs in mind retain more.\nTips:\n\n“After today’s session, you will be able to…”\nVery roughly 1 per section.\n\n\n\nWhen writing your presentation it can help to define learning objectives. This can help you identify the key points of the chapter, which also helps everyone else. It’s not strictly required though so don’t stress about it.\n\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "Learning objectives (LOs)\n\nStudents who study with LOs in mind retain more.\nTips:\n\n“After today’s session, you will be able to…”\nVery roughly 1 per section.\n\n\n\nWhen writing your presentation it can help to define learning objectives. This can help you identify the key points of the chapter, which also helps everyone else. It’s not strictly required though so don’t stress about it.",
     "crumbs": [
       "Club Meetings"
     ]
@@ -1104,7 +1104,7 @@
     "href": "slides/21-appendix.html#slide-3",
     "title": "21. Appendix",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "21. Appendix"
     ]
@@ -1144,7 +1144,7 @@
     "href": "slides/15-smart_pointers.html#slide-3",
     "title": "15. Smart Pointers",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "15. Smart Pointers"
     ]
@@ -1184,7 +1184,7 @@
     "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-3",
     "title": "17. Object Oriented Programming Features of Rust",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "17. Object Oriented Programming Features of Rust"
     ]
@@ -1354,7 +1354,7 @@
     "href": "slides/06-enums_and_pattern_matching.html#summary",
     "title": "6. Enums and Pattern Matching",
     "section": "Summary",
-    "text": "Summary\n\nEnums to define types that can be one of several possible variants.\nPattern matching allos us to destructure and match on specific patterns.\nThe Option enum is used to safely handle cases where a value might be present or absent.\n\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "Summary\n\nEnums to define types that can be one of several possible variants.\nPattern matching allos us to destructure and match on specific patterns.\nThe Option enum is used to safely handle cases where a value might be present or absent.",
     "crumbs": [
       "6. Enums and Pattern Matching"
     ]
@@ -1554,47 +1554,127 @@
     "href": "slides/04-understanding_ownership.html#str-as-parameters",
     "title": "4. Understanding Ownership",
     "section": "&str as parameters",
-    "text": "&str as parameters\nlet hello = String::from(\"hello\");\nthere(&hello);\n\nfn there(hello2: &str) {\n  println!(\"{hello2} there\")\n}\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "&str as parameters\nlet hello = String::from(\"hello\");\nthere(&hello);\n\nfn there(hello2: &str) {\n  println!(\"{hello2} there\")\n}",
     "crumbs": [
       "4. Understanding Ownership"
     ]
   },
   {
-    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide",
-    "href": "slides/14-more_about_cargo_and_cratesio.html#slide",
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#release-profiles",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#release-profiles",
     "title": "14. More about Cargo and Crates.io",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Release Profiles",
+    "text": "Release Profiles\n\nProfiles: Predefined configurations for building code.\n\ndev: For development (cargo build).\nrelease: For production (cargo build --release).\n\n\nConfiguration in Cargo.toml\n[profile.dev]\nopt-level = 0\n\n[profile.release]\nopt-level = 3\n\nopt-level: Optimization levels (0-3).\n\nDevelopment: Minimize build time.\nProduction: Maximize runtime performance.",
     "crumbs": [
       "14. More about Cargo and Crates.io"
     ]
   },
   {
-    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-1",
-    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-1",
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#steps-to-publish",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#steps-to-publish",
     "title": "14. More about Cargo and Crates.io",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Steps to Publish",
+    "text": "Steps to Publish\n\nCreate an Account: Sign up at crates.io.\nRetrieve API Token: Use cargo login to store it locally.\nAdd Metadata in Cargo.toml:\n\n[package]\nname = \"my_crate\"\ndescription = \"A brief description\"\nlicense = \"MIT OR Apache-2.0\"\n\nRun Publish: cargo publish.",
     "crumbs": [
       "14. More about Cargo and Crates.io"
     ]
   },
   {
-    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-2",
-    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-2",
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#important-notes",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#important-notes",
     "title": "14. More about Cargo and Crates.io",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Important Notes",
+    "text": "Important Notes\n\nPublished versions are permanent.\nYou can “yank” a version to prevent new dependencies but retain existing ones.",
     "crumbs": [
       "14. More about Cargo and Crates.io"
     ]
   },
   {
-    "objectID": "slides/14-more_about_cargo_and_cratesio.html#slide-3",
-    "href": "slides/14-more_about_cargo_and_cratesio.html#slide-3",
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#documentation-comments",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#documentation-comments",
     "title": "14. More about Cargo and Crates.io",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "section": "Documentation Comments",
+    "text": "Documentation Comments\n\nUse /// for documentation comments.\nSupports Markdown formatting.",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#example",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#example",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "Example",
+    "text": "Example\n/// Adds one to the input number.\n///\n/// # Examples\n///\n/// ```\n/// let result = my_crate::add_one(1);\n/// assert_eq!(result, 2);\n/// ```\npub fn add_one(x: i32) -&gt; i32 {\n    x + 1\n}\n\nRun cargo doc --open to generate HTML documentation\nBonus: Examples in comments are tested with cargo test",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#what-is-a-workspace",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#what-is-a-workspace",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "What is a Workspace?",
+    "text": "What is a Workspace?\n\nA workspace groups multiple crates.\nShared:\n\nCargo.lock (dependency versions).\ntarget directory (build artifacts).",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#workspace-configuration",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#workspace-configuration",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "Workspace Configuration",
+    "text": "Workspace Configuration\n[workspace]\nmembers = [\"crate1\", \"crate2\"]\nBenefits: - Simplifies management of interdependent crates. - Avoids redundant compilation of dependencies.",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#examples-structure",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#examples-structure",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "Examples Structure",
+    "text": "Examples Structure\nmy_project/\n├── Cargo.toml (workspace root)\n├── crate1/\n│   ├── Cargo.toml\n│   └── src/\n├── crate2/\n│   ├── Cargo.toml\n│   └── src/\n└── target/",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#building-and-testing",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#building-and-testing",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "Building and Testing",
+    "text": "Building and Testing\n\nBuild entire workspace: cargo build.\nTest specific crate: cargo test -p crate1.",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#installing-binary-crates",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#installing-binary-crates",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "Installing Binary Crates",
+    "text": "Installing Binary Crates\n\nUse cargo install:\n\ncargo install ripgrep\n\nBinaries stored in ~/.cargo/bin (add to $PATH).\nRun the tool:\n\nrg --help",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#custom-commands",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#custom-commands",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "Custom Commands",
+    "text": "Custom Commands\n\nName binaries as cargo-&lt;command&gt;.\nAccessible via cargo &lt;command&gt;.",
+    "crumbs": [
+      "14. More about Cargo and Crates.io"
+    ]
+  },
+  {
+    "objectID": "slides/14-more_about_cargo_and_cratesio.html#example-1",
+    "href": "slides/14-more_about_cargo_and_cratesio.html#example-1",
+    "title": "14. More about Cargo and Crates.io",
+    "section": "Example:",
+    "text": "Example:\n\nA binary named cargo-fancy:\n\ncargo fancy\nBenefits: - Extend Cargo without modifying it. - Automatically integrates into cargo --list.",
     "crumbs": [
       "14. More about Cargo and Crates.io"
     ]
@@ -1634,7 +1714,7 @@
     "href": "slides/10-generic_types_traits_and_lifetimes.html#slide-3",
     "title": "10. Generic Types, Traits, and Lifetimes",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "10. Generic Types, Traits, and Lifetimes"
     ]
@@ -1674,47 +1754,97 @@
     "href": "slides/12-an_io_project_building_a_command_line_program.html#slide-3",
     "title": "12. An I/O Project: Building a Command Line Program",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "12. An I/O Project: Building a Command Line Program"
     ]
   },
   {
-    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide",
-    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide",
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#key-concepts",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#key-concepts",
     "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Key Concepts",
+    "text": "Key Concepts\n\nPackage: A Cargo feature that lets you build, test and share crates. Defined by a Cargo.toml file.\nCrate: A tree of modules that produces a library or executable. Rust’s compilation unit.\n\nBinary crate: An executable with a main function as an entry point.\nLibrary crate: A crate that can be used by other crates.\n\nModule: A way to organize code and control scope and visibility.\nPaths: A way of naming an item, such as a struct, function, or module.",
     "crumbs": [
       "7. Managing Growing Projects with Packages, Crates, and Modules"
     ]
   },
   {
-    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-1",
-    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-1",
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#setting-up-a-package",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#setting-up-a-package",
     "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Setting Up a Package",
+    "text": "Setting Up a Package\n$ cargo new my_project\n$ cd my_project\n\nCreates a new package with a Cargo.toml and a default binary crate.\nBinary crate root: src/main.rs.\nTo create a library crate, add a src/lib.rs.\nAn executable crate must have a main function as an entry point.\nA library crate can be used by other crates, and does not need a main entry point.",
     "crumbs": [
       "7. Managing Growing Projects with Packages, Crates, and Modules"
     ]
   },
   {
-    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-2",
-    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-2",
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#control-scope-and-privacy-with-modules",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#control-scope-and-privacy-with-modules",
     "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Control Scope and Privacy with Modules",
+    "text": "Control Scope and Privacy with Modules\n\nCheck out the backyard example!",
     "crumbs": [
       "7. Managing Growing Projects with Packages, Crates, and Modules"
     ]
   },
   {
-    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-3",
-    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#slide-3",
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#accessing-module-items",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#accessing-module-items",
     "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
-    "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "section": "Accessing Module Items",
+    "text": "Accessing Module Items\ncrate::front_of_house::hosting::add_to_waitlist();\n\nUse absolute paths starting with crate\n\nfront_of_house::hosting::add_to_waitlist();\n\nor, use relative paths starting with the module name",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#controlling-visibility",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#controlling-visibility",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "Controlling Visibility",
+    "text": "Controlling Visibility\nmod front_of_house {\n    pub mod hosting {\n        pub fn add_to_waitlist() {}\n    }\n}\n\npub fn eat_at_restaurant() {\n    // Absolute path\n    crate::front_of_house::hosting::add_to_waitlist();\n\n    // Relative path\n    front_of_house::hosting::add_to_waitlist();\n}\n\nBy default, items are private\nUse pub to make modules, functions, and fields accessible",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#no-private-code-in-r",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#no-private-code-in-r",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "No private code in R",
+    "text": "No private code in R\n\nIn R, everything is public\n\nEven un-exported functions can be accessed with :::.\n\nIn Rust, private items are not accessible outside their module.",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#simplify-paths",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#simplify-paths",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "Simplify Paths",
+    "text": "Simplify Paths\nuse crate::front_of_house::hosting;\n\nhosting::add_to_waitlist();\n\nUse use to shorten paths.\nWorks within the scope it’s defined.",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#re-exporting-with-pub-use",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#re-exporting-with-pub-use",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "Re-exporting with pub use",
+    "text": "Re-exporting with pub use\npub use crate::front_of_house::hosting;\n\nhosting::add_to_waitlist();\n\nMakes items available for external users.",
+    "crumbs": [
+      "7. Managing Growing Projects with Packages, Crates, and Modules"
+    ]
+  },
+  {
+    "objectID": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#splitting-modules",
+    "href": "slides/07-managing_growing_projects_with_packages_crates_and_modules.html#splitting-modules",
+    "title": "7. Managing Growing Projects with Packages, Crates, and Modules",
+    "section": "Splitting Modules",
+    "text": "Splitting Modules\n\nDefine a module in src/lib.rs:\n\nmod front_of_house;\n\nCreate src/front_of_house.rs:\n\npub mod hosting {\n    pub fn add_to_waitlist() {}\n}\n\nNest submodules in src/front_of_house/hosting.rs.",
     "crumbs": [
       "7. Managing Growing Projects with Packages, Crates, and Modules"
     ]
@@ -1754,7 +1884,7 @@
     "href": "slides/08-common_collections.html#slide-3",
     "title": "8. Common Collections",
     "section": "SLIDE",
-    "text": "SLIDE\n\n\n\nDSLC.io/rust | DSLC.io",
+    "text": "SLIDE",
     "crumbs": [
       "8. Common Collections"
     ]

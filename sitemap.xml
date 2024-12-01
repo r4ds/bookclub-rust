@@ -2,98 +2,98 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/16-fearless_concurrency.html</loc>
-    <lastmod>2024-11-16T17:12:00.874Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/18-patterns_and_matching.html</loc>
-    <lastmod>2024-11-16T17:12:00.874Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/01-getting_started.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/03-common_programming_concepts.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/19-advanced_features.html</loc>
-    <lastmod>2024-11-16T17:12:00.874Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/09-error_handling.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/05-using_structs_to_structure_related_data.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/20-final_project_building_a_multithreaded_web_server.html</loc>
-    <lastmod>2024-11-16T17:12:00.874Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/00-intro.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/11-writing_automated_tests.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/13-functional_language_features_iterators_and_closures.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/02-programming_a_guessing_game.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/index.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/00-club-intro.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/21-appendix.html</loc>
-    <lastmod>2024-11-16T17:12:00.874Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/15-smart_pointers.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/17-object_oriented_programming_features_of_rust.html</loc>
-    <lastmod>2024-11-16T17:12:00.874Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/06-enums_and_pattern_matching.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/04-understanding_ownership.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/14-more_about_cargo_and_cratesio.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/10-generic_types_traits_and_lifetimes.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/12-an_io_project_building_a_command_line_program.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/07-managing_growing_projects_with_packages_crates_and_modules.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.github.io/bookclub-rust/slides/08-common_collections.html</loc>
-    <lastmod>2024-11-16T17:12:00.870Z</lastmod>
+    <lastmod>2024-12-01T20:29:22.249Z</lastmod>
   </url>
 </urlset>
