@@ -6,26 +6,117 @@ title: "7. Managing Growing Projects with Packages, Crates, and Modules"
 # Learning objectives
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Differentiate between packages, crates, and modules.
+- Understand and use Rust's module system (`mod`, `pub`, `use`).
+- Implement Cargo workspaces for multi-crate projects.
+- Apply best practices for managing and organizing Rust projects.
 :::
 
 ::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+Encourage questions about any points that feel unclear.
 :::
 
-# SLIDE SECTION
+# Overview of Packages, Crates, and Modules
 
-## SLIDE
+## Key Concepts
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+- **Package**: A Cargo feature that lets you build, test and share crates. Defined by a `Cargo.toml` file.
+- **Crate**: A tree of modules that produces a library or executable. Rust's compilation unit.
+  - **Binary crate**: An executable with a `main` function as an entry point.
+  - **Library crate**: A crate that can be used by other crates.
+- **Module**: A way to organize code and control scope and visibility.
+- **Paths**: A way of naming an item, such as a struct, function, or module.
 
-## SLIDE
+# Creating and Using Packages
 
-# SLIDE SECTION
+## Setting Up a Package
 
-## SLIDE
+```console
+$ cargo new my_project
+$ cd my_project
+```
 
-## SLIDE
+- Creates a new package with a `Cargo.toml` and a default binary crate.
+- Binary crate root: `src/main.rs`.
+- To create a library crate, add a `src/lib.rs`.
+- An executable crate must have a `main` function as an entry point.
+- A library crate can be used by other crates, and does not need a `main` entry point.
+
+# Working with Modules
+## Control Scope and Privacy with Modules
+- Check out the backyard example!
+
+## Accessing Module Items
+``` rust
+crate::front_of_house::hosting::add_to_waitlist();
+```
+- Use absolute paths starting with crate
+
+``` rust
+front_of_house::hosting::add_to_waitlist();
+```
+- or, use relative paths starting with the module name
+
+## Controlling Visibility
+``` rust
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // Absolute path
+    crate::front_of_house::hosting::add_to_waitlist();
+
+    // Relative path
+    front_of_house::hosting::add_to_waitlist();
+}
+```
+- By default, items are private
+- Use `pub` to make modules, functions, and fields accessible
+
+## No private code in R
+- In R, everything is public 
+  - Even un-exported functions can be accessed with `:::`.
+- In Rust, private items are not accessible outside their module.
+
+# Using `use` for Convenience
+## Simplify Paths
+``` rust
+use crate::front_of_house::hosting;
+
+hosting::add_to_waitlist();
+```
+- Use `use` to shorten paths.
+- Works within the scope it's defined.
+
+## Re-exporting with `pub use`
+``` rust
+pub use crate::front_of_house::hosting;
+
+hosting::add_to_waitlist();
+```
+- Makes items available for external users.
+
+# Organizing Modules Across Files
+## Splitting Modules
+- Define a module in `src/lib.rs`:
+``` rust
+mod front_of_house;
+```
+- Create `src/front_of_house.rs`:
+``` rust
+pub mod hosting {
+    pub fn add_to_waitlist() {}
+}
+```
+
+- Nest submodules in `src/front_of_house/hosting.rs`.
+
+# Summary
+- Rust's module system (`mod`, `pub`, `use`) is powerful for organizing code.
+- Packages bundle functionality, crates define scope, and modules control visibility.
+- Cargo workspaces help manage complex projects with multiple packages.
+
+Next steps: Practice by creating a workspace with two crates and exploring the module system further!

@@ -3,29 +3,140 @@ engine: knitr
 title: "14. More about Cargo and Crates.io"
 ---
 
-# Learning objectives
+# Learning Objectives
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Learn more about Cargo's advanced features:
+  - Customizing builds with release profiles.
+  - Publishing libraries to [crates.io](https://crates.io/).
+  - Managing multi-crate projects with workspaces.
+  - Installing binaries using Cargo.
+  - Extending Cargo with custom commands.
 :::
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
-:::
+# Customizing Builds with Release Profiles
 
-# SLIDE SECTION
+## Release Profiles
+- **Profiles**: Predefined configurations for building code.
+  - `dev`: For development (`cargo build`).
+  - `release`: For production (`cargo build --release`).
 
-## SLIDE
+### Configuration in `Cargo.toml`
+```toml
+[profile.dev]
+opt-level = 0
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+[profile.release]
+opt-level = 3
+```
+- `opt-level`: Optimization levels (0-3).
+  - *Development*: Minimize build time.
+  - *Production*: Maximize runtime performance.
 
-## SLIDE
+# Publishing a Crate to Crates.io
+## Steps to Publish
+1. Create an Account: Sign up at [crates.io](https://crates.io/).
+2. Retrieve API Token: Use `cargo login` to store it locally.
+3. Add Metadata in `Cargo.toml`:
+``` toml
+[package]
+name = "my_crate"
+description = "A brief description"
+license = "MIT OR Apache-2.0"
+```
+4. Run Publish: `cargo publish`.
 
-# SLIDE SECTION
+## Important Notes
+- Published versions are *permanent*.
+- You can "yank" a version to prevent new dependencies but retain existing ones.
 
-## SLIDE
+# Writing Documentation for Crates
+## Documentation Comments
+- Use `///` for documentation comments.
+- Supports Markdown formatting.
 
-## SLIDE
+## Example
+``` rust
+/// Adds one to the input number.
+///
+/// # Examples
+///
+/// ```
+/// let result = my_crate::add_one(1);
+/// assert_eq!(result, 2);
+/// ```
+pub fn add_one(x: i32) -> i32 {
+    x + 1
+}
+```
+
+- Run `cargo doc --open` to generate HTML documentation
+- Bonus: Examples in comments are tested with `cargo test`
+
+# Organizing Large Projects with Workspaces
+## What is a Workspace?
+- A workspace groups multiple crates.
+- Shared:
+  - `Cargo.lock` (dependency versions).
+  - `target` directory (build artifacts).
+
+## Workspace Configuration
+``` toml
+[workspace]
+members = ["crate1", "crate2"]
+```
+Benefits:
+- Simplifies management of interdependent crates.
+- Avoids redundant compilation of dependencies.
+
+# Using Workspaces
+## Examples Structure
+``` scss
+my_project/
+├── Cargo.toml (workspace root)
+├── crate1/
+│   ├── Cargo.toml
+│   └── src/
+├── crate2/
+│   ├── Cargo.toml
+│   └── src/
+└── target/
+```
+
+## Building and Testing
+- Build entire workspace: `cargo build`.
+- Test specific crate: `cargo test -p crate1`.
+
+# Installing Binaries with Cargo
+## Installing Binary Crates
+- Use `cargo install`:
+``` sh
+cargo install ripgrep
+```
+- Binaries stored in `~/.cargo/bin` (add to `$PATH`).
+
+- Run the tool:
+``` sh
+rg --help
+```
+
+# Extending Cargo with Custom Commands
+## Custom Commands
+- Name binaries as `cargo-<command>`.
+- Accessible via `cargo <command>`.
+
+## Example:
+- A binary named `cargo-fancy`:
+``` sh
+cargo fancy
+```
+Benefits:
+- Extend Cargo without modifying it.
+- Automatically integrates into `cargo --list`.
+
+# Summary
+- Optimize builds using dev and release profiles.
+- Publish crates to crates.io (with clear documentation!).
+- Manage multi-crate projects with shared dependencies.
+- Install and use binaries with cargo install.
+- Create custom Cargo commands for specialized workflows.
