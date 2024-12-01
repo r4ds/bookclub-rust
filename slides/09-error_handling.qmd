@@ -6,26 +6,304 @@ title: "9. Error Handling"
 # Learning objectives
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Understand the 2 types of errors in Rust
+- Describe when to use what type of error
+- Know how to work with a `Result` enum
+:::
+
+# Intro
+
+## Types of errors
+
+- _recoverable_
+- _unrecoverable_
+
+::: notes
+Rust has 2 types of errors
+
+Recoverable errors are errors that we would handle through code.
+For example, maybe we want to retry an operation if it fails the first time.
+
+Unrecoverable errors crash the program.
+:::
+
+## No exceptions
+
+::: {.fragment}
+::: nonincremental
+- `Result<T, E>`
+- `panic!`
+:::
 :::
 
 ::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+It's worth noting that Rust doesn't have exceptions. (`stop`, `warn`,`message` in R)
+
+Instead, it has the `Resut<T, E>` enum for recoverable errors and the `panic!` macro for unrecoverable errors.
 :::
 
-# SLIDE SECTION
+# `panic!`
 
-## SLIDE
+::: nonincremental
+- `panic!("message")`
+  - prints the message
+  - cleans up the stack
+  - stops the program
+- Set `RUST_BACKTRACE = 1` to print a backtrace
+- Set `panic = 'abort'` in `Cargo.toml` to quit without cleaning the stack
+:::
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+# `Result`
 
-## SLIDE
+## Recoverable errors
 
-# SLIDE SECTION
+```rust
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+```
 
-## SLIDE
+::: nonincremental
+- `T` is the type of the returned value on success
+- `E` is the type of the error on failure
+:::
 
-## SLIDE
+## Recoverable error - reading a file
+
+```rust
+use std::fs::File;
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+}
+```
+
+::: {.fragment}
+::: nonincremental
+- `T` = `std::fs::File`
+- `E` = `std::io::Error` 
+:::
+:::
+
+## Recoverable error - reading a file
+
+```rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the file: {error:?}"),
+    };
+}
+```
+
+::: {.fragment}
+::: nonincremental
+- success (`Ok`) ->  `std::fs::File`
+- error (`Err`) -> close the program
+:::
+:::
+
+## Recoverable error - reading a file
+
+```rust
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) => file,
+        Err(error) => match error.kind() {
+            ErrorKind::NotFound => match File::create("hello.txt") {
+                Ok(fc) => fc,
+                Err(e) => panic!("Problem creating the file: {e:?}"),
+            },
+            other_error => {
+                panic!("Problem opening the file: {other_error:?}");
+            }
+        },
+    };
+}
+```
+
+::: {.fragment}
+::: nonincremental
+- success (`Ok`) -> `std::fs::File`
+- error (`Err`) ->
+  - file not found error (`ErrorKind::NotFound`) ->  create file
+    - success (`Ok`) -> `std::fs::File`
+    - error -> close the program
+  - other error type -> close the program
+:::
+:::
+
+## `panic!` on error shortcuts
+
+:::: {.columns}
+
+::: {.column width="50%"}
+`unwrap`
+
+```rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt").unwrap();
+}
+```
+
+::: nonincremental
+- `Ok` -> value
+- `Err` -> `panic!`
+:::
+:::
+
+::: {.column width="50%"}
+`expect`
+
+```rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt")
+        .expect("hello.txt should be included in this project");
+}
+```
+
+::: nonincremental
+- `Ok` -> value
+- `Err` -> `panic!`
+  - `panic!("message")`
+:::
+:::
+
+::::
+
+
+## Propagating errors
+
+::: nonincremental
+- return error
+- calling code decides what to do
+:::
+
+```rust
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let username_file_result = File::open("hello.txt");
+
+    let mut username_file = match username_file_result {
+        Ok(file) => file,
+        Err(e) => return Err(e),
+    };
+
+    let mut username = String::new();
+
+    match username_file.read_to_string(&mut username) {
+        Ok(_) => Ok(username),
+        Err(e) => Err(e),
+    }
+}
+```
+
+::: notes
+The book has quite a bit of text about propogating errors.
+
+Really what it means is if some operation in your function returns an error, your function returns an error.
+The code that called your function decides what to do with it.
+:::
+
+## Propagating errors - shortcut
+
+`?` returns value _or_ returns error (early)
+
+```rust
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let mut username_file = File::open("hello.txt")?;
+
+    let mut username = String::new();
+    username_file.read_to_string(&mut username)?;
+    Ok(username)
+}
+```
+
+::: notes
+The book provides 2 more examples to make this code even shorter.
+I didn't include them here because they are more about the methods of `std::fs` than about erors.
+However, you should have a look to see just how short things can get.
+:::
+
+## When to use `?`
+
+::: nonincremental
+- Can't always use it
+- Return type of function must be compatible with type returned by function `?` is used on
+  - Ex: outer function returns `Result`, _and_ inner function returns `Result`
+:::
+
+::: {.fragment}
+
+Can't use `?`
+
+```rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt")?;
+}
+```
+
+::: nonincremental
+- `main` returns `()`
+- `File::open` returns `Result`
+:::
+
+:::
+
+# `Result` or `panic!`?
+
+:::: {.columns}
+
+::: {.column width="50%"}
+`Result`
+
+::: nonincremental
+- Calling code should choose what to do
+- Failure is a possibility, but not a dealbreaker
+:::
+:::
+
+::: {.column width="50%"}
+`panic!`
+
+::: nonincremental
+- Calling code should not have a choice
+- Safety or correctness not guaranteed
+- Examples, prototypes, tests
+:::
+:::
+
+::::
+
+::: notes
+The book goes into more detail on when to use `Result` vs. `panic!` and is worth a read if you haven't read it yet.
+Particularly the section on using custom types for validation.
+I'm going to keep things at high level for today though.
+
+In short, `Result` should be used if it's possible to work around the error.
+For example, if a user's input is bad, you can ask them to re-enter it.
+
+`panic!` should be used when really bad things could happen.
+You can't guarantee the correctness of the program for example.
+:::
+
