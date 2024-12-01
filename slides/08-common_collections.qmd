@@ -597,3 +597,15 @@ for word in text.split_whitespace() {
 }
 println!("{map:?}"); // {"world": 2, "hello": 1, "wonderful": 1}
 ```
+
+
+# Resources
+
+[Collections Documentation](https://doc.rust-lang.org/std/collections/index.html)
+
+::: notes
+The last thing I want to point out is the documentation on collections.
+We've covered the 3 most common collections but there are more in the Rust standard library.
+
+The documentation page explains the other types of collections, all the methods for each collection, and what I think is particularly useful: some guidance on when to use which type of collection.
+:::
