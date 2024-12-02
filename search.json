@@ -480,41 +480,101 @@
     ]
   },
   {
-    "objectID": "slides/09-error_handling.html#slide",
-    "href": "slides/09-error_handling.html#slide",
+    "objectID": "slides/09-error_handling.html#types-of-errors",
+    "href": "slides/09-error_handling.html#types-of-errors",
     "title": "9. Error Handling",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Types of errors",
+    "text": "Types of errors\n\nrecoverable\nunrecoverable\n\n\nRust has 2 types of errors\nRecoverable errors are errors that we would handle through code. For example, maybe we want to retry an operation if it fails the first time.\nUnrecoverable errors crash the program.",
     "crumbs": [
       "9. Error Handling"
     ]
   },
   {
-    "objectID": "slides/09-error_handling.html#slide-1",
-    "href": "slides/09-error_handling.html#slide-1",
+    "objectID": "slides/09-error_handling.html#no-exceptions",
+    "href": "slides/09-error_handling.html#no-exceptions",
     "title": "9. Error Handling",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "No exceptions",
+    "text": "No exceptions\n\n\n\nResult&lt;T, E&gt;\npanic!\n\n\n\n\nIt’s worth noting that Rust doesn’t have exceptions. (stop, warn,message in R)\nInstead, it has the Resut&lt;T, E&gt; enum for recoverable errors and the panic! macro for unrecoverable errors.",
     "crumbs": [
       "9. Error Handling"
     ]
   },
   {
-    "objectID": "slides/09-error_handling.html#slide-2",
-    "href": "slides/09-error_handling.html#slide-2",
+    "objectID": "slides/09-error_handling.html#recoverable-errors",
+    "href": "slides/09-error_handling.html#recoverable-errors",
     "title": "9. Error Handling",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Recoverable errors",
+    "text": "Recoverable errors\nenum Result&lt;T, E&gt; {\n    Ok(T),\n    Err(E),\n}\n\n\nT is the type of the returned value on success\nE is the type of the error on failure",
     "crumbs": [
       "9. Error Handling"
     ]
   },
   {
-    "objectID": "slides/09-error_handling.html#slide-3",
-    "href": "slides/09-error_handling.html#slide-3",
+    "objectID": "slides/09-error_handling.html#recoverable-error---reading-a-file",
+    "href": "slides/09-error_handling.html#recoverable-error---reading-a-file",
     "title": "9. Error Handling",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Recoverable error - reading a file",
+    "text": "Recoverable error - reading a file\nuse std::fs::File;\nfn main() {\n    let greeting_file_result = File::open(\"hello.txt\");\n}\n\n\n\nT = std::fs::File\nE = std::io::Error",
+    "crumbs": [
+      "9. Error Handling"
+    ]
+  },
+  {
+    "objectID": "slides/09-error_handling.html#recoverable-error---reading-a-file-1",
+    "href": "slides/09-error_handling.html#recoverable-error---reading-a-file-1",
+    "title": "9. Error Handling",
+    "section": "Recoverable error - reading a file",
+    "text": "Recoverable error - reading a file\nuse std::fs::File;\n\nfn main() {\n    let greeting_file_result = File::open(\"hello.txt\");\n\n    let greeting_file = match greeting_file_result {\n        Ok(file) =&gt; file,\n        Err(error) =&gt; panic!(\"Problem opening the file: {error:?}\"),\n    };\n}\n\n\n\nsuccess (Ok) -&gt; std::fs::File\nerror (Err) -&gt; close the program",
+    "crumbs": [
+      "9. Error Handling"
+    ]
+  },
+  {
+    "objectID": "slides/09-error_handling.html#recoverable-error---reading-a-file-2",
+    "href": "slides/09-error_handling.html#recoverable-error---reading-a-file-2",
+    "title": "9. Error Handling",
+    "section": "Recoverable error - reading a file",
+    "text": "Recoverable error - reading a file\nuse std::fs::File;\nuse std::io::ErrorKind;\n\nfn main() {\n    let greeting_file_result = File::open(\"hello.txt\");\n\n    let greeting_file = match greeting_file_result {\n        Ok(file) =&gt; file,\n        Err(error) =&gt; match error.kind() {\n            ErrorKind::NotFound =&gt; match File::create(\"hello.txt\") {\n                Ok(fc) =&gt; fc,\n                Err(e) =&gt; panic!(\"Problem creating the file: {e:?}\"),\n            },\n            other_error =&gt; {\n                panic!(\"Problem opening the file: {other_error:?}\");\n            }\n        },\n    };\n}\n\n\n\nsuccess (Ok) -&gt; std::fs::File\nerror (Err) -&gt;\n\nfile not found error (ErrorKind::NotFound) -&gt; create file\n\nsuccess (Ok) -&gt; std::fs::File\nerror -&gt; close the program\n\nother error type -&gt; close the program",
+    "crumbs": [
+      "9. Error Handling"
+    ]
+  },
+  {
+    "objectID": "slides/09-error_handling.html#panic-on-error-shortcuts",
+    "href": "slides/09-error_handling.html#panic-on-error-shortcuts",
+    "title": "9. Error Handling",
+    "section": "panic! on error shortcuts",
+    "text": "panic! on error shortcuts\n\n\nunwrap\nuse std::fs::File;\n\nfn main() {\n    let greeting_file = File::open(\"hello.txt\").unwrap();\n}\n\n\nOk -&gt; value\nErr -&gt; panic!\n\n\n\nexpect\nuse std::fs::File;\n\nfn main() {\n    let greeting_file = File::open(\"hello.txt\")\n        .expect(\"hello.txt should be included in this project\");\n}\n\n\nOk -&gt; value\nErr -&gt; panic!\n\npanic!(\"message\")",
+    "crumbs": [
+      "9. Error Handling"
+    ]
+  },
+  {
+    "objectID": "slides/09-error_handling.html#propagating-errors",
+    "href": "slides/09-error_handling.html#propagating-errors",
+    "title": "9. Error Handling",
+    "section": "Propagating errors",
+    "text": "Propagating errors\n\n\nreturn error\ncalling code decides what to do\n\n\nuse std::fs::File;\nuse std::io::{self, Read};\n\nfn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {\n    let username_file_result = File::open(\"hello.txt\");\n\n    let mut username_file = match username_file_result {\n        Ok(file) =&gt; file,\n        Err(e) =&gt; return Err(e),\n    };\n\n    let mut username = String::new();\n\n    match username_file.read_to_string(&mut username) {\n        Ok(_) =&gt; Ok(username),\n        Err(e) =&gt; Err(e),\n    }\n}\n\nThe book has quite a bit of text about propogating errors.\nReally what it means is if some operation in your function returns an error, your function returns an error. The code that called your function decides what to do with it.",
+    "crumbs": [
+      "9. Error Handling"
+    ]
+  },
+  {
+    "objectID": "slides/09-error_handling.html#propagating-errors---shortcut",
+    "href": "slides/09-error_handling.html#propagating-errors---shortcut",
+    "title": "9. Error Handling",
+    "section": "Propagating errors - shortcut",
+    "text": "Propagating errors - shortcut\n? returns value or returns error (early)\nuse std::fs::File;\nuse std::io::{self, Read};\n\nfn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {\n    let mut username_file = File::open(\"hello.txt\")?;\n\n    let mut username = String::new();\n    username_file.read_to_string(&mut username)?;\n    Ok(username)\n}\n\nThe book provides 2 more examples to make this code even shorter. I didn’t include them here because they are more about the methods of std::fs than about erors. However, you should have a look to see just how short things can get.",
+    "crumbs": [
+      "9. Error Handling"
+    ]
+  },
+  {
+    "objectID": "slides/09-error_handling.html#when-to-use",
+    "href": "slides/09-error_handling.html#when-to-use",
+    "title": "9. Error Handling",
+    "section": "When to use ?",
+    "text": "When to use ?\n\n\nCan’t always use it\nReturn type of function must be compatible with type returned by function ? is used on\n\nEx: outer function returns Result, and inner function returns Result\n\n\n\n\nCan’t use ?\nuse std::fs::File;\n\nfn main() {\n    let greeting_file = File::open(\"hello.txt\")?;\n}\n\n\nmain returns ()\nFile::open returns Result",
     "crumbs": [
       "9. Error Handling"
     ]
@@ -1850,41 +1910,221 @@
     ]
   },
   {
-    "objectID": "slides/08-common_collections.html#slide",
-    "href": "slides/08-common_collections.html#slide",
+    "objectID": "slides/08-common_collections.html#what-is-a-collection",
+    "href": "slides/08-common_collections.html#what-is-a-collection",
     "title": "8. Common Collections",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "What is a ‘collection’?",
+    "text": "What is a ‘collection’?\nCollections are data structures for storing multiple values.\n\nExample: i8 is a single 8-bit integer value. A vector can store multiple i8s together.",
     "crumbs": [
       "8. Common Collections"
     ]
   },
   {
-    "objectID": "slides/08-common_collections.html#slide-1",
-    "href": "slides/08-common_collections.html#slide-1",
+    "objectID": "slides/08-common_collections.html#what-about-arrays-and-tuples",
+    "href": "slides/08-common_collections.html#what-about-arrays-and-tuples",
     "title": "8. Common Collections",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "What about arrays and tuples?",
+    "text": "What about arrays and tuples?\n\nYes, arrays and tuples can hold multiple values\nBut, they are stored on the stack while collections are stored on the heap\n\narray, tuple: fixed size, known at compile time\ncollections: variable size, not known at compile time\n\n\n\nCollections can grow and shrink while the program is running & their size does not need to be known at compile time.",
     "crumbs": [
       "8. Common Collections"
     ]
   },
   {
-    "objectID": "slides/08-common_collections.html#slide-2",
-    "href": "slides/08-common_collections.html#slide-2",
+    "objectID": "slides/08-common_collections.html#common-collections",
+    "href": "slides/08-common_collections.html#common-collections",
     "title": "8. Common Collections",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Common collections",
+    "text": "Common collections\n\nvector: collection of numbers\nstring: collection of characters\nhash map: collection of key-value pairs",
     "crumbs": [
       "8. Common Collections"
     ]
   },
   {
-    "objectID": "slides/08-common_collections.html#slide-3",
-    "href": "slides/08-common_collections.html#slide-3",
+    "objectID": "slides/08-common_collections.html#creating-vectors",
+    "href": "slides/08-common_collections.html#creating-vectors",
     "title": "8. Common Collections",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Creating vectors",
+    "text": "Creating vectors\n\n\nYou can create a vector with new and add values with .push\nlet mut v: Vec&lt;i32&gt; = Vec::new();\n\nv.push(1);\nv.push(2);\nv.push(3);\n\nOr you can create it directly with vec!\nlet v = vec![1, 2, 3];\n\n\nNote the mut in the first case.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#access-elements",
+    "href": "slides/08-common_collections.html#access-elements",
+    "title": "8. Common Collections",
+    "section": "Access elements",
+    "text": "Access elements\n\n\nlet v = vec![1, 2, 3];\n\n\n\n[]\nlet first_element: &i32 = &v[0];\n\nget\nlet first_element: Option&lt;&i32&gt; = v.get(0);\n\n\nFirst method: should be familiar\nSecond method: returns an Option type\nHaving 2 methods means you can control how your program behaves when using an out-of-range index.\nThe first method crashes the program.\nThe second method allows you to handle having Some(value) or None. Maybe you want to",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#access-elements---ownership-borrowing",
+    "href": "slides/08-common_collections.html#access-elements---ownership-borrowing",
+    "title": "8. Common Collections",
+    "section": "Access elements - ownership & borrowing",
+    "text": "Access elements - ownership & borrowing\nThis program will not compile\nlet mut v = vec![1, 2, 3, 4, 5];\n\nlet first = &v[0]; // immutable borrow\n\nv.push(6); // mutable borrow\n\nprintln!(\"The first element is: {first}\"); // immutable borrow used\n\nWe’re referencing the first element but updating at the end so you might thing this shoudl be fine.\nThe problem though is that Rust stores vectors in one continuous block of memory. So adding another element may require copying the vector to a new memory location. If that happens, then our reference to the first element will point to a section of deallocated memory.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#iteration",
+    "href": "slides/08-common_collections.html#iteration",
+    "title": "8. Common Collections",
+    "section": "Iteration",
+    "text": "Iteration\n\n\nImmutable vector, immutable references\nlet v = vec![1, 2, 3];\nfor i in &v {\n  println!(\"{i}\");\n}\n// v = [1, 2, 3]\n// output: 1, 2, 3\n\nMutable vector, mutable references\nlet mut v = vec![1, 2, 3];\nfor i in &mut v {\n  *i += 1;\n}\n// v = [2, 3, 4]\n\nfor i in &v {\n    println!(\"{i}\");\n}\n\n// output: 2, 3, 4\n\n\nNote the use of the dereference operator *. We must use this to change the value the mutable reference refers to.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#vectors-with-multiple-types",
+    "href": "slides/08-common_collections.html#vectors-with-multiple-types",
+    "title": "8. Common Collections",
+    "section": "Vectors with multiple types",
+    "text": "Vectors with multiple types\n\n\nenum\nenum SpreadsheetCell {\n  Int(i32),\n  Float(f64),\n  Text(String),\n}\n\nlet row = vec![\n  SpreadsheetCell::Int(3),\n  SpreadsheetCell::Float(10.12),\n];\n\nstruct\nstruct Ex {\n    number: i32,\n    string: String,\n}\n\nlet v = vec![\n    Ex {number: 1, string: String::from(\"string\")},\n    Ex {number: 1, string: String::from(\"2nd string\")},\n];\n\n\nElements of vectors must be all of the same type. To store mutliple types, we need a container that can hold multiple types.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#what-are-strings",
+    "href": "slides/08-common_collections.html#what-are-strings",
+    "title": "8. Common Collections",
+    "section": "What are Strings?",
+    "text": "What are Strings?\n\nCollection of bytes\nIn Rust standard library\nBuilt around vectors\nUTF-8",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#string-vs-str",
+    "href": "slides/08-common_collections.html#string-vs-str",
+    "title": "8. Common Collections",
+    "section": "String vs str",
+    "text": "String vs str\n\n\n\nString\n\nstandard library\ndynamic size\nvector\n\n\n\n\nstr\n\nbuilt into the language\nfixed size\nslice of the vector\n\n\n\nMore info: Rust User’s forum – Stack Overflow\n\n\n\nWhen referring to ‘strings’ in Rust, people can mean either a String or str (more typically &str). But they are different types.\nI’ve listed a few of the similarities and differences here and listed a few reference at the bottom. This is still a bit confusing for me but the references helped so I suggest you read them.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#creating-strings",
+    "href": "slides/08-common_collections.html#creating-strings",
+    "title": "8. Common Collections",
+    "section": "Creating Strings",
+    "text": "Creating Strings\n\n\nYou can create a String with new and add values with .push_str\nlet mut s = String::new();\ns.push_str(\"this is\");\ns.push_str(\"a string\");\n\nOr you can create it directly\nlet s1 = String::from(\"this is a string\");\nlet s2 = \"this is a string\".to_string();",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#combining-strings",
+    "href": "slides/08-common_collections.html#combining-strings",
+    "title": "8. Common Collections",
+    "section": "Combining Strings",
+    "text": "Combining Strings\n\n\n+\nlet s1 = String::from(\"this is \");\nlet s2 = String::from(\"a string\");\n\nlet s3 = s1 + &s2;\n\nformat!\nlet s1 = String::from(\"this is\");\nlet s2 = String:: from(\"a string\")\n\nlet s3 = format!(\"{s1} ... {s2}!\") // \"this is ... a string!\"\n\n\nUsing the + operator, note that we use a reference to the 2nd string: &s2. This is because how add is defined, see the book for more details.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#access-elements-1",
+    "href": "slides/08-common_collections.html#access-elements-1",
+    "title": "8. Common Collections",
+    "section": "Access elements",
+    "text": "Access elements\nlet s = String::from(\"this is a string\")\nlet first_char = s[0];\n\n\n\n\nComputer says no GIF\n\n\n\n\nSince Strings are built on top of vectors, we may want to get the first character like we would the first element of a vector. But we can’t do that.\nThe reason why is because of how Rust stores strings.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#internal-representation-of-strings",
+    "href": "slides/08-common_collections.html#internal-representation-of-strings",
+    "title": "8. Common Collections",
+    "section": "Internal representation of Strings",
+    "text": "Internal representation of Strings\n\n\nWrapper around Vec&lt;u8&gt;\nVector of bytes\nUTF-8\n\n\n\nlet hello = String::from(\"hello\");\nlet konichiwa = String::from(\"こんにちは\");\n\nprintln!(\"Hello bytes: {}\", hello.len()); // 5\nprintln!(\"Konichiwa bytes:{}\", konichiwa.len()); // 15\n\n\nRust Playground\n\n\nTo understand why we can’t index into strings we need to know how Strings are represented in Rust. Rust stores strings as a vector of bytes, encoded in UTF-8.\nExample: the String ‘hello’ in English and Japanese.\nOn the surface, it looks like they would both have legnth 5. But, because of how strings are stored, the lengths are very different.\nHuman languages have a lot of variety so there is no ‘correct’ way to index into strings. The best we can do is take slices of a string …",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#string-slices",
+    "href": "slides/08-common_collections.html#string-slices",
+    "title": "8. Common Collections",
+    "section": "String slices",
+    "text": "String slices\n\nlet hello = String::from(\"hello\");\nprintln!(\"Hello first: {}\", &hello[0..1]); // h\n\n\nlet konichiwa = String::from(\"こんにちは\");\nprintln!(\"Konichiwa first: {}\", &konichiwa[0..1]); //error\n\n\nRust Playground\n\n\nWhile we can’t index into strings at specific indices, we can use a range of indices to get string slices.\nSo if we specify the range to get the first element, we get ‘h’ as expected.\nHowever, that doesn’t always work. Some languages need more than 1 byte to store a character. We need to know the language so we can slice at the boundaries of characters. Otherwise we get an error.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#iteration-1",
+    "href": "slides/08-common_collections.html#iteration-1",
+    "title": "8. Common Collections",
+    "section": "Iteration",
+    "text": "Iteration\n\n\n.chars()\nlet hello = String::from(\"hello\");\nlet konichiwa = String::from(\"こんにちは\");\n\nfor c in hello.chars() {\n    println!(\"{c}\");\n} // h, e, l, l, o\n\nfor c in konichiwa.chars() {\n    println!(\"{c}\");\n} // こ, ん, に, ち, は\n\n.bytes()\nlet hello = String::from(\"hello\");\nlet konichiwa = String::from(\"こんにちは\");\n\nfor b in hello.bytes() {\n    println!(\"{b}\");\n} // 104, 101, ...\n\nfor b in konichiwa.bytes() {\n    println!(\"{b}\");\n} // 227, 129, ...\n\n\nRust Playground - chars – Rust Playground - bytes",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#creating-hash-maps",
+    "href": "slides/08-common_collections.html#creating-hash-maps",
+    "title": "8. Common Collections",
+    "section": "Creating hash maps",
+    "text": "Creating hash maps\nYou can create a hash map with new and add values with .insert\nuse std::collections::HashMap;\n\nlet mut scores = HashMap::new();\n\nscores.insert(String::from(\"Red\"), 10);\nscores.insert(String::from(\"Blue\"), 20);\n\nNote the use here. Since hash maps are not used as often as vectors or strings we need to explicitly import them.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#access-elements-2",
+    "href": "slides/08-common_collections.html#access-elements-2",
+    "title": "8. Common Collections",
+    "section": "Access elements",
+    "text": "Access elements\nuse std::collections::HashMap;\n\nlet mut scores = HashMap::new();\n\nscores.insert(String::from(\"Red\"), 10);\nscores.insert(String::from(\"Blue\"), 20);\n\nlet blue_team = String::from(\"Blue\");\nlet blue_score = scores.get(&blue_team).copied().unwrap_or(0); // 20\n\n\n\nget returns an Option&lt;&V&gt;\ncopied returns an Option&lt;i32&gt; instead of Option&lt;&i32&gt;\nunwrap_or returns 0 if there is no entry for \"Blue\"\n\n\n\n\nThe extra calls after get here are to get at the underlying value.\n\nget returns an Optionwe copy it to get an Option of type i32",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#iteration-2",
+    "href": "slides/08-common_collections.html#iteration-2",
+    "title": "8. Common Collections",
+    "section": "Iteration",
+    "text": "Iteration\nuse std::collections::HashMap;\n\nlet mut scores = HashMap::new();\n\nscores.insert(String::from(\"Red\"), 10);\nscores.insert(String::from(\"Blue\"), 20);\n\nfor (key, value) in &scores {\n  println!(\"{key}: {value}\");\n} // Red: 10, Blue: 20\n\nOrder is arbitrary\n\n\nFor iteration we loop across the key-value pairs.\nNote: the order of they key-value pairs when iterating is arbitrary. We can’t assume it will be in the same order they were inserted in.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#updating---overwrite",
+    "href": "slides/08-common_collections.html#updating---overwrite",
+    "title": "8. Common Collections",
+    "section": "Updating - overwrite",
+    "text": "Updating - overwrite\nuse std::collections::HashMap;\n\nlet mut scores = HashMap::new()\n\nscores.insert(String::from(\"Blue\"), 10);\nscores.insert(String::from(\"Blue\"), 25);\n\nWe can update a hash map in 3 different ways. The first is to just overwrite the existing value.\nBecause “Blue” is already a key, the 2nd insert will change the value. Each key is unique.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#updating---add-if-not-present",
+    "href": "slides/08-common_collections.html#updating---add-if-not-present",
+    "title": "8. Common Collections",
+    "section": "Updating - add if not present",
+    "text": "Updating - add if not present\nuse std::collections::HashMap;\n\nlet mut scores = HashMap::new();\nscores.insert(String::from(\"Blue\"), 10);\n\nscores.entry(String::from(\"Red\")).or_insert(50); // added\nscores.entry(String::from(\"Blue\")).or_insert(50); // skipped\n\nSometimes we may want to add a key-value pair only if that key doesn’t exist yet.\nWe do that with entry and or_insert. In this example, the \"Red\": 50 will be inserted and the “Blue” entry will be left as is.",
+    "crumbs": [
+      "8. Common Collections"
+    ]
+  },
+  {
+    "objectID": "slides/08-common_collections.html#updating---modify-existing-value",
+    "href": "slides/08-common_collections.html#updating---modify-existing-value",
+    "title": "8. Common Collections",
+    "section": "Updating - modify existing value",
+    "text": "Updating - modify existing value\nuse std::collections::HashMap;\n\nlet text = \"hello world wonderful world\";\n\nlet mut map = HashMap::new();\n\nfor word in text.split_whitespace() {\n  let count = map.entry(word).or_insert(0);\n  *count += 1;\n}\nprintln!(\"{map:?}\"); // {\"world\": 2, \"hello\": 1, \"wonderful\": 1}",
     "crumbs": [
       "8. Common Collections"
     ]

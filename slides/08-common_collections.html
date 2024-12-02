@@ -27,6 +27,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-f77ede3f8df5db7b2f50cc1693ca0955.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -136,13 +201,528 @@
 <h1>Learning objectives</h1>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>Identify the 3 most common collection types in the Rust standard library</li>
+<li>Know where collections are stored in memory and why it’s important</li>
+<li>Be able to access elements of a collection and iterate over all elements</li>
+<li>Know where to find information about Rust’s collection types and when to use them</li>
 </ul>
 </div>
+</section>
+
+<section>
+<section id="intro" class="title-slide slide level1 center">
+<h1>Intro</h1>
+
+</section>
+<section id="what-is-a-collection" class="slide level2">
+<h2>What is a ‘collection’?</h2>
+<p>Collections are data structures for storing <em>multiple</em> values.</p>
 <aside class="notes">
+<p>Example: <code>i8</code> is a single 8-bit integer value. A vector can store multiple <code>i8</code>s together.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-about-arrays-and-tuples" class="slide level2">
+<h2>What about arrays and tuples?</h2>
 <ul>
-<li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
+<li class="fragment">Yes, arrays and tuples can hold multiple values</li>
+<li class="fragment">But, they are stored on the <code>stack</code> while collections are stored on the <code>heap</code>
+<ul>
+<li class="fragment">array, tuple: <em>fixed</em> size, known at compile time</li>
+<li class="fragment">collections: <em>variable</em> size, not known at compile time</li>
+</ul></li>
+</ul>
+<aside class="notes">
+<p>Collections can grow and shrink while the program is running &amp; their size does not need to be known at compile time.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="common-collections" class="slide level2">
+<h2>Common collections</h2>
+<ul>
+<li class="fragment"><code>vector</code>: collection of numbers</li>
+<li class="fragment"><code>string</code>: collection of characters</li>
+<li class="fragment"><code>hash map</code>: collection of key-value pairs</li>
+</ul>
+</section></section>
+<section>
+<section id="vectors" class="title-slide slide level1 center">
+<h1>Vectors</h1>
+
+</section>
+<section id="creating-vectors" class="slide level2">
+<h2>Creating vectors</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>You can create a vector with <code>new</code> and add values with <code>.push</code></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a></a><span class="kw">let</span> <span class="kw">mut</span> v<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="dt">Vec</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a>v<span class="op">.</span>push(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a></a>v<span class="op">.</span>push(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a></a>v<span class="op">.</span>push(<span class="dv">3</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:40%;">
+<p>Or you can create it directly with <code>vec!</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a><span class="kw">let</span> v <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<aside class="notes">
+<p>Note the <code>mut</code> in the first case.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="access-elements" class="slide level2">
+<h2>Access elements</h2>
+<style>
+  .mb-2 {
+    margin-bottom: 2rem;
+  }
+</style>
+<div class="mb-2">
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="kw">let</span> v <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="columns">
+<div class="column" style="width:45%;">
+<p><code>[]</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="kw">let</span> first_element<span class="op">:</span> <span class="op">&amp;</span><span class="dt">i32</span> <span class="op">=</span> <span class="op">&amp;</span>v[<span class="dv">0</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:55%;">
+<p><code>get</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="kw">let</span> first_element<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;&amp;</span><span class="dt">i32</span><span class="op">&gt;</span> <span class="op">=</span> v<span class="op">.</span>get(<span class="dv">0</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<aside class="notes">
+<p>First method: should be familiar</p>
+<p>Second method: returns an <code>Option</code> type</p>
+<p>Having 2 methods means you can control how your program behaves when using an out-of-range index.</p>
+<p>The first method crashes the program.</p>
+<p>The second method allows you to handle having <code>Some(value)</code> or <code>None</code>. Maybe you want to</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="access-elements---ownership-borrowing" class="slide level2">
+<h2>Access elements - ownership &amp; borrowing</h2>
+<p>This program will not compile</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a><span class="kw">let</span> <span class="kw">mut</span> v <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb6-2"><a></a></span>
+<span id="cb6-3"><a></a><span class="kw">let</span> first <span class="op">=</span> <span class="op">&amp;</span>v[<span class="dv">0</span>]<span class="op">;</span> <span class="co">// immutable borrow</span></span>
+<span id="cb6-4"><a></a></span>
+<span id="cb6-5"><a></a>v<span class="op">.</span>push(<span class="dv">6</span>)<span class="op">;</span> <span class="co">// mutable borrow</span></span>
+<span id="cb6-6"><a></a></span>
+<span id="cb6-7"><a></a><span class="pp">println!</span>(<span class="st">"The first element is: {first}"</span>)<span class="op">;</span> <span class="co">// immutable borrow used</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>We’re referencing the first element but updating at the end so you might thing this shoudl be fine.</p>
+<p>The problem though is that Rust stores vectors in one continuous block of memory. So adding another element may require copying the vector to a new memory location. If that happens, then our reference to the first element will point to a section of deallocated memory.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="iteration" class="slide level2">
+<h2>Iteration</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Immutable vector, immutable references</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a><span class="kw">let</span> v <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb7-2"><a></a><span class="cf">for</span> i <span class="kw">in</span> <span class="op">&amp;</span>v <span class="op">{</span></span>
+<span id="cb7-3"><a></a>  <span class="pp">println!</span>(<span class="st">"{i}"</span>)<span class="op">;</span></span>
+<span id="cb7-4"><a></a><span class="op">}</span></span>
+<span id="cb7-5"><a></a><span class="co">// v = [1, 2, 3]</span></span>
+<span id="cb7-6"><a></a><span class="co">// output: 1, 2, 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:50%;">
+<p>Mutable vector, mutable references</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="kw">let</span> <span class="kw">mut</span> v <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb8-2"><a></a><span class="cf">for</span> i <span class="kw">in</span> <span class="op">&amp;</span><span class="kw">mut</span> v <span class="op">{</span></span>
+<span id="cb8-3"><a></a>  <span class="op">*</span>i <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-4"><a></a><span class="op">}</span></span>
+<span id="cb8-5"><a></a><span class="co">// v = [2, 3, 4]</span></span>
+<span id="cb8-6"><a></a></span>
+<span id="cb8-7"><a></a><span class="cf">for</span> i <span class="kw">in</span> <span class="op">&amp;</span>v <span class="op">{</span></span>
+<span id="cb8-8"><a></a>    <span class="pp">println!</span>(<span class="st">"{i}"</span>)<span class="op">;</span></span>
+<span id="cb8-9"><a></a><span class="op">}</span></span>
+<span id="cb8-10"><a></a></span>
+<span id="cb8-11"><a></a><span class="co">// output: 2, 3, 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<aside class="notes">
+<p>Note the use of the dereference operator <code>*</code>. We must use this to change the value the mutable reference refers to.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="vectors-with-multiple-types" class="slide level2">
+<h2>Vectors with multiple types</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<p><code>enum</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a><span class="kw">enum</span> SpreadsheetCell <span class="op">{</span></span>
+<span id="cb9-2"><a></a>  Int(<span class="dt">i32</span>)<span class="op">,</span></span>
+<span id="cb9-3"><a></a>  Float(<span class="dt">f64</span>)<span class="op">,</span></span>
+<span id="cb9-4"><a></a>  Text(<span class="dt">String</span>)<span class="op">,</span></span>
+<span id="cb9-5"><a></a><span class="op">}</span></span>
+<span id="cb9-6"><a></a></span>
+<span id="cb9-7"><a></a><span class="kw">let</span> row <span class="op">=</span> <span class="pp">vec!</span>[</span>
+<span id="cb9-8"><a></a>  <span class="pp">SpreadsheetCell::</span>Int(<span class="dv">3</span>)<span class="op">,</span></span>
+<span id="cb9-9"><a></a>  <span class="pp">SpreadsheetCell::</span>Float(<span class="dv">10.12</span>)<span class="op">,</span></span>
+<span id="cb9-10"><a></a>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:55%;">
+<p><code>struct</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb10-1"><a></a><span class="kw">struct</span> Ex <span class="op">{</span></span>
+<span id="cb10-2"><a></a>    number<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb10-3"><a></a>    string<span class="op">:</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb10-4"><a></a><span class="op">}</span></span>
+<span id="cb10-5"><a></a></span>
+<span id="cb10-6"><a></a><span class="kw">let</span> v <span class="op">=</span> <span class="pp">vec!</span>[</span>
+<span id="cb10-7"><a></a>    Ex <span class="op">{</span>number<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> string<span class="op">:</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"string"</span>)<span class="op">},</span></span>
+<span id="cb10-8"><a></a>    Ex <span class="op">{</span>number<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> string<span class="op">:</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"2nd string"</span>)<span class="op">},</span></span>
+<span id="cb10-9"><a></a>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<aside class="notes">
+<p>Elements of vectors must be all of the same type. To store mutliple types, we need a container that can hold multiple types.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="strings" class="title-slide slide level1 center">
+<h1>Strings</h1>
+
+</section>
+<section id="what-are-strings" class="slide level2">
+<h2>What are <code>String</code>s?</h2>
+<ul>
+<li class="fragment">Collection of bytes</li>
+<li class="fragment">In Rust standard library</li>
+<li class="fragment">Built around vectors</li>
+<li class="fragment">UTF-8</li>
+</ul>
+</section>
+<section id="string-vs-str" class="slide level2">
+<h2><code>String</code> vs <code>str</code></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div>
+<p><code>String</code></p>
+<ul>
+<li>standard library</li>
+<li>dynamic size</li>
+<li>vector</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div>
+<p><code>str</code></p>
+<ul>
+<li>built into the language</li>
+<li>fixed size</li>
+<li>slice of the vector</li>
+</ul>
+</div>
+</div><div class="footer">
+<p>More info: <a href="https://users.rust-lang.org/t/understanding-when-to-use-string-vs-str/103746">Rust User’s forum</a> – <a href="https://stackoverflow.com/questions/24158114/what-are-the-differences-between-rusts-string-and-str">Stack Overflow</a></p>
+</div>
+</div>
+<aside class="notes">
+<p>When referring to ‘strings’ in Rust, people can mean either a <code>String</code> or <code>str</code> (more typically <code>&amp;str</code>). But they are different types.</p>
+<p>I’ve listed a few of the similarities and differences here and listed a few reference at the bottom. This is still a bit confusing for me but the references helped so I suggest you read them.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="creating-strings" class="slide level2">
+<h2>Creating Strings</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>You can create a <code>String</code> with <code>new</code> and add values with <code>.push_str</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb11-1"><a></a><span class="kw">let</span> <span class="kw">mut</span> s <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb11-2"><a></a>s<span class="op">.</span>push_str(<span class="st">"this is"</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a></a>s<span class="op">.</span>push_str(<span class="st">"a string"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:50%;">
+<p>Or you can create it directly</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb12-1"><a></a><span class="kw">let</span> s1 <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"this is a string"</span>)<span class="op">;</span></span>
+<span id="cb12-2"><a></a><span class="kw">let</span> s2 <span class="op">=</span> <span class="st">"this is a string"</span><span class="op">.</span>to_string()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+</section>
+<section id="combining-strings" class="slide level2">
+<h2>Combining Strings</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><code>+</code></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb13-1"><a></a><span class="kw">let</span> s1 <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"this is "</span>)<span class="op">;</span></span>
+<span id="cb13-2"><a></a><span class="kw">let</span> s2 <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"a string"</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a></a></span>
+<span id="cb13-4"><a></a><span class="kw">let</span> s3 <span class="op">=</span> s1 <span class="op">+</span> <span class="op">&amp;</span>s2<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:50%;">
+<p><code>format!</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb14-1"><a></a><span class="kw">let</span> s1 <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"this is"</span>)<span class="op">;</span></span>
+<span id="cb14-2"><a></a><span class="kw">let</span> s2 <span class="op">=</span> <span class="dt">String</span><span class="op">::</span> from(<span class="st">"a string"</span>)</span>
+<span id="cb14-3"><a></a></span>
+<span id="cb14-4"><a></a><span class="kw">let</span> s3 <span class="op">=</span> <span class="pp">format!</span>(<span class="st">"{s1} ... {s2}!"</span>) <span class="co">// "this is ... a string!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<aside class="notes">
+<p>Using the <code>+</code> operator, note that we use a reference to the 2nd string: <code>&amp;s2</code>. This is because how <code>add</code> is defined, see the book for more details.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="access-elements-1" class="slide level2">
+<h2>Access elements</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb15-1"><a></a><span class="kw">let</span> s <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"this is a string"</span>)</span>
+<span id="cb15-2"><a></a><span class="kw">let</span> first_char <span class="op">=</span> s[<span class="dv">0</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHlud3FybHZwZjF6cTY1cWtraWY3bG1keHRneGhnaTJkaWJkazN3ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JliGmPEIgzGLe/giphy.gif"></p>
+<figcaption>Computer says no GIF</figcaption>
+</figure>
+</div>
+</div>
+<aside class="notes">
+<p>Since <code>String</code>s are built on top of vectors, we may want to get the first character like we would the first element of a vector. But we can’t do that.</p>
+<p>The reason why is because of how Rust stores strings.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="internal-representation-of-strings" class="slide level2">
+<h2>Internal representation of <code>String</code>s</h2>
+<div>
+<ul>
+<li>Wrapper around <code>Vec&lt;u8&gt;</code></li>
+<li>Vector of bytes</li>
+<li>UTF-8</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb16-1"><a></a><span class="kw">let</span> hello <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"hello"</span>)<span class="op">;</span></span>
+<span id="cb16-2"><a></a><span class="kw">let</span> konichiwa <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"こんにちは"</span>)<span class="op">;</span></span>
+<span id="cb16-3"><a></a></span>
+<span id="cb16-4"><a></a><span class="pp">println!</span>(<span class="st">"Hello bytes: {}"</span><span class="op">,</span> hello<span class="op">.</span>len())<span class="op">;</span> <span class="co">// 5</span></span>
+<span id="cb16-5"><a></a><span class="pp">println!</span>(<span class="st">"Konichiwa bytes:{}"</span><span class="op">,</span> konichiwa<span class="op">.</span>len())<span class="op">;</span> <span class="co">// 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=45e1b62ab133c092529e642359e39218">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>To understand why we can’t index into strings we need to know how Strings are represented in Rust. Rust stores strings as a vector of bytes, encoded in UTF-8.</p>
+<p>Example: the <code>String</code> ‘hello’ in English and Japanese.</p>
+<p>On the surface, it looks like they would both have legnth 5. But, because of how strings are stored, the lengths are very different.</p>
+<p>Human languages have a lot of variety so there is no ‘correct’ way to index into strings. The best we can do is take slices of a string …</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="string-slices" class="slide level2">
+<h2>String slices</h2>
+<div class="fragment">
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb17-1"><a></a><span class="kw">let</span> hello <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"hello"</span>)<span class="op">;</span></span>
+<span id="cb17-2"><a></a><span class="pp">println!</span>(<span class="st">"Hello first: {}"</span><span class="op">,</span> <span class="op">&amp;</span>hello[<span class="dv">0</span><span class="op">..</span><span class="dv">1</span>])<span class="op">;</span> <span class="co">// h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb18-1"><a></a><span class="kw">let</span> konichiwa <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"こんにちは"</span>)<span class="op">;</span></span>
+<span id="cb18-2"><a></a><span class="pp">println!</span>(<span class="st">"Konichiwa first: {}"</span><span class="op">,</span> <span class="op">&amp;</span>konichiwa[<span class="dv">0</span><span class="op">..</span><span class="dv">1</span>])<span class="op">;</span> <span class="co">//error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=be97b099bd1286df61ca0bb9dc35823a">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>While we can’t index into strings at specific indices, we can use a range of indices to get string slices.</p>
+<p>So if we specify the <em>range</em> to get the first element, we get ‘h’ as expected.</p>
+<p>However, that doesn’t always work. Some languages need more than 1 byte to store a character. We need to know the language so we can slice at the boundaries of characters. Otherwise we get an error.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="iteration-1" class="slide level2">
+<h2>Iteration</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><code>.chars()</code></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb19-1"><a></a><span class="kw">let</span> hello <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"hello"</span>)<span class="op">;</span></span>
+<span id="cb19-2"><a></a><span class="kw">let</span> konichiwa <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"こんにちは"</span>)<span class="op">;</span></span>
+<span id="cb19-3"><a></a></span>
+<span id="cb19-4"><a></a><span class="cf">for</span> c <span class="kw">in</span> hello<span class="op">.</span>chars() <span class="op">{</span></span>
+<span id="cb19-5"><a></a>    <span class="pp">println!</span>(<span class="st">"{c}"</span>)<span class="op">;</span></span>
+<span id="cb19-6"><a></a><span class="op">}</span> <span class="co">// h, e, l, l, o</span></span>
+<span id="cb19-7"><a></a></span>
+<span id="cb19-8"><a></a><span class="cf">for</span> c <span class="kw">in</span> konichiwa<span class="op">.</span>chars() <span class="op">{</span></span>
+<span id="cb19-9"><a></a>    <span class="pp">println!</span>(<span class="st">"{c}"</span>)<span class="op">;</span></span>
+<span id="cb19-10"><a></a><span class="op">}</span> <span class="co">// こ, ん, に, ち, は</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column" style="width:50%;">
+<p><code>.bytes()</code></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb20-1"><a></a><span class="kw">let</span> hello <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"hello"</span>)<span class="op">;</span></span>
+<span id="cb20-2"><a></a><span class="kw">let</span> konichiwa <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"こんにちは"</span>)<span class="op">;</span></span>
+<span id="cb20-3"><a></a></span>
+<span id="cb20-4"><a></a><span class="cf">for</span> b <span class="kw">in</span> hello<span class="op">.</span>bytes() <span class="op">{</span></span>
+<span id="cb20-5"><a></a>    <span class="pp">println!</span>(<span class="st">"{b}"</span>)<span class="op">;</span></span>
+<span id="cb20-6"><a></a><span class="op">}</span> <span class="co">// 104, 101, ...</span></span>
+<span id="cb20-7"><a></a></span>
+<span id="cb20-8"><a></a><span class="cf">for</span> b <span class="kw">in</span> konichiwa<span class="op">.</span>bytes() <span class="op">{</span></span>
+<span id="cb20-9"><a></a>    <span class="pp">println!</span>(<span class="st">"{b}"</span>)<span class="op">;</span></span>
+<span id="cb20-10"><a></a><span class="op">}</span> <span class="co">// 227, 129, ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=87e92e6f7a94894663cc7e31dbdf70e3">Rust Playground - chars</a> – <a href="">Rust Playground - bytes</a></p>
+</div>
+</section></section>
+<section>
+<section id="hash-maps" class="title-slide slide level1 center">
+<h1>Hash maps</h1>
+<aside class="notes">
+<p>The last collection for today is the hash map, which stores key-value pairs.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="creating-hash-maps" class="slide level2">
+<h2>Creating hash maps</h2>
+<p>You can create a hash map with <code>new</code> and add values with <code>.insert</code></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb21-1"><a></a><span class="kw">use</span> <span class="pp">std::collections::</span>HashMap<span class="op">;</span></span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a><span class="kw">let</span> <span class="kw">mut</span> scores <span class="op">=</span> <span class="pp">HashMap::</span>new()<span class="op">;</span></span>
+<span id="cb21-4"><a></a></span>
+<span id="cb21-5"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Red"</span>)<span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb21-6"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Blue"</span>)<span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Note the <code>use</code> here. Since hash maps are not used as often as vectors or strings we need to explicitly import them.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="access-elements-2" class="slide level2">
+<h2>Access elements</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb22-1"><a></a><span class="kw">use</span> <span class="pp">std::collections::</span>HashMap<span class="op">;</span></span>
+<span id="cb22-2"><a></a></span>
+<span id="cb22-3"><a></a><span class="kw">let</span> <span class="kw">mut</span> scores <span class="op">=</span> <span class="pp">HashMap::</span>new()<span class="op">;</span></span>
+<span id="cb22-4"><a></a></span>
+<span id="cb22-5"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Red"</span>)<span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb22-6"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Blue"</span>)<span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb22-7"><a></a></span>
+<span id="cb22-8"><a></a><span class="kw">let</span> blue_team <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Blue"</span>)<span class="op">;</span></span>
+<span id="cb22-9"><a></a><span class="kw">let</span> blue_score <span class="op">=</span> scores<span class="op">.</span>get(<span class="op">&amp;</span>blue_team)<span class="op">.</span>copied()<span class="op">.</span>unwrap_or(<span class="dv">0</span>)<span class="op">;</span> <span class="co">// 20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<div>
+<ul>
+<li><code>get</code> returns an <code>Option&lt;&amp;V&gt;</code></li>
+<li><code>copied</code> returns an <code>Option&lt;i32&gt;</code> instead of <code>Option&lt;&amp;i32&gt;</code></li>
+<li><code>unwrap_or</code> returns <code>0</code> if there is no entry for <code>"Blue"</code></li>
+</ul>
+</div>
+</div>
+<aside class="notes">
+<p>The extra calls after <code>get</code> here are to get at the underlying value.</p>
+<ul>
+<li><code>get</code> returns an <code>Option</code>we copy it to get an Option of type <code>i32</code></li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -156,36 +736,117 @@
           display:block!important;
       }</style></aside>
 </section>
-
-<section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
-
+<section id="iteration-2" class="slide level2">
+<h2>Iteration</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb23-1"><a></a><span class="kw">use</span> <span class="pp">std::collections::</span>HashMap<span class="op">;</span></span>
+<span id="cb23-2"><a></a></span>
+<span id="cb23-3"><a></a><span class="kw">let</span> <span class="kw">mut</span> scores <span class="op">=</span> <span class="pp">HashMap::</span>new()<span class="op">;</span></span>
+<span id="cb23-4"><a></a></span>
+<span id="cb23-5"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Red"</span>)<span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb23-6"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Blue"</span>)<span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb23-7"><a></a></span>
+<span id="cb23-8"><a></a><span class="cf">for</span> (key<span class="op">,</span> value) <span class="kw">in</span> <span class="op">&amp;</span>scores <span class="op">{</span></span>
+<span id="cb23-9"><a></a>  <span class="pp">println!</span>(<span class="st">"{key}: {value}"</span>)<span class="op">;</span></span>
+<span id="cb23-10"><a></a><span class="op">}</span> <span class="co">// Red: 10, Blue: 20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p>Order is arbitrary</p>
+</div>
+<aside class="notes">
+<p>For iteration we loop across the key-value pairs.</p>
+<p>Note: the order of they key-value pairs when iterating is arbitrary. We can’t assume it will be in the same order they were inserted in.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
-<ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
-</ul>
+<section id="updating---overwrite" class="slide level2">
+<h2>Updating - overwrite</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb24-1"><a></a><span class="kw">use</span> <span class="pp">std::collections::</span>HashMap<span class="op">;</span></span>
+<span id="cb24-2"><a></a></span>
+<span id="cb24-3"><a></a><span class="kw">let</span> <span class="kw">mut</span> scores <span class="op">=</span> <span class="pp">HashMap::</span>new()</span>
+<span id="cb24-4"><a></a></span>
+<span id="cb24-5"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Blue"</span>)<span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb24-6"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Blue"</span>)<span class="op">,</span> <span class="dv">25</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>We can update a hash map in 3 different ways. The first is to just overwrite the existing value.</p>
+<p>Because “Blue” is already a key, the 2nd insert will change the value. Each key is unique.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+<section id="updating---add-if-not-present" class="slide level2">
+<h2>Updating - add if not present</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb25-1"><a></a><span class="kw">use</span> <span class="pp">std::collections::</span>HashMap<span class="op">;</span></span>
+<span id="cb25-2"><a></a></span>
+<span id="cb25-3"><a></a><span class="kw">let</span> <span class="kw">mut</span> scores <span class="op">=</span> <span class="pp">HashMap::</span>new()<span class="op">;</span></span>
+<span id="cb25-4"><a></a>scores<span class="op">.</span>insert(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Blue"</span>)<span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb25-5"><a></a></span>
+<span id="cb25-6"><a></a>scores<span class="op">.</span>entry(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Red"</span>))<span class="op">.</span>or_insert(<span class="dv">50</span>)<span class="op">;</span> <span class="co">// added</span></span>
+<span id="cb25-7"><a></a>scores<span class="op">.</span>entry(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Blue"</span>))<span class="op">.</span>or_insert(<span class="dv">50</span>)<span class="op">;</span> <span class="co">// skipped</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Sometimes we may want to add a key-value pair only if that key doesn’t exist yet.</p>
+<p>We do that with <code>entry</code> and <code>or_insert</code>. In this example, the <code>"Red": 50</code> will be inserted and the “Blue” entry will be left as is.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="updating---modify-existing-value" class="slide level2">
+<h2>Updating - modify existing value</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb26-1"><a></a><span class="kw">use</span> <span class="pp">std::collections::</span>HashMap<span class="op">;</span></span>
+<span id="cb26-2"><a></a></span>
+<span id="cb26-3"><a></a><span class="kw">let</span> text <span class="op">=</span> <span class="st">"hello world wonderful world"</span><span class="op">;</span></span>
+<span id="cb26-4"><a></a></span>
+<span id="cb26-5"><a></a><span class="kw">let</span> <span class="kw">mut</span> map <span class="op">=</span> <span class="pp">HashMap::</span>new()<span class="op">;</span></span>
+<span id="cb26-6"><a></a></span>
+<span id="cb26-7"><a></a><span class="cf">for</span> word <span class="kw">in</span> text<span class="op">.</span>split_whitespace() <span class="op">{</span></span>
+<span id="cb26-8"><a></a>  <span class="kw">let</span> count <span class="op">=</span> map<span class="op">.</span>entry(word)<span class="op">.</span>or_insert(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb26-9"><a></a>  <span class="op">*</span>count <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb26-10"><a></a><span class="op">}</span></span>
+<span id="cb26-11"><a></a><span class="pp">println!</span>(<span class="st">"{map:?}"</span>)<span class="op">;</span> <span class="co">// {"world": 2, "hello": 1, "wonderful": 1}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
-<section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="resources" class="title-slide slide level1 center">
+<h1>Resources</h1>
+<p><a href="https://doc.rust-lang.org/std/collections/index.html">Collections Documentation</a></p>
+<aside class="notes">
+<p>The last thing I want to point out is the documentation on collections. We’ve covered the 3 most common collections but there are more in the Rust standard library.</p>
+<p>The documentation page explains the other types of collections, all the methods for each collection, and what I think is particularly useful: some guidance on when to use which type of collection.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
-</section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
-
-
-</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

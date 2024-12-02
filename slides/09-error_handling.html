@@ -27,6 +27,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-f77ede3f8df5db7b2f50cc1693ca0955.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -136,14 +201,28 @@
 <h1>Learning objectives</h1>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>Understand the 2 types of errors in Rust</li>
+<li>Describe when to use what type of error</li>
+<li>Know how to work with a <code>Result</code> enum</li>
 </ul>
 </div>
-<aside class="notes">
+</section>
+
+<section>
+<section id="intro" class="title-slide slide level1 center">
+<h1>Intro</h1>
+
+</section>
+<section id="types-of-errors" class="slide level2">
+<h2>Types of errors</h2>
 <ul>
-<li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
+<li class="fragment"><em>recoverable</em></li>
+<li class="fragment"><em>unrecoverable</em></li>
 </ul>
+<aside class="notes">
+<p>Rust has 2 types of errors</p>
+<p>Recoverable errors are errors that we would handle through code. For example, maybe we want to retry an operation if it fails the first time.</p>
+<p>Unrecoverable errors crash the program.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -156,36 +235,307 @@
           display:block!important;
       }</style></aside>
 </section>
-
-<section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
-
-</section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="no-exceptions" class="slide level2">
+<h2>No exceptions</h2>
+<div class="fragment">
+<div>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li><code>Result&lt;T, E&gt;</code></li>
+<li><code>panic!</code></li>
 </ul>
-</section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+</div>
+</div>
+<aside class="notes">
+<p>It’s worth noting that Rust doesn’t have exceptions. (<code>stop</code>, <code>warn</code>,<code>message</code> in R)</p>
+<p>Instead, it has the <code>Resut&lt;T, E&gt;</code> enum for recoverable errors and the <code>panic!</code> macro for unrecoverable errors.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
+<section id="panic" class="title-slide slide level1 center">
+<h1><code>panic!</code></h1>
+<div>
+<ul>
+<li><code>panic!("message")</code>
+<ul>
+<li>prints the message</li>
+<li>cleans up the stack</li>
+<li>stops the program</li>
+</ul></li>
+<li>Set <code>RUST_BACKTRACE = 1</code> to print a backtrace</li>
+<li>Set <code>panic = 'abort'</code> in <code>Cargo.toml</code> to quit without cleaning the stack</li>
+</ul>
+</div>
+</section>
+
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="result" class="title-slide slide level1 center">
+<h1><code>Result</code></h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="recoverable-errors" class="slide level2">
+<h2>Recoverable errors</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a></a><span class="kw">enum</span> <span class="dt">Result</span><span class="op">&lt;</span>T<span class="op">,</span> E<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb1-2"><a></a>    <span class="cn">Ok</span>(T)<span class="op">,</span></span>
+<span id="cb1-3"><a></a>    <span class="cn">Err</span>(E)<span class="op">,</span></span>
+<span id="cb1-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li><code>T</code> is the type of the returned value on success</li>
+<li><code>E</code> is the type of the error on failure</li>
+</ul>
+</div>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
-
-
+<section id="recoverable-error---reading-a-file" class="slide level2">
+<h2>Recoverable error - reading a file</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a><span class="kw">use</span> <span class="pp">std::fs::</span>File<span class="op">;</span></span>
+<span id="cb2-2"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb2-3"><a></a>    <span class="kw">let</span> greeting_file_result <span class="op">=</span> <span class="pp">File::</span>open(<span class="st">"hello.txt"</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<div>
+<ul>
+<li><code>T</code> = <code>std::fs::File</code></li>
+<li><code>E</code> = <code>std::io::Error</code></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="recoverable-error---reading-a-file-1" class="slide level2">
+<h2>Recoverable error - reading a file</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="kw">use</span> <span class="pp">std::fs::</span>File<span class="op">;</span></span>
+<span id="cb3-2"><a></a></span>
+<span id="cb3-3"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb3-4"><a></a>    <span class="kw">let</span> greeting_file_result <span class="op">=</span> <span class="pp">File::</span>open(<span class="st">"hello.txt"</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a></a></span>
+<span id="cb3-6"><a></a>    <span class="kw">let</span> greeting_file <span class="op">=</span> <span class="cf">match</span> greeting_file_result <span class="op">{</span></span>
+<span id="cb3-7"><a></a>        <span class="cn">Ok</span>(file) <span class="op">=&gt;</span> file<span class="op">,</span></span>
+<span id="cb3-8"><a></a>        <span class="cn">Err</span>(error) <span class="op">=&gt;</span> <span class="pp">panic!</span>(<span class="st">"Problem opening the file: {error:?}"</span>)<span class="op">,</span></span>
+<span id="cb3-9"><a></a>    <span class="op">};</span></span>
+<span id="cb3-10"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<div>
+<ul>
+<li>success (<code>Ok</code>) -&gt; <code>std::fs::File</code></li>
+<li>error (<code>Err</code>) -&gt; close the program</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="recoverable-error---reading-a-file-2" class="slide level2">
+<h2>Recoverable error - reading a file</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="kw">use</span> <span class="pp">std::fs::</span>File<span class="op">;</span></span>
+<span id="cb4-2"><a></a><span class="kw">use</span> <span class="pp">std::io::</span>ErrorKind<span class="op">;</span></span>
+<span id="cb4-3"><a></a></span>
+<span id="cb4-4"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb4-5"><a></a>    <span class="kw">let</span> greeting_file_result <span class="op">=</span> <span class="pp">File::</span>open(<span class="st">"hello.txt"</span>)<span class="op">;</span></span>
+<span id="cb4-6"><a></a></span>
+<span id="cb4-7"><a></a>    <span class="kw">let</span> greeting_file <span class="op">=</span> <span class="cf">match</span> greeting_file_result <span class="op">{</span></span>
+<span id="cb4-8"><a></a>        <span class="cn">Ok</span>(file) <span class="op">=&gt;</span> file<span class="op">,</span></span>
+<span id="cb4-9"><a></a>        <span class="cn">Err</span>(error) <span class="op">=&gt;</span> <span class="cf">match</span> error<span class="op">.</span>kind() <span class="op">{</span></span>
+<span id="cb4-10"><a></a>            <span class="pp">ErrorKind::</span>NotFound <span class="op">=&gt;</span> <span class="cf">match</span> <span class="pp">File::</span>create(<span class="st">"hello.txt"</span>) <span class="op">{</span></span>
+<span id="cb4-11"><a></a>                <span class="cn">Ok</span>(fc) <span class="op">=&gt;</span> fc<span class="op">,</span></span>
+<span id="cb4-12"><a></a>                <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="pp">panic!</span>(<span class="st">"Problem creating the file: {e:?}"</span>)<span class="op">,</span></span>
+<span id="cb4-13"><a></a>            <span class="op">},</span></span>
+<span id="cb4-14"><a></a>            other_error <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb4-15"><a></a>                <span class="pp">panic!</span>(<span class="st">"Problem opening the file: {other_error:?}"</span>)<span class="op">;</span></span>
+<span id="cb4-16"><a></a>            <span class="op">}</span></span>
+<span id="cb4-17"><a></a>        <span class="op">},</span></span>
+<span id="cb4-18"><a></a>    <span class="op">};</span></span>
+<span id="cb4-19"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<div>
+<ul>
+<li>success (<code>Ok</code>) -&gt; <code>std::fs::File</code></li>
+<li>error (<code>Err</code>) -&gt;
+<ul>
+<li>file not found error (<code>ErrorKind::NotFound</code>) -&gt; create file
+<ul>
+<li>success (<code>Ok</code>) -&gt; <code>std::fs::File</code></li>
+<li>error -&gt; close the program</li>
+</ul></li>
+<li>other error type -&gt; close the program</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="panic-on-error-shortcuts" class="slide level2">
+<h2><code>panic!</code> on error shortcuts</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><code>unwrap</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="kw">use</span> <span class="pp">std::fs::</span>File<span class="op">;</span></span>
+<span id="cb5-2"><a></a></span>
+<span id="cb5-3"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb5-4"><a></a>    <span class="kw">let</span> greeting_file <span class="op">=</span> <span class="pp">File::</span>open(<span class="st">"hello.txt"</span>)<span class="op">.</span>unwrap()<span class="op">;</span></span>
+<span id="cb5-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li><code>Ok</code> -&gt; value</li>
+<li><code>Err</code> -&gt; <code>panic!</code></li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<p><code>expect</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a><span class="kw">use</span> <span class="pp">std::fs::</span>File<span class="op">;</span></span>
+<span id="cb6-2"><a></a></span>
+<span id="cb6-3"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb6-4"><a></a>    <span class="kw">let</span> greeting_file <span class="op">=</span> <span class="pp">File::</span>open(<span class="st">"hello.txt"</span>)</span>
+<span id="cb6-5"><a></a>        <span class="op">.</span>expect(<span class="st">"hello.txt should be included in this project"</span>)<span class="op">;</span></span>
+<span id="cb6-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li><code>Ok</code> -&gt; value</li>
+<li><code>Err</code> -&gt; <code>panic!</code>
+<ul>
+<li><code>panic!("message")</code></li>
+</ul></li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="propagating-errors" class="slide level2">
+<h2>Propagating errors</h2>
+<div>
+<ul>
+<li>return error</li>
+<li>calling code decides what to do</li>
+</ul>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a><span class="kw">use</span> <span class="pp">std::fs::</span>File<span class="op">;</span></span>
+<span id="cb7-2"><a></a><span class="kw">use</span> <span class="pp">std::io::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="bu">Read</span><span class="op">};</span></span>
+<span id="cb7-3"><a></a></span>
+<span id="cb7-4"><a></a><span class="kw">fn</span> read_username_from_file() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="pp">io::</span><span class="bu">Error</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb7-5"><a></a>    <span class="kw">let</span> username_file_result <span class="op">=</span> <span class="pp">File::</span>open(<span class="st">"hello.txt"</span>)<span class="op">;</span></span>
+<span id="cb7-6"><a></a></span>
+<span id="cb7-7"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> username_file <span class="op">=</span> <span class="cf">match</span> username_file_result <span class="op">{</span></span>
+<span id="cb7-8"><a></a>        <span class="cn">Ok</span>(file) <span class="op">=&gt;</span> file<span class="op">,</span></span>
+<span id="cb7-9"><a></a>        <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="cf">return</span> <span class="cn">Err</span>(e)<span class="op">,</span></span>
+<span id="cb7-10"><a></a>    <span class="op">};</span></span>
+<span id="cb7-11"><a></a></span>
+<span id="cb7-12"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> username <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb7-13"><a></a></span>
+<span id="cb7-14"><a></a>    <span class="cf">match</span> username_file<span class="op">.</span>read_to_string(<span class="op">&amp;</span><span class="kw">mut</span> username) <span class="op">{</span></span>
+<span id="cb7-15"><a></a>        <span class="cn">Ok</span>(_) <span class="op">=&gt;</span> <span class="cn">Ok</span>(username)<span class="op">,</span></span>
+<span id="cb7-16"><a></a>        <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="cn">Err</span>(e)<span class="op">,</span></span>
+<span id="cb7-17"><a></a>    <span class="op">}</span></span>
+<span id="cb7-18"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>The book has quite a bit of text about propogating errors.</p>
+<p>Really what it means is if some operation in your function returns an error, your function returns an error. The code that called your function decides what to do with it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="propagating-errors---shortcut" class="slide level2">
+<h2>Propagating errors - shortcut</h2>
+<p><code>?</code> returns value <em>or</em> returns error (early)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="kw">use</span> <span class="pp">std::fs::</span>File<span class="op">;</span></span>
+<span id="cb8-2"><a></a><span class="kw">use</span> <span class="pp">std::io::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="bu">Read</span><span class="op">};</span></span>
+<span id="cb8-3"><a></a></span>
+<span id="cb8-4"><a></a><span class="kw">fn</span> read_username_from_file() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="pp">io::</span><span class="bu">Error</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb8-5"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> username_file <span class="op">=</span> <span class="pp">File::</span>open(<span class="st">"hello.txt"</span>)<span class="op">?;</span></span>
+<span id="cb8-6"><a></a></span>
+<span id="cb8-7"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> username <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb8-8"><a></a>    username_file<span class="op">.</span>read_to_string(<span class="op">&amp;</span><span class="kw">mut</span> username)<span class="op">?;</span></span>
+<span id="cb8-9"><a></a>    <span class="cn">Ok</span>(username)</span>
+<span id="cb8-10"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>The book provides 2 more examples to make this code even shorter. I didn’t include them here because they are more about the methods of <code>std::fs</code> than about erors. However, you should have a look to see just how short things can get.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="when-to-use" class="slide level2">
+<h2>When to use <code>?</code></h2>
+<div>
+<ul>
+<li>Can’t always use it</li>
+<li>Return type of function must be compatible with type returned by function <code>?</code> is used on
+<ul>
+<li>Ex: outer function returns <code>Result</code>, <em>and</em> inner function returns <code>Result</code></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<p>Can’t use <code>?</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a><span class="kw">use</span> <span class="pp">std::fs::</span>File<span class="op">;</span></span>
+<span id="cb9-2"><a></a></span>
+<span id="cb9-3"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb9-4"><a></a>    <span class="kw">let</span> greeting_file <span class="op">=</span> <span class="pp">File::</span>open(<span class="st">"hello.txt"</span>)<span class="op">?;</span></span>
+<span id="cb9-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li><code>main</code> returns <code>()</code></li>
+<li><code>File::open</code> returns <code>Result</code></li>
+</ul>
+</div>
+</div>
 </section></section>
+<section id="result-or-panic" class="title-slide slide level1 center">
+<h1><code>Result</code> or <code>panic!</code>?</h1>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><code>Result</code></p>
+<div>
+<ul>
+<li>Calling code should choose what to do</li>
+<li>Failure is a possibility, but not a dealbreaker</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<p><code>panic!</code></p>
+<div>
+<ul>
+<li>Calling code should not have a choice</li>
+<li>Safety or correctness not guaranteed</li>
+<li>Examples, prototypes, tests</li>
+</ul>
+</div>
+</div></div>
+<aside class="notes">
+<p>The book goes into more detail on when to use <code>Result</code> vs.&nbsp;<code>panic!</code> and is worth a read if you haven’t read it yet. Particularly the section on using custom types for validation. I’m going to keep things at high level for today though.</p>
+<p>In short, <code>Result</code> should be used if it’s possible to work around the error. For example, if a user’s input is bad, you can ask them to re-enter it.</p>
+<p><code>panic!</code> should be used when really bad things could happen. You can’t guarantee the correctness of the program for example.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
