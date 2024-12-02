@@ -6,26 +6,606 @@ title: "8. Common Collections"
 # Learning objectives
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Identify the 3 most common collection types in the Rust standard library
+- Know where collections are stored in memory and why it's important
+- Be able to access elements of a collection and iterate over all elements
+- Know where to find information about Rust's collection types and when to use them
+:::
+
+
+# Intro
+
+## What is a 'collection'?
+
+Collections are data structures for storing _multiple_ values.
+
+::: notes
+Example: `i8` is a single 8-bit integer value. A vector can store multiple `i8`s together.
+:::
+
+## What about arrays and tuples?
+
+- Yes, arrays and tuples can hold multiple values
+- But, they are stored on the `stack` while collections are stored on the `heap`
+  - array, tuple: _fixed_ size, known at compile time
+  - collections:  _variable_ size, not known at compile time
+
+::: notes
+Collections can grow and shrink while the program is running & their size does not need to be known at compile time.
+:::
+
+## Common collections
+
+- `vector`: collection of numbers
+- `string`: collection of characters
+- `hash map`: collection of key-value pairs
+
+# Vectors
+
+## Creating vectors
+
+:::: {.columns}
+::: {.column width="60%"}
+You can create a vector with `new` and add values with `.push`
+
+```rust
+let mut v: Vec<i32> = Vec::new();
+
+v.push(1);
+v.push(2);
+v.push(3);
+```
+:::
+
+::: {.column width="40%"}
+Or you can create it directly with `vec!`
+
+```rust
+let v = vec![1, 2, 3];
+```
+:::
+::::
+
+::: notes
+Note the `mut` in the first case.
+:::
+
+
+
+## Access elements
+
+<style>
+  .mb-2 {
+    margin-bottom: 2rem;
+  }
+</style>
+
+::: {.mb-2}
+```rust
+let v = vec![1, 2, 3];
+```
+:::
+
+:::: {.columns}
+
+::: {.column width="45%"}
+`[]`
+```rust
+let first_element: &i32 = &v[0];
+```
+:::
+
+::: {.column width="55%"}
+`get`
+```rust
+let first_element: Option<&i32> = v.get(0);
+```
+:::
+
+::::
+
+::: notes
+First method: should be familiar
+
+Second method: returns an `Option` type
+
+Having 2 methods means you can control how your program behaves when using an out-of-range index.
+
+The first method crashes the program.
+
+The second method allows you to handle having `Some(value)` or `None`.
+Maybe you want to
+
+:::
+
+
+
+## Access elements - ownership & borrowing
+
+This program will not compile
+
+```rust
+let mut v = vec![1, 2, 3, 4, 5];
+
+let first = &v[0]; // immutable borrow
+
+v.push(6); // mutable borrow
+
+println!("The first element is: {first}"); // immutable borrow used
+```
+
+::: notes
+We're referencing the first element but updating at the end so you might thing this shoudl be fine.
+
+The problem though is that Rust stores vectors in one continuous block of memory.
+So adding another element may require copying the vector to a new memory location.
+If that happens, then our reference to the first element will point to a section of deallocated memory.
+:::
+
+
+## Iteration
+
+:::: {.columns}
+
+::: {.column width="50%"}
+Immutable vector, immutable references
+```rust
+let v = vec![1, 2, 3];
+for i in &v {
+  println!("{i}");
+}
+// v = [1, 2, 3]
+// output: 1, 2, 3
+```
+:::
+
+::: {.column width="50%"}
+Mutable vector,  mutable references
+```rust
+let mut v = vec![1, 2, 3];
+for i in &mut v {
+  *i += 1;
+}
+// v = [2, 3, 4]
+
+for i in &v {
+    println!("{i}");
+}
+
+// output: 2, 3, 4
+```
+:::
+
+::::
+
+::: notes
+Note the use of the dereference operator `*`.
+We must use this to change the value the mutable reference refers to.
+:::
+
+
+## Vectors with multiple types
+
+
+:::: {.columns}
+
+::: {.column width="45%"}
+`enum`
+```rust
+enum SpreadsheetCell {
+  Int(i32),
+  Float(f64),
+  Text(String),
+}
+
+let row = vec![
+  SpreadsheetCell::Int(3),
+  SpreadsheetCell::Float(10.12),
+];
+
+```
+:::
+
+::: {.column width="55%"}
+`struct`
+```rust
+struct Ex {
+    number: i32,
+    string: String,
+}
+
+let v = vec![
+    Ex {number: 1, string: String::from("string")},
+    Ex {number: 1, string: String::from("2nd string")},
+];
+```
+:::
+
+::::
+
+
+::: notes
+Elements of vectors must be all of the same type.
+To store mutliple types, we need a container that can hold multiple types.
+:::
+
+# Strings
+
+## What are `String`s?
+
+- Collection of bytes
+- In Rust standard library
+- Built around vectors
+- UTF-8
+
+## `String` vs `str`
+
+::: {.columns}
+
+:::: {.column width="50%"}
+
+::::: nonincremental
+`String`
+
+- standard library
+- dynamic size
+- vector
+:::::
+
+::::
+
+:::: {.column width="50%"}
+
+::::: nonincremental
+`str`
+
+- built into the language
+- fixed size
+- slice of the vector
+:::::
+
+::::
+
+::: footer
+More info: [Rust User's forum](https://users.rust-lang.org/t/understanding-when-to-use-string-vs-str/103746) -- [Stack Overflow](https://stackoverflow.com/questions/24158114/what-are-the-differences-between-rusts-string-and-str)
+:::
+
 :::
 
 ::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+When referring to 'strings' in Rust, people can mean either a `String` or `str` (more typically `&str`).
+But they are different types.
+
+I've listed a few of the similarities and differences here and listed a few reference at the bottom.
+This is still a bit confusing for me but the references helped so I suggest you read them.
 :::
 
-# SLIDE SECTION
 
-## SLIDE
+## Creating Strings
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+:::: {.columns}
+::: {.column width="50%"}
+You can create a `String` with `new` and add values with `.push_str`
 
-## SLIDE
+```rust
+let mut s = String::new();
+s.push_str("this is");
+s.push_str("a string");
+```
+:::
 
-# SLIDE SECTION
+::: {.column width="50%"}
+Or you can create it directly
 
-## SLIDE
+```rust
+let s1 = String::from("this is a string");
+let s2 = "this is a string".to_string();
+```
+:::
+::::
 
-## SLIDE
+## Combining Strings
+
+:::: {.columns}
+::: {.column width="50%"}
+`+`
+
+```rust
+let s1 = String::from("this is ");
+let s2 = String::from("a string");
+
+let s3 = s1 + &s2;
+```
+:::
+
+::: {.column width="50%"}
+`format!`
+
+```rust
+let s1 = String::from("this is");
+let s2 = String:: from("a string")
+
+let s3 = format!("{s1} ... {s2}!") // "this is ... a string!"
+```
+:::
+::::
+
+
+::: notes
+Using the `+` operator, note that we use a reference to the 2nd string: `&s2`.
+This is because how `add` is defined, see the book for more details.
+:::
+
+## Access elements
+
+```rust
+let s = String::from("this is a string")
+let first_char = s[0];
+```
+
+::: {.fragment}
+![Computer says no GIF](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHlud3FybHZwZjF6cTY1cWtraWY3bG1keHRneGhnaTJkaWJkazN3ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JliGmPEIgzGLe/giphy.gif)
+:::
+
+::: notes
+Since `String`s are built on top of vectors, we may want to get the first character like we would the first element of a vector.
+But we can't do that.
+
+The reason why is because of how Rust stores strings.
+:::
+
+## Internal representation of `String`s
+
+::: nonincremental
+- Wrapper around `Vec<u8>`
+- Vector of bytes
+- UTF-8
+:::
+
+::: {.fragment}
+```rust
+let hello = String::from("hello");
+let konichiwa = String::from("こんにちは");
+
+println!("Hello bytes: {}", hello.len()); // 5
+println!("Konichiwa bytes:{}", konichiwa.len()); // 15
+```
+:::
+
+::: {.footer}
+[Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=45e1b62ab133c092529e642359e39218)
+:::
+
+::: notes
+To understand why we can't index into strings we need to know how Strings are represented in Rust.
+Rust stores strings as a vector of bytes, encoded in UTF-8.
+
+Example: the `String` 'hello' in English and Japanese.
+
+On the surface, it looks like they would both have legnth 5.
+But, because of how strings are stored, the lengths are very different.
+
+Human languages have a lot of variety so there is no 'correct' way to index into strings.
+The best we can do is take slices of a string ...
+:::
+
+
+## String slices
+
+::: {.fragment}
+```rust
+let hello = String::from("hello");
+println!("Hello first: {}", &hello[0..1]); // h
+```
+:::
+
+::: {.fragment}
+```rust
+let konichiwa = String::from("こんにちは");
+println!("Konichiwa first: {}", &konichiwa[0..1]); //error
+```
+:::
+
+::: {.footer}
+[Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=be97b099bd1286df61ca0bb9dc35823a)
+:::
+
+::: notes
+While we can't index into strings at specific indices, we can use a range of indices to get string slices.
+
+So if we specify the _range_ to get the first element, we get 'h' as expected.
+
+However, that doesn't always work.
+Some languages need more than 1 byte to store a character.
+We need to know the language so we can slice at the boundaries of characters.
+Otherwise we get an error.
+:::
+
+## Iteration
+
+:::: {.columns}
+::: {.column width="50%"}
+`.chars()`
+
+```rust
+let hello = String::from("hello");
+let konichiwa = String::from("こんにちは");
+
+for c in hello.chars() {
+    println!("{c}");
+} // h, e, l, l, o
+
+for c in konichiwa.chars() {
+    println!("{c}");
+} // こ, ん, に, ち, は
+```
+:::
+
+::: {.column width="50%"}
+`.bytes()`
+
+```rust
+let hello = String::from("hello");
+let konichiwa = String::from("こんにちは");
+
+for b in hello.bytes() {
+    println!("{b}");
+} // 104, 101, ...
+
+for b in konichiwa.bytes() {
+    println!("{b}");
+} // 227, 129, ...
+```
+:::
+::::
+
+::: {.footer}
+[Rust Playground - chars](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=87e92e6f7a94894663cc7e31dbdf70e3) -- [Rust Playground - bytes]()
+:::
+
+
+# Hash maps
+
+
+::: notes
+The last collection for today is the hash map, which stores key-value pairs.
+:::
+
+## Creating hash maps
+You can create a hash map with `new` and add values with `.insert`
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Red"), 10);
+scores.insert(String::from("Blue"), 20);
+```
+
+::: notes
+Note the `use` here.
+Since hash maps are not used as often as vectors or strings we need to explicitly import them.
+:::
+
+## Access elements
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Red"), 10);
+scores.insert(String::from("Blue"), 20);
+
+let blue_team = String::from("Blue");
+let blue_score = scores.get(&blue_team).copied().unwrap_or(0); // 20
+```
+
+::: {.fragment}
+::: nonincremental
+- `get` returns an `Option<&V>`
+- `copied` returns an `Option<i32>` instead of `Option<&i32>`
+- `unwrap_or` returns `0` if there is no entry for `"Blue"`
+:::
+:::
+
+::: notes
+The extra calls after `get` here are to get at the underlying value.
+
+- `get` returns an `Option`we copy it to get an Option of type `i32` 
+:::
+
+## Iteration
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Red"), 10);
+scores.insert(String::from("Blue"), 20);
+
+for (key, value) in &scores {
+  println!("{key}: {value}");
+} // Red: 10, Blue: 20
+```
+
+::: {.footer}
+Order is arbitrary
+:::
+
+::: notes
+For iteration we loop across the key-value pairs.
+
+Note: the order of they key-value pairs when iterating is arbitrary.
+We can't assume it will be in the same order they were inserted in.
+:::
+
+
+## Updating - overwrite
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new()
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Blue"), 25);
+```
+
+::: notes
+We can update a hash map in 3 different ways.
+The first is to just overwrite the existing value.
+
+Because "Blue" is already a key, the 2nd insert will change the value.
+Each key is unique.
+:::
+
+## Updating - add if not present
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+scores.insert(String::from("Blue"), 10);
+
+scores.entry(String::from("Red")).or_insert(50); // added
+scores.entry(String::from("Blue")).or_insert(50); // skipped
+```
+
+::: notes
+Sometimes we may want to add a key-value pair only if that key doesn't exist yet.
+
+We do that with `entry` and `or_insert`.
+In this example, the `"Red": 50` will be inserted and the "Blue" entry will be left as is.
+:::
+
+
+## Updating - modify existing value
+
+```rust
+use std::collections::HashMap;
+
+let text = "hello world wonderful world";
+
+let mut map = HashMap::new();
+
+for word in text.split_whitespace() {
+  let count = map.entry(word).or_insert(0);
+  *count += 1;
+}
+println!("{map:?}"); // {"world": 2, "hello": 1, "wonderful": 1}
+```
+
+
+# Resources
+
+[Collections Documentation](https://doc.rust-lang.org/std/collections/index.html)
+
+::: notes
+The last thing I want to point out is the documentation on collections.
+We've covered the 3 most common collections but there are more in the Rust standard library.
+
+The documentation page explains the other types of collections, all the methods for each collection, and what I think is particularly useful: some guidance on when to use which type of collection.
+:::
