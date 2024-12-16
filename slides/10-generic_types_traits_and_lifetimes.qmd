@@ -5,27 +5,396 @@ title: "10. Generic Types, Traits, and Lifetimes"
 
 # Learning objectives
 
-::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
-:::
+> Generic type parameters let you apply the code to different types. Traits and trait bounds ensure that even though the types are generic, they’ll have the behavior the code needs. You learned how to use lifetime annotations to ensure that this flexible code won’t have any dangling references.
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
-:::
+# Generics
 
-# SLIDE SECTION
+## Generic functions
 
-## SLIDE
+```rust
+fn swap_yummy_seeds(seeds: (&str, &str)) -> (&str, &str) {
+    (seeds.1, seeds.0)
+}
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+fn swap_random_seeds(seeds: (i32, i32)) -> (i32, i32) {
+    (seeds.1, seeds.0)
+}
+```
 
-## SLIDE
+## Generic functions
 
-# SLIDE SECTION
+```rust
+fn main() {
+    let yummy_seeds = ("sunflower", "pumpkin");
+    let random_seeds = (42, 1234);
 
-## SLIDE
+    println!("Before swapping:");
+    println!("{} then {}", yummy_seeds.0, yummy_seeds.1);
+    println!("{} then {}", random_seeds.0, random_seeds.1);
 
-## SLIDE
+    // Swap their seeds using the type-specific functions
+    let yummy_seeds = swap_yummy_seeds(yummy_seeds);
+    let random_seeds = swap_random_seeds(random_seeds);
+
+    println!("\nAfter swapping:");
+    println!("{} then {}", yummy_seeds.0, yummy_seeds.1);
+    println!("{} then {}", random_seeds.0, random_seeds.1);
+}
+```
+
+## Generic functions
+
+```rust
+fn swap_seeds<T>(seeds: (T, T)) -> (T, T) {
+    (seeds.1, seeds.0)
+}
+```
+
+## Generic functions
+
+```rust
+fn main() {
+    let yummy_seeds = ("sunflower", "pumpkin");
+    let random_seeds = (42, 1234);
+
+    println!("Before swapping:");
+    println!("{} then {}", yummy_seeds.0, yummy_seeds.1);
+    println!("{} then {}", random_seeds.0, random_seeds.1);
+
+    // Swap their habitats
+    let yummy_seeds = swap_seeds(yummy_seeds);
+    let random_seeds = swap_seeds(random_seeds);
+
+    println!("\nAfter swapping:");
+    println!("{} then {}", yummy_seeds.0, yummy_seeds.1);
+    println!("{} then {}", random_seeds.0, random_seeds.1);
+}
+```
+
+## More Types
+
+```rust
+fn swap_animals<T, U>(animal1: (T, T), animal2: (U, U)) -> ((T, U), (U, T)) {
+    // Swap the habitats of the animals
+    ((animal1.0, animal2.1), (animal2.0, animal1.1))
+}
+```
+
+## More Types
+
+```rust
+
+fn main() {
+    // Define two animals and their habitats
+    let bird = ("Robin", "Forest");
+    let bat = ("Fruit Bat".to_string(), "Cave".to_string());
+
+    println!("Before swapping:");
+    println!("{} lives in the {}", bird.0, bird.1);
+    println!("{} lives in the {}", bat.0, bat.1);
+
+    // Swap their habitats
+    let (swapped_bird, swapped_bat) = swap_animals(bird, bat);
+
+    println!("\nAfter swapping:");
+    println!("{} now lives in the {}", swapped_bird.0, swapped_bird.1);
+    println!("{} now lives in the {}", swapped_bat.0, swapped_bat.1);
+}
+```
+
+## Structs and generics
+
+```rust
+struct Animal<T> {
+    name: String,
+    id: T,
+}
+```
+
+## Structs and generics
+
+```rust
+fn main() {
+    // Animal with a numeric ID
+    let chimpanzee = Animal {
+        name: String::from("Chimpanzee"),
+        id: 23,
+    };
+
+    // Animal with a string ID
+    let bonobo = Animal {
+        name: String::from("Bonobo"),
+        id: String::from("A-34"),
+    };
+
+    println!("{} {}", chimpanzee.name, chimpanzee.id);
+    println!("{} {}", bonobo.name, bonobo.id);
+}
+```
+
+# Traits
+
+## Traits
+
+```rust
+struct Bird {
+    name: String,
+    wingspan: u8, // Wingspan in cm
+}
+```
+
+## Traits
+
+```rust
+use std::fmt;
+impl fmt::Display for Bird {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        // "Draw" the bird with its wingspan
+        let wing = "-".repeat(self.wingspan as usize / 2); // Half for each wing
+        let drawing = format!("{}<{}>{}", wing, self.name, wing);
+        write!(f, "{}", drawing)
+    }
+}
+```
+
+## Traits
+
+```rust
+fn main() {
+    let bird = Bird {
+        name: "Robin".to_string(),
+        wingspan: 20,
+    };
+
+    let eagle = Bird {
+        name: "Eagle".to_string(),
+        wingspan: 60,
+    };
+
+    println!("Birds:");
+    println!("{}", bird);
+    println!("{}", eagle);
+}
+```
+
+## Custom traits and generics
+
+```rust
+trait Fly {
+    fn fly(&self) -> String;
+}
+
+trait LayEggs {
+    fn lay_eggs(&self) -> String;
+}
+```
+
+
+## Custom traits and generics
+
+```rust
+struct Bird {
+    name: String,
+    wingspan: u8,
+}
+
+impl Fly for Bird {
+    fn fly(&self) -> String {
+        format!(
+            "{} flaps its wings (wingspan: {} cm) and soars gracefully!",
+            self.name, self.wingspan
+        )
+    }
+}
+
+impl LayEggs for Bird {
+    fn lay_eggs(&self) -> String {
+        format!("{} lays eggs in its cozy nest!", self.name)
+    }
+}
+```
+
+## Custom traits and generics
+
+```rust
+struct Bat {
+    name: String,
+    wingspan: u8,
+}
+
+impl Fly for Bat {
+    fn fly(&self) -> String {
+        format!(
+            "{} flies by rapidly flapping its leathery wings (wingspan: {} cm)!",
+            self.name, self.wingspan
+        )
+    }
+}
+```
+
+## Custom traits and generics
+
+```rust
+fn fly_home<T: Fly>(animal: &T, wingspan: u8, home: &str) {
+    println!("{}", animal.fly());
+    println!(
+        "It uses its wingspan of {} cm to glide back home to the {}!",
+        wingspan, home
+    );
+}
+```
+
+## Custom traits and generics
+
+```rust
+fn fly_home_and_lay_egg<T: Fly + LayEggs>(animal: &T, wingspan: u8, home: &str) {
+    println!("{}", animal.fly());
+    println!(
+        "It uses its wingspan of {} cm to glide back home to the {}!",
+        wingspan, home
+    );
+    println!("{}", animal.lay_eggs());
+}
+```
+
+## Custom traits and generics
+
+```rust
+fn main() {
+    // Create a bird and a bat
+    let bird = Bird {
+        name: "Robin".to_string(),
+        wingspan: 30,
+    };
+
+    let bat = Bat {
+        name: "Fruit Bat".to_string(),
+        wingspan: 25,
+    };
+
+    fly_home(&bird, bird.wingspan, "nest");
+    fly_home(&bat, bat.wingspan, "cave");
+
+    // Uncommenting this line would cause a compilation error
+    // fly_home_and_lay_egg(&bat, bat.wingspan, "cave");
+
+    let bird2 = Bird {
+        name: "Eagle".to_string(),
+        wingspan: 200,
+    };
+
+    fly_home_and_lay_egg(&bird2, bird2.wingspan, "mountain nest");
+}
+```
+
+# Lifetimes
+
+## Lifetimes
+
+> Lifetimes are named regions of code that a reference must be valid for. ---Rustnomicon
+
+## Functions and lifetimes
+
+```rust
+struct Predator {
+    ecosystem: String,
+}
+
+struct Prey {
+    ecosystem: String,
+}
+```
+## Functions and lifetimes
+
+```rust
+fn describe_hunt<'a>(predator: &'a Predator, prey: &'a Prey) -> &'a str {
+    if predator.ecosystem == prey.ecosystem {
+        "The hunt begins!"
+    } else {
+        "The predator and prey are in different ecosystems, no hunt occurs."
+    }
+}
+```
+
+## Functions and lifetimes
+
+```rust
+fn main() {
+    let lion = Predator {
+        ecosystem: String::from("savanna"),
+    };
+
+    let gazelle = Prey {
+        ecosystem: String::from("savanna"),
+    };
+
+    let deer = Prey {
+        ecosystem: String::from("forest"),
+    };
+
+    let result1 = describe_hunt(&lion, &gazelle);
+    let result2 = describe_hunt(&lion, &deer);
+
+    println!("Hunting scenario 1: {}", result1);
+    println!("Hunting scenario 2: {}", result2);
+}
+```
+
+## Structs and lifetimes
+
+```rust
+struct Ecosystem {
+    name: String,
+    biome: String,
+    temperature: f32, // in degrees Celsius
+    description: String,
+}
+
+struct Animal<'a> {
+    name: String,
+    ecosystem: &'a Ecosystem,
+}
+```
+
+## Structs and lifetimes
+
+```rust
+impl<'a> Animal<'a> {
+    fn describe(&self) -> String {
+        format!(
+            "{} lives in the {}, which is a {} biome with an average temperature of {:.1}°C. {}",
+            self.name,
+            self.ecosystem.name,
+            self.ecosystem.biome,
+            self.ecosystem.temperature,
+            self.ecosystem.description
+        )
+    }
+}
+```
+
+## Structs and lifetimes
+
+```rust
+fn main() {
+    let ecosystem = Ecosystem {
+        name: String::from("Amazon Rainforest"),
+        biome: String::from("tropical rainforest"),
+        temperature: 26.7, 
+        description: String::from("It is home to a vast array of plant and animal species."),
+    };
+
+    let predator = Animal {
+        name: String::from("Jaguar"),
+        ecosystem: &ecosystem,
+    };
+
+    let prey = Animal {
+        name: String::from("Capybara"),
+        ecosystem: &ecosystem,
+    };
+
+    println!("{}", predator.describe());
+    println!("{}", prey.describe());
+}
+```
