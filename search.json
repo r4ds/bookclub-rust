@@ -1740,41 +1740,241 @@
     ]
   },
   {
-    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#slide",
-    "href": "slides/10-generic_types_traits_and_lifetimes.html#slide",
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#generic-functions",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#generic-functions",
     "title": "10. Generic Types, Traits, and Lifetimes",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Generic functions",
+    "text": "Generic functions\nfn swap_yummy_seeds(seeds: (&str, &str)) -&gt; (&str, &str) {\n    (seeds.1, seeds.0)\n}\n\nfn swap_random_seeds(seeds: (i32, i32)) -&gt; (i32, i32) {\n    (seeds.1, seeds.0)\n}",
     "crumbs": [
       "10. Generic Types, Traits, and Lifetimes"
     ]
   },
   {
-    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#slide-1",
-    "href": "slides/10-generic_types_traits_and_lifetimes.html#slide-1",
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#generic-functions-1",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#generic-functions-1",
     "title": "10. Generic Types, Traits, and Lifetimes",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Generic functions",
+    "text": "Generic functions\nfn main() {\n    let yummy_seeds = (\"sunflower\", \"pumpkin\");\n    let random_seeds = (42, 1234);\n\n    println!(\"Before swapping:\");\n    println!(\"{} then {}\", yummy_seeds.0, yummy_seeds.1);\n    println!(\"{} then {}\", random_seeds.0, random_seeds.1);\n\n    // Swap their seeds using the type-specific functions\n    let yummy_seeds = swap_yummy_seeds(yummy_seeds);\n    let random_seeds = swap_random_seeds(random_seeds);\n\n    println!(\"\\nAfter swapping:\");\n    println!(\"{} then {}\", yummy_seeds.0, yummy_seeds.1);\n    println!(\"{} then {}\", random_seeds.0, random_seeds.1);\n}",
     "crumbs": [
       "10. Generic Types, Traits, and Lifetimes"
     ]
   },
   {
-    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#slide-2",
-    "href": "slides/10-generic_types_traits_and_lifetimes.html#slide-2",
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#generic-functions-2",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#generic-functions-2",
     "title": "10. Generic Types, Traits, and Lifetimes",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Generic functions",
+    "text": "Generic functions\nfn swap_seeds&lt;T&gt;(seeds: (T, T)) -&gt; (T, T) {\n    (seeds.1, seeds.0)\n}",
     "crumbs": [
       "10. Generic Types, Traits, and Lifetimes"
     ]
   },
   {
-    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#slide-3",
-    "href": "slides/10-generic_types_traits_and_lifetimes.html#slide-3",
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#generic-functions-3",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#generic-functions-3",
     "title": "10. Generic Types, Traits, and Lifetimes",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Generic functions",
+    "text": "Generic functions\nfn main() {\n    let yummy_seeds = (\"sunflower\", \"pumpkin\");\n    let random_seeds = (42, 1234);\n\n    println!(\"Before swapping:\");\n    println!(\"{} then {}\", yummy_seeds.0, yummy_seeds.1);\n    println!(\"{} then {}\", random_seeds.0, random_seeds.1);\n\n    // Swap their habitats\n    let yummy_seeds = swap_seeds(yummy_seeds);\n    let random_seeds = swap_seeds(random_seeds);\n\n    println!(\"\\nAfter swapping:\");\n    println!(\"{} then {}\", yummy_seeds.0, yummy_seeds.1);\n    println!(\"{} then {}\", random_seeds.0, random_seeds.1);\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#more-types",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#more-types",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "More Types",
+    "text": "More Types\nfn swap_animals&lt;T, U&gt;(animal1: (T, T), animal2: (U, U)) -&gt; ((T, U), (U, T)) {\n    // Swap the habitats of the animals\n    ((animal1.0, animal2.1), (animal2.0, animal1.1))\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#more-types-1",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#more-types-1",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "More Types",
+    "text": "More Types\n\nfn main() {\n    // Define two animals and their habitats\n    let bird = (\"Robin\", \"Forest\");\n    let bat = (\"Fruit Bat\".to_string(), \"Cave\".to_string());\n\n    println!(\"Before swapping:\");\n    println!(\"{} lives in the {}\", bird.0, bird.1);\n    println!(\"{} lives in the {}\", bat.0, bat.1);\n\n    // Swap their habitats\n    let (swapped_bird, swapped_bat) = swap_animals(bird, bat);\n\n    println!(\"\\nAfter swapping:\");\n    println!(\"{} now lives in the {}\", swapped_bird.0, swapped_bird.1);\n    println!(\"{} now lives in the {}\", swapped_bat.0, swapped_bat.1);\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-generics",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-generics",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Structs and generics",
+    "text": "Structs and generics\nstruct Animal&lt;T&gt; {\n    name: String,\n    id: T,\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-generics-1",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-generics-1",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Structs and generics",
+    "text": "Structs and generics\nfn main() {\n    // Animal with a numeric ID\n    let chimpanzee = Animal {\n        name: String::from(\"Chimpanzee\"),\n        id: 23,\n    };\n\n    // Animal with a string ID\n    let bonobo = Animal {\n        name: String::from(\"Bonobo\"),\n        id: String::from(\"A-34\"),\n    };\n\n    println!(\"{} {}\", chimpanzee.name, chimpanzee.id);\n    println!(\"{} {}\", bonobo.name, bonobo.id);\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#traits-1",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#traits-1",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Traits",
+    "text": "Traits\nstruct Bird {\n    name: String,\n    wingspan: u8, // Wingspan in cm\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#traits-2",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#traits-2",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Traits",
+    "text": "Traits\nuse std::fmt;\nimpl fmt::Display for Bird {\n    fn fmt(&self, f: &mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {\n        // \"Draw\" the bird with its wingspan\n        let wing = \"-\".repeat(self.wingspan as usize / 2); // Half for each wing\n        let drawing = format!(\"{}&lt;{}&gt;{}\", wing, self.name, wing);\n        write!(f, \"{}\", drawing)\n    }\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#traits-3",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#traits-3",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Traits",
+    "text": "Traits\nfn main() {\n    let bird = Bird {\n        name: \"Robin\".to_string(),\n        wingspan: 20,\n    };\n\n    let eagle = Bird {\n        name: \"Eagle\".to_string(),\n        wingspan: 60,\n    };\n\n    println!(\"Birds:\");\n    println!(\"{}\", bird);\n    println!(\"{}\", eagle);\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Custom traits and generics",
+    "text": "Custom traits and generics\ntrait Fly {\n    fn fly(&self) -&gt; String;\n}\n\ntrait LayEggs {\n    fn lay_eggs(&self) -&gt; String;\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-1",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-1",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Custom traits and generics",
+    "text": "Custom traits and generics\nstruct Bird {\n    name: String,\n    wingspan: u8,\n}\n\nimpl Fly for Bird {\n    fn fly(&self) -&gt; String {\n        format!(\n            \"{} flaps its wings (wingspan: {} cm) and soars gracefully!\",\n            self.name, self.wingspan\n        )\n    }\n}\n\nimpl LayEggs for Bird {\n    fn lay_eggs(&self) -&gt; String {\n        format!(\"{} lays eggs in its cozy nest!\", self.name)\n    }\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-2",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-2",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Custom traits and generics",
+    "text": "Custom traits and generics\nstruct Bat {\n    name: String,\n    wingspan: u8,\n}\n\nimpl Fly for Bat {\n    fn fly(&self) -&gt; String {\n        format!(\n            \"{} flies by rapidly flapping its leathery wings (wingspan: {} cm)!\",\n            self.name, self.wingspan\n        )\n    }\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-3",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-3",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Custom traits and generics",
+    "text": "Custom traits and generics\nfn fly_home&lt;T: Fly&gt;(animal: &T, wingspan: u8, home: &str) {\n    println!(\"{}\", animal.fly());\n    println!(\n        \"It uses its wingspan of {} cm to glide back home to the {}!\",\n        wingspan, home\n    );\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-4",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-4",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Custom traits and generics",
+    "text": "Custom traits and generics\nfn fly_home_and_lay_egg&lt;T: Fly + LayEggs&gt;(animal: &T, wingspan: u8, home: &str) {\n    println!(\"{}\", animal.fly());\n    println!(\n        \"It uses its wingspan of {} cm to glide back home to the {}!\",\n        wingspan, home\n    );\n    println!(\"{}\", animal.lay_eggs());\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-5",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#custom-traits-and-generics-5",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Custom traits and generics",
+    "text": "Custom traits and generics\nfn main() {\n    // Create a bird and a bat\n    let bird = Bird {\n        name: \"Robin\".to_string(),\n        wingspan: 30,\n    };\n\n    let bat = Bat {\n        name: \"Fruit Bat\".to_string(),\n        wingspan: 25,\n    };\n\n    fly_home(&bird, bird.wingspan, \"nest\");\n    fly_home(&bat, bat.wingspan, \"cave\");\n\n    // Uncommenting this line would cause a compilation error\n    // fly_home_and_lay_egg(&bat, bat.wingspan, \"cave\");\n\n    let bird2 = Bird {\n        name: \"Eagle\".to_string(),\n        wingspan: 200,\n    };\n\n    fly_home_and_lay_egg(&bird2, bird2.wingspan, \"mountain nest\");\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#lifetimes-1",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#lifetimes-1",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Lifetimes",
+    "text": "Lifetimes\n\nLifetimes are named regions of code that a reference must be valid for. —Rustnomicon",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#functions-and-lifetimes",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#functions-and-lifetimes",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Functions and lifetimes",
+    "text": "Functions and lifetimes\nstruct Predator {\n    ecosystem: String,\n}\n\nstruct Prey {\n    ecosystem: String,\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#functions-and-lifetimes-1",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#functions-and-lifetimes-1",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Functions and lifetimes",
+    "text": "Functions and lifetimes\nfn describe_hunt&lt;'a&gt;(predator: &'a Predator, prey: &'a Prey) -&gt; &'a str {\n    if predator.ecosystem == prey.ecosystem {\n        \"The hunt begins!\"\n    } else {\n        \"The predator and prey are in different ecosystems, no hunt occurs.\"\n    }\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#functions-and-lifetimes-2",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#functions-and-lifetimes-2",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Functions and lifetimes",
+    "text": "Functions and lifetimes\nfn main() {\n    let lion = Predator {\n        ecosystem: String::from(\"savanna\"),\n    };\n\n    let gazelle = Prey {\n        ecosystem: String::from(\"savanna\"),\n    };\n\n    let deer = Prey {\n        ecosystem: String::from(\"forest\"),\n    };\n\n    let result1 = describe_hunt(&lion, &gazelle);\n    let result2 = describe_hunt(&lion, &deer);\n\n    println!(\"Hunting scenario 1: {}\", result1);\n    println!(\"Hunting scenario 2: {}\", result2);\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-lifetimes",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-lifetimes",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Structs and lifetimes",
+    "text": "Structs and lifetimes\nstruct Ecosystem {\n    name: String,\n    biome: String,\n    temperature: f32, // in degrees Celsius\n    description: String,\n}\n\nstruct Animal&lt;'a&gt; {\n    name: String,\n    ecosystem: &'a Ecosystem,\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-lifetimes-1",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-lifetimes-1",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Structs and lifetimes",
+    "text": "Structs and lifetimes\nimpl&lt;'a&gt; Animal&lt;'a&gt; {\n    fn describe(&self) -&gt; String {\n        format!(\n            \"{} lives in the {}, which is a {} biome with an average temperature of {:.1}°C. {}\",\n            self.name,\n            self.ecosystem.name,\n            self.ecosystem.biome,\n            self.ecosystem.temperature,\n            self.ecosystem.description\n        )\n    }\n}",
+    "crumbs": [
+      "10. Generic Types, Traits, and Lifetimes"
+    ]
+  },
+  {
+    "objectID": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-lifetimes-2",
+    "href": "slides/10-generic_types_traits_and_lifetimes.html#structs-and-lifetimes-2",
+    "title": "10. Generic Types, Traits, and Lifetimes",
+    "section": "Structs and lifetimes",
+    "text": "Structs and lifetimes\nfn main() {\n    let ecosystem = Ecosystem {\n        name: String::from(\"Amazon Rainforest\"),\n        biome: String::from(\"tropical rainforest\"),\n        temperature: 26.7, \n        description: String::from(\"It is home to a vast array of plant and animal species.\"),\n    };\n\n    let predator = Animal {\n        name: String::from(\"Jaguar\"),\n        ecosystem: &ecosystem,\n    };\n\n    let prey = Animal {\n        name: String::from(\"Capybara\"),\n        ecosystem: &ecosystem,\n    };\n\n    println!(\"{}\", predator.describe());\n    println!(\"{}\", prey.describe());\n}",
     "crumbs": [
       "10. Generic Types, Traits, and Lifetimes"
     ]
