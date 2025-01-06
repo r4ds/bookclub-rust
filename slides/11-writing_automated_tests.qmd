@@ -18,13 +18,15 @@ title: "11. Writing Automated Tests"
 
 ## Testing in Rust
 
-- Ensures code functions as expected
-- Rust provides support for writing automated tests
-- Types of tests in Rust:
+- Tests ensure code functions as expected
+- Rust (`cargo`) provides native support for automating tests
+- Types of test in Rust include:
 
   ::: nonincremental
   - Unit tests
   - Integration tests
+  - Documentation tests
+  - Benchmarks
   :::
 
 ::: notes
@@ -32,6 +34,11 @@ In this chapter, we'll explore how to write tests in Rust to ensure our code wor
 :::
 
 # How to Write Tests
+
+## Typical Flow of a Test
+- Set up any needed data or state.
+- Run the code you want to test.
+- Assert that the results are what you expect.
 
 ## Anatomy of a Test Function
 
@@ -244,6 +251,7 @@ Ignored tests can be useful for tests that take a long time or require special s
 ### The Tests Module and `#[cfg(test)]`
 
 - Place tests in a `tests` module annotated with `#[cfg(test)]`
+- This module is only compiled when testing
 
   ```rust
   #[cfg(test)]
@@ -261,7 +269,7 @@ Ignored tests can be useful for tests that take a long time or require special s
 The `#[cfg(test)]` attribute ensures the tests are only compiled and run when testing.
 :::
 
-### Testing Private Functions
+## Testing Private Functions
 
 - You can test private functions in Rust
 - Example:
@@ -290,10 +298,7 @@ Because the tests module is inside the same file, it has access to private funct
 
 - Test the public API as an external user would
 - Placed in the `tests` directory
-
-### The `tests` Directory
-
-- Create a `tests` directory at the project root
+- Each file in `tests` is a separate crate
 
   ```
   my_project
@@ -303,8 +308,6 @@ Because the tests module is inside the same file, it has access to private funct
   └── tests
       └── integration_test.rs
   ```
-
-- Each file in `tests` is a separate crate
 - Example:
 
   ```rust
@@ -320,7 +323,7 @@ Because the tests module is inside the same file, it has access to private funct
 Integration tests verify that your library works as expected when used by others.
 :::
 
-### Submodules in Integration Tests
+## Submodules in Integration Tests
 
 - Share code between integration tests using modules
 - Create `tests/common/mod.rs` for shared code
@@ -345,7 +348,7 @@ Integration tests verify that your library works as expected when used by others
 This avoids code duplication in your tests.
 :::
 
-### Integration Tests for Binary Crates
+## Integration Tests for Binary Crates
 
 - Binary crates (with only `main.rs`) can't be tested directly via integration tests
 - Solution: Extract logic into a library crate (`lib.rs`)
