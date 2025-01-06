@@ -6,26 +6,362 @@ title: "11. Writing Automated Tests"
 # Learning objectives
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Understand how to write tests in Rust
+- Learn the anatomy of a test function
+- Use macros like `assert!`, `assert_eq!`, and `assert_ne!` in tests
+- Know how to check for panics with `should_panic`
+- Learn how to control test execution
+- Understand test organization: unit tests and integration tests
 :::
+
+# Introduction
+
+## Testing in Rust
+
+- Tests ensure code functions as expected
+- Rust (`cargo`) provides native support for automating tests
+- Types of test in Rust include:
+
+  ::: nonincremental
+  - Unit tests
+  - Integration tests
+  - Documentation tests
+  - Benchmarks
+  :::
 
 ::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+In this chapter, we'll explore how to write tests in Rust to ensure our code works correctly. We'll learn about unit tests, which test small pieces of code in isolation, and integration tests, which test how different parts of your code work together.
 :::
 
-# SLIDE SECTION
+# How to Write Tests
 
-## SLIDE
+## Typical Flow of a Test
+- Set up any needed data or state.
+- Run the code you want to test.
+- Assert that the results are what you expect.
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+## Anatomy of a Test Function
 
-## SLIDE
+- Annotate functions with `#[test]` to make them tests
 
-# SLIDE SECTION
+  ```rust
+  #[test]
+  fn it_works() {
+      assert_eq!(2 + 2, 4);
+  }
+  ```
 
-## SLIDE
+- Run tests with `cargo test`
 
-## SLIDE
+::: notes
+Test functions are regular functions annotated with `#[test]`. When you run `cargo test`, Rust looks for functions annotated with `#[test]` and runs them.
+:::
+
+## The `assert!` Macro
+
+- Ensures a condition evaluates to `true`
+
+  ```rust
+  assert!(condition);
+  ```
+
+- Example:
+
+  ```rust
+  #[test]
+  fn larger_can_hold_smaller() {
+      let larger = Rectangle { width: 8, height: 7 };
+      let smaller = Rectangle { width: 5, height: 1 };
+
+      assert!(larger.can_hold(&smaller));
+  }
+  ```
+
+::: notes
+The `assert!` macro is used to check that a condition is true. If it isn't, the test fails.
+:::
+
+## The `assert_eq!` and `assert_ne!` Macros
+
+- `assert_eq!(left, right)` checks `left == right`
+- `assert_ne!(left, right)` checks `left != right`
+- Provide detailed error messages on failure
+- Example:
+
+  ```rust
+  #[test]
+  fn it_adds_two() {
+      assert_eq!(add_two(2), 4);
+  }
+  ```
+
+::: notes
+These macros are useful for comparing values in tests. They display the values when the test fails, which helps with debugging.
+:::
+
+## Adding Custom Failure Messages
+
+- Add custom messages to assertions
+
+  ```rust
+  assert!(condition, "Custom message");
+  ```
+
+- Example:
+
+  ```rust
+  #[test]
+  fn greeting_contains_name() {
+      let result = greeting("Carol");
+      assert!(
+          result.contains("Carol"),
+          "Greeting did not contain name, value was `{}`",
+          result
+      );
+  }
+  ```
+
+::: notes
+Custom messages can help explain why a test failed, making it easier to diagnose issues.
+:::
+
+## Checking for Panics with `should_panic`
+
+- Use `#[should_panic]` to test code that should panic
+
+  ```rust
+  #[test]
+  #[should_panic]
+  fn test_panics() {
+      // code that should panic
+  }
+  ```
+
+- Use `expected` to specify a substring of the panic message
+
+  ```rust
+  #[test]
+  #[should_panic(expected = "must be less than or equal to 100")]
+  fn greater_than_100() {
+      Guess::new(200);
+  }
+  ```
+
+::: notes
+This attribute tells Rust that the test should pass if the code inside panics. The `expected` parameter allows you to check that the panic message contains specific text.
+:::
+
+## Using `Result<T, E>` in Tests
+
+- Tests can return `Result<T, E>` instead of panicking
+
+  ```rust
+  #[test]
+  fn it_works() -> Result<(), String> {
+      // code that might return Err
+      Ok(())
+  }
+  ```
+
+- Allows use of the `?` operator in tests
+
+::: notes
+Returning `Result` in tests can be convenient when using functions that return `Result`, allowing the use of the `?` operator.
+:::
+
+# Controlling How Tests Are Run
+
+## Running Tests in Parallel or Consecutively
+
+- Tests run in parallel by default
+- To run tests consecutively:
+
+  ```bash
+  cargo test -- --test-threads=1
+  ```
+
+::: notes
+Running tests in parallel speeds up test execution, but sometimes you may need to run tests one at a time, for example, if they interact with shared state.
+:::
+
+## Showing Function Output
+
+- Output from `println!` is captured by default
+- To display output even for passing tests:
+
+  ```bash
+  cargo test -- --show-output
+  ```
+
+::: notes
+By default, Rust captures output from tests to keep the test output clean. Use `--show-output` to see the output from `println!` and other macros.
+:::
+
+## Running a Subset of Tests by Name
+
+### Running Single Tests
+
+- Run a specific test by specifying its name:
+
+  ```bash
+  cargo test test_name
+  ```
+
+### Filtering Multiple Tests
+
+- Run tests matching a pattern:
+
+  ```bash
+  cargo test pattern
+  ```
+
+::: notes
+This is useful when you have many tests and want to focus on a subset.
+:::
+
+## Ignoring Some Tests Unless Specifically Requested
+
+- Use `#[ignore]` to exclude tests by default
+
+  ```rust
+  #[test]
+  #[ignore]
+  fn expensive_test() {
+      // code that takes a long time
+  }
+  ```
+
+- Run ignored tests with:
+
+  ```bash
+  cargo test -- --ignored
+  ```
+
+::: notes
+Ignored tests can be useful for tests that take a long time or require special setup.
+:::
+
+# Test Organization
+
+## Unit Tests
+
+- Test individual units of code in isolation
+- Placed in the same file as the code under test
+
+### The Tests Module and `#[cfg(test)]`
+
+- Place tests in a `tests` module annotated with `#[cfg(test)]`
+- This module is only compiled when testing
+
+  ```rust
+  #[cfg(test)]
+  mod tests {
+      use super::*;
+
+      #[test]
+      fn it_works() {
+          // test code
+      }
+  }
+  ```
+
+::: notes
+The `#[cfg(test)]` attribute ensures the tests are only compiled and run when testing.
+:::
+
+## Testing Private Functions
+
+- You can test private functions in Rust
+- Example:
+
+  ```rust
+  fn internal_adder(a: i32, b: i32) -> i32 {
+      a + b
+  }
+
+  #[cfg(test)]
+  mod tests {
+      use super::*;
+
+      #[test]
+      fn test_internal() {
+          assert_eq!(internal_adder(2, 2), 4);
+      }
+  }
+  ```
+
+::: notes
+Because the tests module is inside the same file, it has access to private functions.
+:::
+
+## Integration Tests
+
+- Test the public API as an external user would
+- Placed in the `tests` directory
+- Each file in `tests` is a separate crate
+
+  ```
+  my_project
+  ├── Cargo.toml
+  ├── src
+  │   └── lib.rs
+  └── tests
+      └── integration_test.rs
+  ```
+- Example:
+
+  ```rust
+  use my_project;
+
+  #[test]
+  fn it_adds_two() {
+      assert_eq!(my_project::add_two(2), 4);
+  }
+  ```
+
+::: notes
+Integration tests verify that your library works as expected when used by others.
+:::
+
+## Submodules in Integration Tests
+
+- Share code between integration tests using modules
+- Create `tests/common/mod.rs` for shared code
+
+  ```rust
+  // tests/common/mod.rs
+  pub fn setup() {
+      // setup code
+  }
+
+  // tests/integration_test.rs
+  mod common;
+
+  #[test]
+  fn it_adds_two() {
+      common::setup();
+      assert_eq!(my_project::add_two(2), 4);
+  }
+  ```
+
+::: notes
+This avoids code duplication in your tests.
+:::
+
+## Integration Tests for Binary Crates
+
+- Binary crates (with only `main.rs`) can't be tested directly via integration tests
+- Solution: Extract logic into a library crate (`lib.rs`)
+- `main.rs` can then call into `lib.rs`
+
+::: notes
+This allows you to test your core functionality separately from your binary interface.
+:::
+
+# Summary
+
+- Rust provides powerful tools for writing automated tests
+- Use unit tests to test small pieces of code
+- Use integration tests to test how pieces work together
+- Control test execution with command-line options
+- Organize tests effectively to maintain a robust codebase
