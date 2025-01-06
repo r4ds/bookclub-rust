@@ -850,41 +850,171 @@
     ]
   },
   {
-    "objectID": "slides/11-writing_automated_tests.html#slide",
-    "href": "slides/11-writing_automated_tests.html#slide",
+    "objectID": "slides/11-writing_automated_tests.html#testing-in-rust",
+    "href": "slides/11-writing_automated_tests.html#testing-in-rust",
     "title": "11. Writing Automated Tests",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Testing in Rust",
+    "text": "Testing in Rust\n\nTests ensure code functions as expected\nRust (cargo) provides native support for automating tests\nTypes of test in Rust include:\n\n\nUnit tests\nIntegration tests\nDocumentation tests\nBenchmarks\n\n\n\n\nIn this chapter, we’ll explore how to write tests in Rust to ensure our code works correctly. We’ll learn about unit tests, which test small pieces of code in isolation, and integration tests, which test how different parts of your code work together.",
     "crumbs": [
       "11. Writing Automated Tests"
     ]
   },
   {
-    "objectID": "slides/11-writing_automated_tests.html#slide-1",
-    "href": "slides/11-writing_automated_tests.html#slide-1",
+    "objectID": "slides/11-writing_automated_tests.html#typical-flow-of-a-test",
+    "href": "slides/11-writing_automated_tests.html#typical-flow-of-a-test",
     "title": "11. Writing Automated Tests",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Typical Flow of a Test",
+    "text": "Typical Flow of a Test\n\nSet up any needed data or state.\nRun the code you want to test.\nAssert that the results are what you expect.",
     "crumbs": [
       "11. Writing Automated Tests"
     ]
   },
   {
-    "objectID": "slides/11-writing_automated_tests.html#slide-2",
-    "href": "slides/11-writing_automated_tests.html#slide-2",
+    "objectID": "slides/11-writing_automated_tests.html#anatomy-of-a-test-function",
+    "href": "slides/11-writing_automated_tests.html#anatomy-of-a-test-function",
     "title": "11. Writing Automated Tests",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Anatomy of a Test Function",
+    "text": "Anatomy of a Test Function\n\nAnnotate functions with #[test] to make them tests\n#[test]\nfn it_works() {\n    assert_eq!(2 + 2, 4);\n}\nRun tests with cargo test\n\n\nTest functions are regular functions annotated with #[test]. When you run cargo test, Rust looks for functions annotated with #[test] and runs them.",
     "crumbs": [
       "11. Writing Automated Tests"
     ]
   },
   {
-    "objectID": "slides/11-writing_automated_tests.html#slide-3",
-    "href": "slides/11-writing_automated_tests.html#slide-3",
+    "objectID": "slides/11-writing_automated_tests.html#the-assert-macro",
+    "href": "slides/11-writing_automated_tests.html#the-assert-macro",
     "title": "11. Writing Automated Tests",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "The assert! Macro",
+    "text": "The assert! Macro\n\nEnsures a condition evaluates to true\nassert!(condition);\nExample:\n#[test]\nfn larger_can_hold_smaller() {\n    let larger = Rectangle { width: 8, height: 7 };\n    let smaller = Rectangle { width: 5, height: 1 };\n\n    assert!(larger.can_hold(&smaller));\n}\n\n\nThe assert! macro is used to check that a condition is true. If it isn’t, the test fails.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#the-assert_eq-and-assert_ne-macros",
+    "href": "slides/11-writing_automated_tests.html#the-assert_eq-and-assert_ne-macros",
+    "title": "11. Writing Automated Tests",
+    "section": "The assert_eq! and assert_ne! Macros",
+    "text": "The assert_eq! and assert_ne! Macros\n\nassert_eq!(left, right) checks left == right\nassert_ne!(left, right) checks left != right\nProvide detailed error messages on failure\nExample:\n#[test]\nfn it_adds_two() {\n    assert_eq!(add_two(2), 4);\n}\n\n\nThese macros are useful for comparing values in tests. They display the values when the test fails, which helps with debugging.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#adding-custom-failure-messages",
+    "href": "slides/11-writing_automated_tests.html#adding-custom-failure-messages",
+    "title": "11. Writing Automated Tests",
+    "section": "Adding Custom Failure Messages",
+    "text": "Adding Custom Failure Messages\n\nAdd custom messages to assertions\nassert!(condition, \"Custom message\");\nExample:\n#[test]\nfn greeting_contains_name() {\n    let result = greeting(\"Carol\");\n    assert!(\n        result.contains(\"Carol\"),\n        \"Greeting did not contain name, value was `{}`\",\n        result\n    );\n}\n\n\nCustom messages can help explain why a test failed, making it easier to diagnose issues.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#checking-for-panics-with-should_panic",
+    "href": "slides/11-writing_automated_tests.html#checking-for-panics-with-should_panic",
+    "title": "11. Writing Automated Tests",
+    "section": "Checking for Panics with should_panic",
+    "text": "Checking for Panics with should_panic\n\nUse #[should_panic] to test code that should panic\n#[test]\n#[should_panic]\nfn test_panics() {\n    // code that should panic\n}\nUse expected to specify a substring of the panic message\n#[test]\n#[should_panic(expected = \"must be less than or equal to 100\")]\nfn greater_than_100() {\n    Guess::new(200);\n}\n\n\nThis attribute tells Rust that the test should pass if the code inside panics. The expected parameter allows you to check that the panic message contains specific text.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#using-resultt-e-in-tests",
+    "href": "slides/11-writing_automated_tests.html#using-resultt-e-in-tests",
+    "title": "11. Writing Automated Tests",
+    "section": "Using Result<T, E> in Tests",
+    "text": "Using Result&lt;T, E&gt; in Tests\n\nTests can return Result&lt;T, E&gt; instead of panicking\n#[test]\nfn it_works() -&gt; Result&lt;(), String&gt; {\n    // code that might return Err\n    Ok(())\n}\nAllows use of the ? operator in tests\n\n\nReturning Result in tests can be convenient when using functions that return Result, allowing the use of the ? operator.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#running-tests-in-parallel-or-consecutively",
+    "href": "slides/11-writing_automated_tests.html#running-tests-in-parallel-or-consecutively",
+    "title": "11. Writing Automated Tests",
+    "section": "Running Tests in Parallel or Consecutively",
+    "text": "Running Tests in Parallel or Consecutively\n\nTests run in parallel by default\nTo run tests consecutively:\ncargo test -- --test-threads=1\n\n\nRunning tests in parallel speeds up test execution, but sometimes you may need to run tests one at a time, for example, if they interact with shared state.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#showing-function-output",
+    "href": "slides/11-writing_automated_tests.html#showing-function-output",
+    "title": "11. Writing Automated Tests",
+    "section": "Showing Function Output",
+    "text": "Showing Function Output\n\nOutput from println! is captured by default\nTo display output even for passing tests:\ncargo test -- --show-output\n\n\nBy default, Rust captures output from tests to keep the test output clean. Use --show-output to see the output from println! and other macros.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#running-a-subset-of-tests-by-name",
+    "href": "slides/11-writing_automated_tests.html#running-a-subset-of-tests-by-name",
+    "title": "11. Writing Automated Tests",
+    "section": "Running a Subset of Tests by Name",
+    "text": "Running a Subset of Tests by Name\nRunning Single Tests\n\nRun a specific test by specifying its name:\ncargo test test_name\n\nFiltering Multiple Tests\n\nRun tests matching a pattern:\ncargo test pattern\n\n\nThis is useful when you have many tests and want to focus on a subset.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#ignoring-some-tests-unless-specifically-requested",
+    "href": "slides/11-writing_automated_tests.html#ignoring-some-tests-unless-specifically-requested",
+    "title": "11. Writing Automated Tests",
+    "section": "Ignoring Some Tests Unless Specifically Requested",
+    "text": "Ignoring Some Tests Unless Specifically Requested\n\nUse #[ignore] to exclude tests by default\n#[test]\n#[ignore]\nfn expensive_test() {\n    // code that takes a long time\n}\nRun ignored tests with:\ncargo test -- --ignored\n\n\nIgnored tests can be useful for tests that take a long time or require special setup.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#unit-tests",
+    "href": "slides/11-writing_automated_tests.html#unit-tests",
+    "title": "11. Writing Automated Tests",
+    "section": "Unit Tests",
+    "text": "Unit Tests\n\nTest individual units of code in isolation\nPlaced in the same file as the code under test\n\nThe Tests Module and #[cfg(test)]\n\nPlace tests in a tests module annotated with #[cfg(test)]\nThis module is only compiled when testing\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn it_works() {\n        // test code\n    }\n}\n\n\nThe #[cfg(test)] attribute ensures the tests are only compiled and run when testing.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#testing-private-functions",
+    "href": "slides/11-writing_automated_tests.html#testing-private-functions",
+    "title": "11. Writing Automated Tests",
+    "section": "Testing Private Functions",
+    "text": "Testing Private Functions\n\nYou can test private functions in Rust\nExample:\nfn internal_adder(a: i32, b: i32) -&gt; i32 {\n    a + b\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_internal() {\n        assert_eq!(internal_adder(2, 2), 4);\n    }\n}\n\n\nBecause the tests module is inside the same file, it has access to private functions.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#integration-tests",
+    "href": "slides/11-writing_automated_tests.html#integration-tests",
+    "title": "11. Writing Automated Tests",
+    "section": "Integration Tests",
+    "text": "Integration Tests\n\nTest the public API as an external user would\nPlaced in the tests directory\nEach file in tests is a separate crate\nmy_project\n├── Cargo.toml\n├── src\n│   └── lib.rs\n└── tests\n    └── integration_test.rs\nExample:\nuse my_project;\n\n#[test]\nfn it_adds_two() {\n    assert_eq!(my_project::add_two(2), 4);\n}\n\n\nIntegration tests verify that your library works as expected when used by others.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#submodules-in-integration-tests",
+    "href": "slides/11-writing_automated_tests.html#submodules-in-integration-tests",
+    "title": "11. Writing Automated Tests",
+    "section": "Submodules in Integration Tests",
+    "text": "Submodules in Integration Tests\n\nShare code between integration tests using modules\nCreate tests/common/mod.rs for shared code\n// tests/common/mod.rs\npub fn setup() {\n    // setup code\n}\n\n// tests/integration_test.rs\nmod common;\n\n#[test]\nfn it_adds_two() {\n    common::setup();\n    assert_eq!(my_project::add_two(2), 4);\n}\n\n\nThis avoids code duplication in your tests.",
+    "crumbs": [
+      "11. Writing Automated Tests"
+    ]
+  },
+  {
+    "objectID": "slides/11-writing_automated_tests.html#integration-tests-for-binary-crates",
+    "href": "slides/11-writing_automated_tests.html#integration-tests-for-binary-crates",
+    "title": "11. Writing Automated Tests",
+    "section": "Integration Tests for Binary Crates",
+    "text": "Integration Tests for Binary Crates\n\nBinary crates (with only main.rs) can’t be tested directly via integration tests\nSolution: Extract logic into a library crate (lib.rs)\nmain.rs can then call into lib.rs\n\n\nThis allows you to test your core functionality separately from your binary interface.",
     "crumbs": [
       "11. Writing Automated Tests"
     ]

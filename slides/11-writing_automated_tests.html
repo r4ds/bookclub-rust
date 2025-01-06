@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.39">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.40">
 
   <title>Rust Programming Language Book Club – 11. Writing Automated Tests</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,6 +27,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-f77ede3f8df5db7b2f50cc1693ca0955.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -136,14 +201,75 @@
 <h1>Learning objectives</h1>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>Understand how to write tests in Rust</li>
+<li>Learn the anatomy of a test function</li>
+<li>Use macros like <code>assert!</code>, <code>assert_eq!</code>, and <code>assert_ne!</code> in tests</li>
+<li>Know how to check for panics with <code>should_panic</code></li>
+<li>Learn how to control test execution</li>
+<li>Understand test organization: unit tests and integration tests</li>
 </ul>
 </div>
-<aside class="notes">
+</section>
+
+<section>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
+
+</section>
+<section id="testing-in-rust" class="slide level2">
+<h2>Testing in Rust</h2>
 <ul>
-<li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
+<li class="fragment"><p>Tests ensure code functions as expected</p></li>
+<li class="fragment"><p>Rust (<code>cargo</code>) provides native support for automating tests</p></li>
+<li class="fragment"><p>Types of test in Rust include:</p>
+<div>
+<ul>
+<li>Unit tests</li>
+<li>Integration tests</li>
+<li>Documentation tests</li>
+<li>Benchmarks</li>
 </ul>
+</div></li>
+</ul>
+<aside class="notes">
+<p>In this chapter, we’ll explore how to write tests in Rust to ensure our code works correctly. We’ll learn about unit tests, which test small pieces of code in isolation, and integration tests, which test how different parts of your code work together.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="how-to-write-tests" class="title-slide slide level1 center">
+<h1>How to Write Tests</h1>
+
+</section>
+<section id="typical-flow-of-a-test" class="slide level2">
+<h2>Typical Flow of a Test</h2>
+<ul>
+<li class="fragment">Set up any needed data or state.</li>
+<li class="fragment">Run the code you want to test.</li>
+<li class="fragment">Assert that the results are what you expect.</li>
+</ul>
+</section>
+<section id="anatomy-of-a-test-function" class="slide level2">
+<h2>Anatomy of a Test Function</h2>
+<ul>
+<li class="fragment"><p>Annotate functions with <code>#[test]</code> to make them tests</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb1-2"><a></a><span class="kw">fn</span> it_works() <span class="op">{</span></span>
+<span id="cb1-3"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li class="fragment"><p>Run tests with <code>cargo test</code></p></li>
+</ul>
+<aside class="notes">
+<p>Test functions are regular functions annotated with <code>#[test]</code>. When you run <code>cargo test</code>, Rust looks for functions annotated with <code>#[test]</code> and runs them.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -156,36 +282,416 @@
           display:block!important;
       }</style></aside>
 </section>
-
-<section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
-
-</section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="the-assert-macro" class="slide level2">
+<h2>The <code>assert!</code> Macro</h2>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li class="fragment"><p>Ensures a condition evaluates to <code>true</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a><span class="pp">assert!</span>(condition)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li class="fragment"><p>Example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb3-2"><a></a><span class="kw">fn</span> larger_can_hold_smaller() <span class="op">{</span></span>
+<span id="cb3-3"><a></a>    <span class="kw">let</span> larger <span class="op">=</span> Rectangle <span class="op">{</span> width<span class="op">:</span> <span class="dv">8</span><span class="op">,</span> height<span class="op">:</span> <span class="dv">7</span> <span class="op">};</span></span>
+<span id="cb3-4"><a></a>    <span class="kw">let</span> smaller <span class="op">=</span> Rectangle <span class="op">{</span> width<span class="op">:</span> <span class="dv">5</span><span class="op">,</span> height<span class="op">:</span> <span class="dv">1</span> <span class="op">};</span></span>
+<span id="cb3-5"><a></a></span>
+<span id="cb3-6"><a></a>    <span class="pp">assert!</span>(larger<span class="op">.</span>can_hold(<span class="op">&amp;</span>smaller))<span class="op">;</span></span>
+<span id="cb3-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
+<aside class="notes">
+<p>The <code>assert!</code> macro is used to check that a condition is true. If it isn’t, the test fails.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+<section id="the-assert_eq-and-assert_ne-macros" class="slide level2">
+<h2>The <code>assert_eq!</code> and <code>assert_ne!</code> Macros</h2>
+<ul>
+<li class="fragment"><p><code>assert_eq!(left, right)</code> checks <code>left == right</code></p></li>
+<li class="fragment"><p><code>assert_ne!(left, right)</code> checks <code>left != right</code></p></li>
+<li class="fragment"><p>Provide detailed error messages on failure</p></li>
+<li class="fragment"><p>Example:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb4-2"><a></a><span class="kw">fn</span> it_adds_two() <span class="op">{</span></span>
+<span id="cb4-3"><a></a>    <span class="pp">assert_eq!</span>(add_two(<span class="dv">2</span>)<span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>These macros are useful for comparing values in tests. They display the values when the test fails, which helps with debugging.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="adding-custom-failure-messages" class="slide level2">
+<h2>Adding Custom Failure Messages</h2>
+<ul>
+<li class="fragment"><p>Add custom messages to assertions</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="pp">assert!</span>(condition<span class="op">,</span> <span class="st">"Custom message"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li class="fragment"><p>Example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb6-2"><a></a><span class="kw">fn</span> greeting_contains_name() <span class="op">{</span></span>
+<span id="cb6-3"><a></a>    <span class="kw">let</span> result <span class="op">=</span> greeting(<span class="st">"Carol"</span>)<span class="op">;</span></span>
+<span id="cb6-4"><a></a>    <span class="pp">assert!</span>(</span>
+<span id="cb6-5"><a></a>        result<span class="op">.</span>contains(<span class="st">"Carol"</span>)<span class="op">,</span></span>
+<span id="cb6-6"><a></a>        <span class="st">"Greeting did not contain name, value was `{}`"</span><span class="op">,</span></span>
+<span id="cb6-7"><a></a>        result</span>
+<span id="cb6-8"><a></a>    )<span class="op">;</span></span>
+<span id="cb6-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>Custom messages can help explain why a test failed, making it easier to diagnose issues.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="checking-for-panics-with-should_panic" class="slide level2">
+<h2>Checking for Panics with <code>should_panic</code></h2>
+<ul>
+<li class="fragment"><p>Use <code>#[should_panic]</code> to test code that should panic</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb7-2"><a></a><span class="at">#[</span>should_panic<span class="at">]</span></span>
+<span id="cb7-3"><a></a><span class="kw">fn</span> test_panics() <span class="op">{</span></span>
+<span id="cb7-4"><a></a>    <span class="co">// code that should panic</span></span>
+<span id="cb7-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li class="fragment"><p>Use <code>expected</code> to specify a substring of the panic message</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb8-2"><a></a><span class="at">#[</span>should_panic<span class="at">(</span>expected <span class="op">=</span> <span class="st">"must be less than or equal to 100"</span><span class="at">)]</span></span>
+<span id="cb8-3"><a></a><span class="kw">fn</span> greater_than_100() <span class="op">{</span></span>
+<span id="cb8-4"><a></a>    <span class="pp">Guess::</span>new(<span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb8-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>This attribute tells Rust that the test should pass if the code inside panics. The <code>expected</code> parameter allows you to check that the panic message contains specific text.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="using-resultt-e-in-tests" class="slide level2">
+<h2>Using <code>Result&lt;T, E&gt;</code> in Tests</h2>
+<ul>
+<li class="fragment"><p>Tests can return <code>Result&lt;T, E&gt;</code> instead of panicking</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb9-2"><a></a><span class="kw">fn</span> it_works() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">,</span> <span class="dt">String</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb9-3"><a></a>    <span class="co">// code that might return Err</span></span>
+<span id="cb9-4"><a></a>    <span class="cn">Ok</span>(())</span>
+<span id="cb9-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li class="fragment"><p>Allows use of the <code>?</code> operator in tests</p></li>
+</ul>
+<aside class="notes">
+<p>Returning <code>Result</code> in tests can be convenient when using functions that return <code>Result</code>, allowing the use of the <code>?</code> operator.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="controlling-how-tests-are-run" class="title-slide slide level1 center">
+<h1>Controlling How Tests Are Run</h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="running-tests-in-parallel-or-consecutively" class="slide level2">
+<h2>Running Tests in Parallel or Consecutively</h2>
+<ul>
+<li class="fragment"><p>Tests run in parallel by default</p></li>
+<li class="fragment"><p>To run tests consecutively:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="ex">cargo</span> test <span class="at">--</span> <span class="at">--test-threads</span><span class="op">=</span>1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>Running tests in parallel speeds up test execution, but sometimes you may need to run tests one at a time, for example, if they interact with shared state.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
-
-
+<section id="showing-function-output" class="slide level2">
+<h2>Showing Function Output</h2>
+<ul>
+<li class="fragment"><p>Output from <code>println!</code> is captured by default</p></li>
+<li class="fragment"><p>To display output even for passing tests:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="ex">cargo</span> test <span class="at">--</span> <span class="at">--show-output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>By default, Rust captures output from tests to keep the test output clean. Use <code>--show-output</code> to see the output from <code>println!</code> and other macros.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="running-a-subset-of-tests-by-name" class="slide level2">
+<h2>Running a Subset of Tests by Name</h2>
+<h3 id="running-single-tests">Running Single Tests</h3>
+<ul>
+<li class="fragment"><p>Run a specific test by specifying its name:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="ex">cargo</span> test test_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<h3 id="filtering-multiple-tests">Filtering Multiple Tests</h3>
+<ul>
+<li class="fragment"><p>Run tests matching a pattern:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a></a><span class="ex">cargo</span> test pattern</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>This is useful when you have many tests and want to focus on a subset.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ignoring-some-tests-unless-specifically-requested" class="slide level2">
+<h2>Ignoring Some Tests Unless Specifically Requested</h2>
+<ul>
+<li class="fragment"><p>Use <code>#[ignore]</code> to exclude tests by default</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb14-1"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb14-2"><a></a><span class="at">#[</span>ignore<span class="at">]</span></span>
+<span id="cb14-3"><a></a><span class="kw">fn</span> expensive_test() <span class="op">{</span></span>
+<span id="cb14-4"><a></a>    <span class="co">// code that takes a long time</span></span>
+<span id="cb14-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li class="fragment"><p>Run ignored tests with:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a></a><span class="ex">cargo</span> test <span class="at">--</span> <span class="at">--ignored</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>Ignored tests can be useful for tests that take a long time or require special setup.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
+<section>
+<section id="test-organization" class="title-slide slide level1 center">
+<h1>Test Organization</h1>
+
+</section>
+<section id="unit-tests" class="slide level2">
+<h2>Unit Tests</h2>
+<ul>
+<li class="fragment">Test individual units of code in isolation</li>
+<li class="fragment">Placed in the same file as the code under test</li>
+</ul>
+<h3 id="the-tests-module-and-cfgtest">The Tests Module and <code>#[cfg(test)]</code></h3>
+<ul>
+<li class="fragment"><p>Place tests in a <code>tests</code> module annotated with <code>#[cfg(test)]</code></p></li>
+<li class="fragment"><p>This module is only compiled when testing</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb16-1"><a></a><span class="at">#[</span>cfg<span class="at">(</span>test<span class="at">)]</span></span>
+<span id="cb16-2"><a></a><span class="kw">mod</span> tests <span class="op">{</span></span>
+<span id="cb16-3"><a></a>    <span class="kw">use</span> <span class="kw">super</span><span class="pp">::</span><span class="op">*;</span></span>
+<span id="cb16-4"><a></a></span>
+<span id="cb16-5"><a></a>    <span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb16-6"><a></a>    <span class="kw">fn</span> it_works() <span class="op">{</span></span>
+<span id="cb16-7"><a></a>        <span class="co">// test code</span></span>
+<span id="cb16-8"><a></a>    <span class="op">}</span></span>
+<span id="cb16-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>The <code>#[cfg(test)]</code> attribute ensures the tests are only compiled and run when testing.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="testing-private-functions" class="slide level2">
+<h2>Testing Private Functions</h2>
+<ul>
+<li class="fragment"><p>You can test private functions in Rust</p></li>
+<li class="fragment"><p>Example:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb17-1"><a></a><span class="kw">fn</span> internal_adder(a<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span> b<span class="op">:</span> <span class="dt">i32</span>) <span class="op">-&gt;</span> <span class="dt">i32</span> <span class="op">{</span></span>
+<span id="cb17-2"><a></a>    a <span class="op">+</span> b</span>
+<span id="cb17-3"><a></a><span class="op">}</span></span>
+<span id="cb17-4"><a></a></span>
+<span id="cb17-5"><a></a><span class="at">#[</span>cfg<span class="at">(</span>test<span class="at">)]</span></span>
+<span id="cb17-6"><a></a><span class="kw">mod</span> tests <span class="op">{</span></span>
+<span id="cb17-7"><a></a>    <span class="kw">use</span> <span class="kw">super</span><span class="pp">::</span><span class="op">*;</span></span>
+<span id="cb17-8"><a></a></span>
+<span id="cb17-9"><a></a>    <span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb17-10"><a></a>    <span class="kw">fn</span> test_internal() <span class="op">{</span></span>
+<span id="cb17-11"><a></a>        <span class="pp">assert_eq!</span>(internal_adder(<span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb17-12"><a></a>    <span class="op">}</span></span>
+<span id="cb17-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>Because the tests module is inside the same file, it has access to private functions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="integration-tests" class="slide level2">
+<h2>Integration Tests</h2>
+<ul>
+<li class="fragment"><p>Test the public API as an external user would</p></li>
+<li class="fragment"><p>Placed in the <code>tests</code> directory</p></li>
+<li class="fragment"><p>Each file in <code>tests</code> is a separate crate</p>
+<pre><code>my_project
+├── Cargo.toml
+├── src
+│   └── lib.rs
+└── tests
+    └── integration_test.rs</code></pre></li>
+<li class="fragment"><p>Example:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb19-1"><a></a><span class="kw">use</span> my_project<span class="op">;</span></span>
+<span id="cb19-2"><a></a></span>
+<span id="cb19-3"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb19-4"><a></a><span class="kw">fn</span> it_adds_two() <span class="op">{</span></span>
+<span id="cb19-5"><a></a>    <span class="pp">assert_eq!</span>(<span class="pp">my_project::</span>add_two(<span class="dv">2</span>)<span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb19-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>Integration tests verify that your library works as expected when used by others.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="submodules-in-integration-tests" class="slide level2">
+<h2>Submodules in Integration Tests</h2>
+<ul>
+<li class="fragment"><p>Share code between integration tests using modules</p></li>
+<li class="fragment"><p>Create <code>tests/common/mod.rs</code> for shared code</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb20-1"><a></a><span class="co">// tests/common/mod.rs</span></span>
+<span id="cb20-2"><a></a><span class="kw">pub</span> <span class="kw">fn</span> setup() <span class="op">{</span></span>
+<span id="cb20-3"><a></a>    <span class="co">// setup code</span></span>
+<span id="cb20-4"><a></a><span class="op">}</span></span>
+<span id="cb20-5"><a></a></span>
+<span id="cb20-6"><a></a><span class="co">// tests/integration_test.rs</span></span>
+<span id="cb20-7"><a></a><span class="kw">mod</span> common<span class="op">;</span></span>
+<span id="cb20-8"><a></a></span>
+<span id="cb20-9"><a></a><span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb20-10"><a></a><span class="kw">fn</span> it_adds_two() <span class="op">{</span></span>
+<span id="cb20-11"><a></a>    <span class="pp">common::</span>setup()<span class="op">;</span></span>
+<span id="cb20-12"><a></a>    <span class="pp">assert_eq!</span>(<span class="pp">my_project::</span>add_two(<span class="dv">2</span>)<span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb20-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<aside class="notes">
+<p>This avoids code duplication in your tests.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="integration-tests-for-binary-crates" class="slide level2">
+<h2>Integration Tests for Binary Crates</h2>
+<ul>
+<li class="fragment">Binary crates (with only <code>main.rs</code>) can’t be tested directly via integration tests</li>
+<li class="fragment">Solution: Extract logic into a library crate (<code>lib.rs</code>)</li>
+<li class="fragment"><code>main.rs</code> can then call into <code>lib.rs</code></li>
+</ul>
+<aside class="notes">
+<p>This allows you to test your core functionality separately from your binary interface.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
+<ul>
+<li class="fragment">Rust provides powerful tools for writing automated tests</li>
+<li class="fragment">Use unit tests to test small pieces of code</li>
+<li class="fragment">Use integration tests to test how pieces work together</li>
+<li class="fragment">Control test execution with command-line options</li>
+<li class="fragment">Organize tests effectively to maintain a robust codebase</li>
+</ul>
+
+
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
