@@ -3,29 +3,731 @@ engine: knitr
 title: "12. An I/O Project: Building a Command Line Program"
 ---
 
-# Learning objectives
+## Features of the Program
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Command-line argument parsing.
+- File reading and searching for strings.
+- Error handling and modularity.
+- Environment variable configuration.
+- Printing to standard error.
 :::
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+# Setting Up the Project
+
+## Create a New Project
+
+In your Shell/ terminal, run:
+
+```{bash}
+cargo new minigrep
+cd minigrep
+```
+
+## Initial Code {.smaller}
+
+In `src/main.rs`:
+
+::: nonincremental
+- Collect command-line arguments.
 :::
 
-# SLIDE SECTION
+```rust
+use std::env;
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    dbg!(args);
+}
+```
 
-## SLIDE
+::: nonincremental
+- Use `dbg!` for debugging.
+:::
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+### Cargo Run
 
-## SLIDE
+```{bash}
+$ cargo run
+[src/main.rs:5:5] args = [
+    "target/debug/minigrep",
+]
 
-# SLIDE SECTION
+$ cargo run -- needle haystack
+[src/main.rs:5:5] args = [
+    "target/debug/minigrep",
+    "needle",
+    "haystack",
+]
+```
 
-## SLIDE
+## Parsing Arguments
 
-## SLIDE
+### Save Arguments in Variables
+
+```rust
+use std::env;
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    let query = &args[1];
+    let file_path = &args[2];
+
+    println!("Searching for {query}");
+    println!("In file {file_path}");
+}
+```
+
+### Cargo Run
+
+```{bash}
+cargo run -- test sample.txt
+Searching for test
+In file sample.txt
+```
+
+---
+
+## Reading Files {.smaller}
+
+### Use `fs::read_to_string`
+
+```rust
+use std::env;
+use std::fs;
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    let file_path = &args[2];
+
+    let contents = fs::read_to_string(file_path)
+        .expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
+}
+```
+
+### Cargo Run {.smaller}
+
+```{bash}
+cargo run -- the poem.txt
+Searching for the
+In file poem.txt
+With text:
+I'm nobody! Who are you?
+Are you nobody, too?
+Then there's a pair of us - don't tell!
+They'd banish us, you know.
+
+How dreary to be somebody!
+How public, like a frog
+To tell your name the livelong day
+To an admiring bog!
+```
+
+
+# Refactoring for Modularity and Error Handling
+
+## [Extracting the Argument Parser](https://rust-book.cs.brown.edu/ch12-03-improving-error-handling-and-modularity.html#extracting-the-argument-parser)
+
+`src/main.rs` should now contain `parse_config` logic:
+
+```rust
+use std::env;
+use std::fs;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let (query, file_path) = parse_config(&args);
+
+    println!("Searching for {query}");
+    println!("In file {file_path}");
+
+    let contents = fs::read_to_string(file_path)
+        .expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
+}
+
+fn parse_config(args: &[String]) -> (&str, &str) {
+    let query = &args[1];
+    let file_path = &args[2];
+
+    (query, file_path)
+}
+```
+
+## Grouping Configuration Variables
+
+At the moment we have a *tuple* which we breakdown into individual parts again. 
+
+```rust
+use std::env;
+use std::fs;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = parse_config(&args);
+
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    let contents = fs::read_to_string(config.file_path)
+        .expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
+}
+
+// Add struct
+struct Config { 
+	query: String, 
+	file_path: String,
+}
+
+// Update parse_config to handle struct
+fn parse_config(args: &[String]) -> Config {
+let query = args[1].clone();
+let file_path = args[2].clone();
+
+Config { query, file_path }
+}
+```
+
+
+## Checkpoint 
+
+What we've done so far:
+
+::: nonincremental
+- Updated `main` to place the instance of `Config` returned by `parse_config` into a variable named `config`.
+- Replaced the separate `query` and `file_path` variables with the fields on the `Config` struct.
+- Enhanced code clarity by indicating that `query` and `file_path` are related.
+- Clearly expressed their purpose as configuring how the program operates.
+- Ensured any code using these values finds them in the `config` instance in appropriately named fields.
+:::
+
+## [Creating a Constructor for `Config`](https://rust-book.cs.brown.edu/ch12-03-improving-error-handling-and-modularity.html#creating-a-constructor-for-config)
+```rust
+use std::env;
+use std::fs;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args);
+
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    let contents = fs::read_to_string(config.file_path)
+        .expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
+}
+
+struct Config {
+    query: String,
+    file_path: String,
+}
+
+// Add implementation `parse_config` -> `new`
+impl Config {
+    fn new(args: &[String]) -> Config {
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Config { query, file_path }
+    }
+}
+```
+
+## [Fixing the Error Handling](https://rust-book.cs.brown.edu/ch12-03-improving-error-handling-and-modularity.html#fixing-the-error-handling) {.smaller}
+
+Let's improve the error message:
+
+```{.rust code-line-numbers="24-27"}
+use std::env;
+use std::fs;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args);
+
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    let contents = fs::read_to_string(config.file_path)
+        .expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
+}
+
+struct Config {
+    query: String,
+    file_path: String,
+}
+
+impl Config {
+    fn new(args: &[String]) -> Config {
+        if args.len() < 3 {
+            panic!("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Config { query, file_path }
+    }
+}
+```
+
+Run the code to see what the error looks like.
+
+## Returning a `Result` {.smaller}
+
+::: nonincremental
+- Change function name from `new` to `build`
+- Convert `Err` to text about `thread 'main'` and `RUST_BACKTRACE`
+:::
+
+```rust
+impl Config {
+    fn build(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Ok(Config { query, file_path })
+    }
+}
+```
+::: nonincremental
+- Update `main` to handle `Result` returned by `Config::build`.
+:::
+```rust
+use std::process;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+
+    // --snip--
+
+```
+
+## [Extracting Logic from `main`](https://rust-book.cs.brown.edu/ch12-03-improving-error-handling-and-modularity.html#extracting-logic-from-main)
+
+::: nonincremental
+- Extract a function named `run` to handle non-error logic
+:::
+
+```rust
+fn main() {
+    // --snip--
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    run(config);
+}
+
+fn run(config: Config) {
+    let contents = fs::read_to_string(config.file_path)
+        .expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
+}
+// --snip--
+
+```
+::: nonincremental
+- The `run` function takes the `Config` instance as an argument.
+:::
+
+## [Improve Error handling from the `run` Function](https://rust-book.cs.brown.edu/ch12-03-improving-error-handling-and-modularity.html#returning-errors-from-the-run-function)
+
+```rust
+use std::error::Error;
+
+// --snip--
+
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.file_path)?;
+
+    println!("With text:\n{contents}");
+
+    Ok(())
+}
+
+```
+::: nonincremental
+- Changed the return type of the `run` function to `Result<(), Box<dyn Error>>`.
+- Replaced the `expect` call with the `?` operator to propagate errors to the caller without panicking.
+- Updated the `run` function to explicitly return `Ok(())` in the success case.
+:::
+**Suggestions from the compiler**: `let _ = run(config);`
+
+## [Handling Errors Returned from `run` in `main`](https://rust-book.cs.brown.edu/ch12-03-improving-error-handling-and-modularity.html#handling-errors-returned-from-run-in-main)
+
+Check error from `run` in `main`
+
+```rust
+fn main() {
+    // --snip--
+
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    if let Err(e) = run(config) {
+        println!("Application error: {e}");
+        process::exit(1);
+    }
+}
+
+```
+
+
+## [Splitting Code into a Library Crate](https://rust-book.cs.brown.edu/ch12-03-improving-error-handling-and-modularity.html#splitting-code-into-a-library-crate)
+
+::: nonincremental
+- Split the program into `main.rs` and `lib.rs`:
+-  **Create `lib.rs`**:
+    - Move all program logic, such as the `Config` struct, its methods, and the `run` function, into `lib.rs`.
+- **Keep Minimal Code in `main.rs`**:
+    - Leave only the command-line argument parsing, configuration setup, and error handling in `main.rs`.
+
+:::
+    
+```{bash}
+minigrep/
+├── src/
+│   ├── main.rs   // Contains the entry point and calls logic from lib.rs
+│   ├── lib.rs    // Contains the program logic (e.g., Config, run function)
+├── Cargo.toml    // Project configuration
+
+```
+
+## `src/lib.rs` {.smaller}
+
+Liberal use of the `pub` keyword:
+
+```rust
+use std::error::Error;
+use std::fs;
+
+pub struct Config {
+    pub query: String,
+    pub file_path: String,
+}
+
+impl Config {
+    pub fn build(args: &[String]) -> Result<Config, &'static str> {
+
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Ok(Config { query, file_path })
+    }
+}
+
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+
+    let contents = fs::read_to_string(config.file_path)?;
+
+    println!("With text:\n{contents}");
+
+    Ok(())
+}
+```
+
+## `src/main/rs`
+
+```rust
+use std::env;
+use std::process;
+
+use minigrep::Config;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+
+    if let Err(e) = minigrep::run(config) {
+        println!("Application error: {e}");
+        process::exit(1);
+    }
+}
+```
+
+#  [Test-Driven Development](https://rust-book.cs.brown.edu/ch12-04-testing-the-librarys-functionality.html#developing-the-librarys-functionality-with-test-driven-development)
+
+## [Writing a Failing Test](https://rust-book.cs.brown.edu/ch12-04-testing-the-librarys-functionality.html#writing-a-failing-test) {.smaller}
+
+Remove `println!` statements from `main` and `lib`
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+}
+```
+
+Create `search` function:
+```rust
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    vec![]
+}
+```
+- Build and test
+
+## [Writing Code to Pass the Test](https://rust-book.cs.brown.edu/ch12-04-testing-the-librarys-functionality.html#writing-code-to-pass-the-test)
+
+::: nonincremental
+1. Iterate through `lines` method
+2. Search each line
+3. Store matching lines
+:::
+
+```rust
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new(); // Step 3
+
+    for line in contents.lines() { // Step 1
+        if line.contains(query) { //Step 2
+            results.push(line); //Step 3
+        }
+    }
+
+    results // Step 3
+}
+
+```
+
+## [Using the `search` Function in the `run` Function](https://rust-book.cs.brown.edu/ch12-04-testing-the-librarys-functionality.html#using-the-search-function-in-the-run-function)
+
+```rust
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.file_path)?;
+
+    for line in search(&config.query, &contents) {
+        println!("{line}");
+    }
+
+    Ok(())
+}
+
+```
+
+Test with `poem.txt`
+
+::: nonincremental
+- frog
+- body
+- monomorphization
+:::
+
+```{bash}
+cargo run -- frog poem.txt
+```
+
+# [Working with Environment Variables](https://rust-book.cs.brown.edu/ch12-05-working-with-environment-variables.html#working-with-environment-variables)
+
+## [Writing a Failing Test](https://rust-book.cs.brown.edu/ch12-05-working-with-environment-variables.html#writing-a-failing-test-for-the-case-insensitive-search-function)
+
+Case-Insensitive `search` Function
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn case_sensitive() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.
+Duct tape.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+
+    #[test]
+    fn case_insensitive() {
+        let query = "rUsT";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.
+Trust me.";
+
+        assert_eq!(
+            vec!["Rust:", "Trust me."],
+            search_case_insensitive(query, contents)
+        );
+    }
+}
+```
+
+## [Implementing `search_case_insensitive`](https://rust-book.cs.brown.edu/ch12-05-working-with-environment-variables.html#implementing-the-search_case_insensitive-function)
+
+```rust
+pub fn search_case_insensitive<'a>(
+    query: &str,
+    contents: &'a str,
+) -> Vec<&'a str> {
+    let query = query.to_lowercase();
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+
+```
+
+Test!
+
+## Update `Config` struct and `run` function {.smaller}
+
+`Config`
+
+```rust
+pub struct Config {
+    pub query: String,
+    pub file_path: String,
+    pub ignore_case: bool,
+}
+
+```
+`run`
+
+```rust
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.file_path)?;
+
+    let results = if config.ignore_case {
+        search_case_insensitive(&config.query, &contents)
+    } else {
+        search(&config.query, &contents)
+    };
+
+    for line in results {
+        println!("{line}");
+    }
+
+    Ok(())
+}
+
+```
+
+## Check for environment variable {.smaller}
+
+In `'src/lib.rs`:
+```rust
+use std::env;
+// --snip--
+
+impl Config {
+    pub fn build(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        let ignore_case = env::var("IGNORE_CASE").is_ok();
+
+        Ok(Config {
+            query,
+            file_path,
+            ignore_case,
+        })
+    }
+}
+
+```
+
+Test using enviroment variable: 
+```{bash}
+IGNORE_CASE=1 cargo run -- to poem.txt
+```
+
+## Checking errors are written
+
+::: nonincremental
+- Observe how `minigrep` currently writes all output, including errors, to standard output.
+
+```{bash}
+cargo run > output.txt
+```
+:::
+
+We want to:
+
+- Save the error message to a file.
+- Make error visible on the screen
+
+
+## [Printing Errors to Standard Error](https://rust-book.cs.brown.edu/ch12-06-writing-to-stderr-instead-of-stdout.html#printing-errors-to-standard-error)
+
+Change the two places we used `println!` to print errors with `eprintln!` instead.
+
+In `src/main.rs`:
+```rust
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+
+    if let Err(e) = minigrep::run(config) {
+        eprintln!("Application error: {e}");
+        process::exit(1);
+    }
+}
+```
+
+## Summary
+
+### Key Concepts Used
+
+::: nonincremental
+- Argument parsing.
+- File reading and handling.
+- Modular design.
+- Error handling.
+- Environment variables.
+:::
