@@ -6,7 +6,10 @@ title: "13. Functional Language Features: Iterators and Closures"
 # Learning objectives
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Closures
+- Iterators
+- Improve our I/O program from last chapter
+- 'Zero-cost' abstractions
 :::
 
 ::: notes
@@ -14,7 +17,7 @@ title: "13. Functional Language Features: Iterators and Closures"
 - Load a deck in the browser and type "s" to see these notes.
 :::
 
-# SLIDE SECTION
+# Closures
 
 ## SLIDE
 
