@@ -19,11 +19,28 @@ title: "13. Functional Language Features: Iterators and Closures"
 
 # Closures
 
-## SLIDE
+## Closure Capture Their Environment
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+- Recall in R, every function is a closure.  
+
+- Functions store their enclosing environment, allowing them to access variables from outside their own scope.
+
+```
+example_closure <- function(x) {
+    y <- 10
+    function() {
+        x + y
+    }
+}
+
+closure_instance <- example_closure(5)
+closure_instance()  # Returns 15
+```
+
+## Rust closures 
+
+- In Rust, we have closures that can capture their environment as well. 
+- But we have to manage this due to memory safety
 
 ## SLIDE
 
