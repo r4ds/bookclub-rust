@@ -17,22 +17,30 @@ title: "13. Functional Language Features: Iterators and Closures"
 - Load a deck in the browser and type "s" to see these notes.
 :::
 
-## Functional programming in Rust
+## Functional programming
 
-- Rust design influnced by functional programming languages like Haskell and Ocaml
+::: nonincremental
+Rust design influnced by strongly typed functional programming languages like Haskell and OCaml
+:::
 
-- Functional programming:
-    - Emphasizes immutability, pure functions, and treating functions as first-class citizens.
-    - Focuses on declarative code, leveraging higher-order functions and composition for modularity. 
-    - Note that `R` has broad support for functional programming.
+> R, at its heart, is a functional language -  *Hadley Wickham, Advanced R* 
+
+- Encorages *Declarative* code, evaluating *expressions* rather of executing *statements*. 
+
+- Builds expressions by applying and composing functions to transform values.
+
+- Treats functions as first-class citizens - they are also values. 
+
+- Emphasizes purity (side effect free functions) and immutability (unchanging values).
+
+## Note
+
+Purity and immutability makes it easier to reason about programs built from expressions without worrying about the evaluation order.
+
 
 # Closures
 
 ## Closure Capture Their Environment
-
-- Recall in R, every function is a closure.  
-
-- Functions store their enclosing environment, allowing them to access variables from outside their own scope.
 
 ```
 example_closure <- function(x) {
@@ -45,6 +53,12 @@ example_closure <- function(x) {
 closure_instance <- example_closure(5)
 closure_instance()  # Returns 15
 ```
+
+- In R, every regular function is a closure.  
+
+- Functions store their enclosing environment, allowing them to access variables from outside their own scope.
+
+
 
 ## Rust closures 
 
