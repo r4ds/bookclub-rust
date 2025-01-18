@@ -17,6 +17,15 @@ title: "13. Functional Language Features: Iterators and Closures"
 - Load a deck in the browser and type "s" to see these notes.
 :::
 
+## Functional programming in Rust
+
+- Rust design influnced by functional programming languages like Haskell and Ocaml
+
+- Functional programming:
+    - Emphasizes immutability, pure functions, and treating functions as first-class citizens.
+    - Focuses on declarative code, leveraging higher-order functions and composition for modularity. 
+    - Note that `R` has broad support for functional programming.
+
 # Closures
 
 ## Closure Capture Their Environment
@@ -39,8 +48,24 @@ closure_instance()  # Returns 15
 
 ## Rust closures 
 
-- In Rust, we have closures that can capture their environment as well. 
-- But we have to manage this due to memory safety
+- In Rust, closures that can capture their environment as well. 
+- Ordinary functions are *not* closures, and do not capture anything.
+- Only anonymous functions can be closures: 
+
+```{rust}
+let expensive_closure = |num: u32| -> u32 {
+        println!("calculating slowly...");
+        thread::sleep(Duration::from_secs(2));
+        num
+    };
+```
+- Must do this in a controlled this due to memory safety!
+  - "Capture the environment" - Move or Immutable / Mutable reference? 
+  - ? 
+
+- 
+
+
 
 ## SLIDE
 
