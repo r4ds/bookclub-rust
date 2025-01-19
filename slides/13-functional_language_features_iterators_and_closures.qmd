@@ -21,9 +21,9 @@ title: "13. Functional Language Features: Iterators and Closures"
 
 > R, at its heart, is a functional language -  *Hadley Wickham, Advanced R* 
 
-- Encourages *Declarative* code, evaluating *expressions* rather of executing *statements*. 
+- Encourages *Declarative* code, evaluating *expressions* rather than executing *statements*. 
 
-- Builds expressions by applying and composing functions to transform values.
+- Builds expressions by applying and composing *functions* to transform values.
 
 - Treats functions as first-class citizens - they are also values. 
 
@@ -46,7 +46,18 @@ title: "13. Functional Language Features: Iterators and Closures"
    - Closures
    - Iterators with lazy evaluation
 
-- This chapter focuses on the last two: Closures and Iterators.  
+- This chapter focuses on the last two: Closures and Iterators. 
+
+## Iterators and Closures: Why they matter
+
+- **Closures** : Function *values* that capture variables from the environment
+
+- **Iterators** : Abstractions for *lazy* processing of sequences
+
+- Core to functional programming:
+     - Work together: Closures can used with iterators to enable concise, declarative code. (e.g. `map`, `filter`)
+     - Express complex operations without explicit state.
+
 
 # Closures
 
@@ -216,6 +227,7 @@ Rust will use the highest on the list possible: Immutable reference, then mutabl
    - FnOnce : Can be called at least once. All closures implement this.
    - FnMut : Can be called multiple times. Implemented by 2-4.
    - Fn : Can be called multiple times safely. Implemented by 3-4.
+ 
 
 ## FnOnce example
 
@@ -375,7 +387,7 @@ pub trait Iterator {
 - This consumes the iterator. 
 - Also note that the values are immutable references to the values in v1. 
     - `iter_mut` gives mutable references
-    - `iter_into` gives owned values. 
+    - `into_iter` gives owned values. 
 
 ## Adaptors
 - Consuming Adaptors: 
