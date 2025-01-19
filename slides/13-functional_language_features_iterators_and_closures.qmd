@@ -19,13 +19,9 @@ title: "13. Functional Language Features: Iterators and Closures"
 
 ## Functional programming
 
-::: nonincremental
-Rust design influnced by strongly typed functional programming languages like Haskell and OCaml
-:::
-
 > R, at its heart, is a functional language -  *Hadley Wickham, Advanced R* 
 
-- Encorages *Declarative* code, evaluating *expressions* rather of executing *statements*. 
+- Encourages *Declarative* code, evaluating *expressions* rather of executing *statements*. 
 
 - Builds expressions by applying and composing functions to transform values.
 
@@ -33,14 +29,15 @@ Rust design influnced by strongly typed functional programming languages like Ha
 
 - Emphasizes purity (side effect free functions) and immutability (unchanging values).
 
-## Note
+## Aside: Why purity and immutability matter
 
-Purity and immutability makes it easier to reason about programs built from expressions without worrying about the evaluation order.
-
+- Easier to reason about programs.
+- Less concern about evaluation order when composing expressions.
+- Enables safe concurrency and parallelism.
 
 # Closures
 
-## Closure Capture Their Environment
+## Closures in general
 
 ```
 example_closure <- function(x) {
@@ -54,37 +51,466 @@ closure_instance <- example_closure(5)
 closure_instance()  # Returns 15
 ```
 
-- In R, every regular function is a closure.  
-
-- Functions store their enclosing environment, allowing them to access variables from outside their own scope.
-
-
+- Closures are functions that can capture variables from surrounding environment.
+- One of the key tools for functional programming.
+- These variables are stored alongside the closure for later use. 
+- In R, every regular function is a closure, there is no special syntax. 
 
 ## Rust closures 
 
-- In Rust, closures that can capture their environment as well. 
-- Ordinary functions are *not* closures, and do not capture anything.
-- Only anonymous functions can be closures: 
+- In Rust, closures can capture their environment as well. 
+- Ordinary functions  are *not* closures, and do not capture anything.
+- Only anonymous functions can be closures.
+- Closure (and function pointers) can be used as first-class citizens:
+    - Stored in variables
+    - Passed as arguments
+    - Returned from other functions.
+
+## Closure syntax
 
 ```{rust}
-let expensive_closure = |num: u32| -> u32 {
-        println!("calculating slowly...");
-        thread::sleep(Duration::from_secs(2));
-        num
-    };
+fn   add_one_v1   (num : u32) -> u32 {num + 1}
+let  add_one_v2 = |num : u32| -> u32 {num + 1};
+let  add_one_v3 = |num|               num + 1 ;
+
+println!("{}",add_one_v3(3)) // 4
 ```
-- Must do this in a controlled this due to memory safety!
-  - "Capture the environment" - Move or Immutable / Mutable reference? 
-  - ? 
 
-- 
+- Arguments inclosed in `||`instead of `()`
+- Type annotations are optional, rust will generally infer the types.
+- Curly brackets also optional for one liner.
+- Closure is called just like any other function
+
+## Inner function vs Closure
+
+```{rust}
+fn outer_function() {
+    let outer_variable = 10;
+
+    // Define an inner function
+    fn inner_function() {
+        // Attempt to access outer_variable
+        //println!("{}", outer_variable); // Error: can't capture dynamic environment in a fn item
+    }
+    
+        //  Captures `outer_variable` from the environment
+    let inner_closure = || {
+        println!("{}", outer_variable); 
+    };
+
+    inner_function();
+    inner_closure();
+}
+
+fn main(){
+    outer_function();
+}
+```
+[Rust Playground](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=8cb29d8d30458ad91cd71b3cb4ec647d)
+
+## Example use
+
+```{rust}
+#[derive(Debug, PartialEq, Copy, Clone)]
+enum ShirtColor {
+    Red,
+    Blue,
+}
+
+struct Inventory {
+    shirts: Vec<ShirtColor>,
+}
+
+impl Inventory {
+    fn giveaway(&self, user_preference: Option<ShirtColor>) -> ShirtColor {
+        user_preference.unwrap_or_else(|| self.most_stocked())
+    }
+
+    fn most_stocked(&self) -> ShirtColor {
+        let mut num_red = 0;
+        let mut num_blue = 0;
+
+        for color in &self.shirts {
+            match color {
+                ShirtColor::Red => num_red += 1,
+                ShirtColor::Blue => num_blue += 1,
+            }
+        }
+        if num_red > num_blue {
+            ShirtColor::Red
+        } else {
+            ShirtColor::Blue
+        }
+    }
+}
+```
+
+## Example continued
+
+- Illustrates use of closure in `unwrap_or_else`.
+- Calls the closure `|| self.most_stocked()` if `user_preference` is `None` variant.
+- Closure captures `self` (immutable reference to Inventory)
+
+
+## Capturing Modes
+
+Closure can capture values in the same three ways that functions can take parameters
+
+Immutable Reference
+```{rust}
+let list = vec![1, 2, 3];
+let print_closure = || println!("{:?}", list);
+print_closure();
+```
+
+Mutable reference
+```{rust}
+let mut list = vec![1, 2, 3];
+let mut add_to_list = || list.push(4);
+add_to_list();
+println!("{:?}", list); // [1, 2, 3, 4]
+```
+
+## Capture modes (cont)
+Moving ownership
+```{rust}
+let list = vec![1, 2, 3];
+let moved = || drop(list);
+moved();
+// println!("{:?}", list); // Error: list has been moved
+```
+
+
+Can also explicitly move ownership:
+```{rust}
+let list = vec![1, 2, 3];
+let moved = move || println!("{:?}", list);
+moved();
+// println!("{:?}", list); // Error: list has been moved
+```
+
+Rust will use the highest on the list possible: Immutable reference, then mutable if needed, and then move it if needed or requested. 
+
+## Moving captured  values *out* 
+
+- Closure body can do any of the following:
+   1. *Move* a captured value out
+   2. *Mutate* a captured value
+   3. *Neither move nor mutate*  captured values
+   4. *Capture nothing* 
+
+- This determines which traits are implemented 
+   - FnOnce : Can be called at least once. All closures implement this.
+   - FnMut : Can be called multiple times. Implemented by 2-4.
+   - Fn : Can be called multiple times safely. Implemented by 3-4.
+
+## FnOnce example
+
+```{rust}
+impl<T> Option<T> {
+    pub fn unwrap_or_else<F>(self, f: F) -> T
+    where
+        F: FnOnce() -> T
+    {
+        match self {
+            Some(x) => x,
+            None => f(),
+        }
+    }
+}
+```
+-  `F` is the generic type, with trait bound  `FnOnce() -> T`
+- This means `F` can be any closure, since we only call it once.
+
+## FnMut example
+
+```{rust}
+pub fn sort_by_key<K, F>(&mut self, f: F)
+where
+    F: FnMut(&T) -> K,
+    K: Ord,
+```
+
+- Standard library function on slices that takes a function that produces the sort key K. 
+
+- `Ord` is a trait for ordering, requires `cmp` function, implemented by orderable types (e.g. all numbers) 
+
+- Takes a FnMut instead of FnOnce because it must be called multiple times to do the sort.
+
+## `sort_by_key` usage example
+
+```{rust}
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    list.sort_by_key(|r| r.width);
+    println!("{list:#?}");
+}
+```
+
+- Closure implements all the traits, including `FnMut` so OK.
+
+## Broken example
+
+```{rust}
+// snip
+fn main() {
+    let mut list = [
+     // snip
+    ];
+
+    let mut sort_operations = vec![];
+    let value = String::from("closure called");
+
+    list.sort_by_key(|r| {
+        sort_operations.push(value); // Moves capture value out
+        r.width
+    });
+    println!("{list:#?}");
+}
+```
+
+- Closure moves the captured value `value` out. 
+- Implements only `FnOnce`, *not* `FnMut`. 
+- Compiler error. [Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7e697e3eacd03a200a69de0f7cea6aec)
+
+## Fixed example
+
+```{rust}
+
+fn main() {
+    let mut list = [
+      // snip
+    ];
+
+    let mut num_sort_operations = 0;
+    list.sort_by_key(|r| {
+        num_sort_operations += 1;
+        r.width
+    });
+    println!("{list:#?}, sorted in {num_sort_operations} operations");
+}
+```
+
+- Counts number of calls without moving
+- This time the closure implements `FnMut` (in addition to `FnOnce`)
 
 
 
-## SLIDE
+# Iterators
 
-# SLIDE SECTION
+## What are Iterators?
 
-## SLIDE
+- **Definition**: An Iterator provides a sequence of items (one at a time)
+- **Laziness**: Iterators do nothing until *consumed*
+  - Calling `iter()` on a collection by itself does nothing
+  - Methods like `sum()`, `collect()`, or a `for` loop *consume* the iterator
+- **Benefit**: You avoid writing index-based loops manually 
+  - Less chance of off-by-one errors
+  - Consistent, reusable iteration logic. Functional style.
 
-## SLIDE
+## Example
+```rust
+let v1 = vec![1, 2, 3];
+
+// Creating an iterator (does nothing yet)
+let v1_iter = v1.iter(); 
+
+// Consuming the iterator in a for loop
+for val in v1_iter {
+    println!("Got: {val}");
+}
+```
+
+## Iterator trait
+```{rust}
+pub trait Iterator {
+    type Item;
+    fn next(&mut self) -> Option<Self::Item>;
+    // other default methods elided
+}
+```
+- One method required, `next`.
+- `Item` is an *associated type*.  More on this in Chapter 19.
+
+## Demonstrating `next`
+
+```{rust}
+    fn iterator_demonstration() {
+        let v1 = vec![1, 2, 3];
+
+        let mut v1_iter = v1.iter();
+
+        assert_eq!(v1_iter.next(), Some(&1));
+        assert_eq!(v1_iter.next(), Some(&2));
+        assert_eq!(v1_iter.next(), Some(&3));
+        assert_eq!(v1_iter.next(), None);
+    }
+```
+
+- Note that v1_iter must be mutable.  `next` takes mutable ref to self.
+- This consumes the iterator. 
+- Also note that the values are immutable references to the values in v1. 
+    - `iter_mut` gives mutable references
+    - `iter_into` gives owned values. 
+
+## Adaptors
+- Consuming Adaptors: 
+    - Methods that call `next` on an iterator. 
+    - Examples: `sum` and `collect`
+- Iterator Adaptors:
+    - Methods that transform the iterator into a different one.
+    - Examples: `filter` and `map`.
+
+- Chain multiple calls to perform complex actions *declaratively*.
+
+## Example
+
+```{rust}
+fn main(){
+    let v1: Vec<i32> = vec![1, 2, 3, 4, 5, 6];
+    let v2: Vec<_> = v1.iter().filter(|x| *x % 2 == 0).map(|x| x + 1).collect();
+    println!("{v2:?}")  // [3, 5, 7]
+}
+```
+
+- Note that we need to dereference the `x` in the filter since `iter` gives `&&i32`
+- The type annotation on `v2` is not optional, collect can produce different types of collections. 
+
+# Improving our IO Project
+
+## Removing clone using an iterator. 
+
+- IO project from last chapter used inefficient `clone` calls.
+- This was because `Config::Build` didn't own args. 
+- We can fix this by having `Config::Build` take ownership of an iterator to the args.
+
+## Updating main 
+
+```{rust}
+fn main() {
+    let config = Config::build(env::args()).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+
+    // --snip--
+}
+```
+- `env::args()` returns and iterator.
+- Instead of collecting , just move it into the build function.  
+- Won't compile yet, need to fix `build`
+
+## Updating `Config::build` signature
+
+```{rust}
+impl Config {
+    pub fn build(
+        mut args: impl Iterator<Item = String>,
+    ) -> Result<Config, &'static str> {
+        // --snip--
+```
+
+- All we need to know about `args` is that it implements an iterator that returns  `String` items. 
+- Reminder: `impl Trait` syntax was covered in Chapter 10 and is syntactic sugar for a type variable with a trait bound.
+
+## Updating `Config::build` body
+
+```{rust}
+impl Config {
+    pub fn build(
+        mut args: impl Iterator<Item = String>,
+    ) -> Result<Config, &'static str> {
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file path"),
+        };
+
+        let ignore_case = env::var("IGNORE_CASE").is_ok();
+
+        Ok(Config {
+            query,
+            file_path,
+            ignore_case,
+        })
+    }
+}
+```
+- Since we own the iterator we can move out the owned String values
+- NO need to clone!
+
+## Clean up using Iterator Adaptors
+```{rust}
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents
+        .lines()
+        .filter(|line| line.contains(query))
+        .collect()
+}
+```
+- This converts the `search` function to a functional style. 
+- We eliminate the mutable state (`results` in the original code).
+- Use of the higher order `filter`: 
+    - Removes need for mutable state (`results`)
+    - Removes need for looping with `contains`
+ 
+
+
+# Comparing Performance: Loops vs. Iterators
+
+ 
+## Manual loop example
+
+```rust
+let numbers = vec![1, 2, 3, 4, 5];
+let mut result = Vec::new();
+
+for &num in &numbers {
+    if num % 2 == 0 {
+        result.push(num * 2);
+    }
+}
+
+println!("Result: {:?}", result);
+```
+[Rust playground](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=9e31eed13045fde04ce4c849ceeb4898)
+
+
+### Iterator-based example
+
+```rust
+let numbers = vec![1, 2, 3, 4, 5];
+let result: Vec<_> = numbers.iter()
+    .filter(|&&x| x % 2 == 0)
+    .map(|&x| x * 2)
+    .collect();
+
+println!("Result: {:?}", result);
+```
+[Rust playground](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=5dd39cd09c0445bfdd9f482a161627d6)
+
+
+- Iterators often compile to the similar machine code as loops. ('Zero cost abstraction')
+- Enables concise, declarative code without sacrificing performance.
+
+## Summary
+
+- Closures and Iterators are Rust features that support functional programming styles. 
+- These add to previously discussed features like pattern matching, enums, and traits to provide concise, expressive, and efficient code.
