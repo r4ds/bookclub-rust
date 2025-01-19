@@ -39,7 +39,7 @@ title: "13. Functional Language Features: Iterators and Closures"
 
 ## Closures in general
 
-```
+```r
 example_closure <- function(x) {
     y <- 10
     function() {
@@ -387,6 +387,26 @@ fn main(){
 - Note that we need to dereference the `x` in the filter since `iter` gives `&&i32`
 - The type annotation on `v2` is not optional, collect can produce different types of collections. 
 
+## Bonus example
+
+Rust
+```{rust}
+fn main(){
+    let m = 100;
+    let sum_n = |n| (1..).take(n).fold(0, |sum, i| sum + i); 
+    println!("Sum first {} integers: {:?}", m, sum_n(m));
+}
+```
+
+Haskell
+```haskell
+main :: IO ()
+main = do
+    let m = 100
+        sumN n = foldl (+) 0 $ take n [1..]
+    putStrLn $ "Sum first " ++ show m ++ " integers: " ++ show (sumN m)
+```
+
 # Improving our IO Project
 
 ## Removing clone using an iterator. 
@@ -493,7 +513,7 @@ println!("Result: {:?}", result);
 [Rust playground](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=9e31eed13045fde04ce4c849ceeb4898)
 
 
-### Iterator-based example
+## Iterator-based example
 
 ```rust
 let numbers = vec![1, 2, 3, 4, 5];
