@@ -35,6 +35,19 @@ title: "13. Functional Language Features: Iterators and Closures"
 - Less concern about evaluation order when composing expressions.
 - Enables safe concurrency and parallelism.
 
+## Functional programming in Rust
+
+- Rust has extensive support for programming in a functional style:
+
+   - Immutability by Default
+   - Higher-Order Functions (e.g., map, filter, fold)
+   - Enums and pattern matching for sum types.
+   - Expressive Error Handling (e.g., Option, Result)
+   - Closures
+   - Iterators with lazy evaluation
+
+- This chapter focuses on the last two: Closures and Iterators.  
+
 # Closures
 
 ## Closures in general
@@ -530,7 +543,18 @@ println!("Result: {:?}", result);
 - Iterators often compile to the similar machine code as loops. ('Zero cost abstraction')
 - Enables concise, declarative code without sacrificing performance.
 
-## Summary
 
-- Closures and Iterators are Rust features that support functional programming styles. 
-- These add to previously discussed features like pattern matching, enums, and traits to provide concise, expressive, and efficient code.
+## Summary  
+
+- Functional programming emphasizes **evaluating expressions** over executing statements. 
+
+- Rust provides robust support for functional programming:  
+   - **Closures** for capturing and reusing surrounding context.  
+   - **Iterators** for lazy, efficient, and declarative data processing.  
+   - Higher-order functions (e.g., `map`, `filter`) for transforming data.  
+   - Immutability by default 
+   - Enums with pattern matching for sum types.  
+
+- Enables concise, safe code without sacrificing performance.  
+
+ 
