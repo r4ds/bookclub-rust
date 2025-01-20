@@ -17,17 +17,27 @@ title: "13. Functional Language Features: Iterators and Closures"
 - Load a deck in the browser and type "s" to see these notes.
 :::
 
-## Functional programming
+## Functional Programming
+
+![-](img/functional.png)
+
+. . .
 
 > R, at its heart, is a functional language -  *Hadley Wickham, Advanced R* 
 
-- Encourages *Declarative* code, evaluating *expressions* rather than executing *statements*. 
 
-- Builds expressions by applying and composing *functions* to transform values.
+## Functional Programming
 
-- Treats functions as first-class citizens - they are also values. 
+- *Emphasizes purity*: Focuses on side-effect free, "true" *functions*.
 
-- Emphasizes purity (side effect free functions) and immutability (unchanging values).
+- *Avoid mutability*: Promote "assignment free" programming. 
+
+- *Encourages declarative style*: Evaluating *expressions* over executing *statements*. 
+
+- *Treats functions as first-class citizens*: Functions are values too. 
+
+
+
 
 ## Aside: Why purity and immutability matter
 
@@ -35,18 +45,19 @@ title: "13. Functional Language Features: Iterators and Closures"
 - Less concern about evaluation order when composing expressions.
 - Enables safe concurrency and parallelism.
 
-## Functional programming in Rust
+## Functional programming in Rust {.smaller}
 
 - Rust has extensive support for programming in a functional style:
 
-   - Immutability by Default
-   - Higher-Order Functions (e.g., map, filter, fold)
-   - Enums and pattern matching for sum types.
-   - Expressive Error Handling (e.g., Option, Result)
-   - Closures
-   - Iterators with lazy evaluation
+   - *Immutability by Default*: Encourage pure functions and minimize side-effects.
+   - *Closures*: Functions as values, supporting functional composition.   
+   - *Declarative style*:
+      - Iterators with lazy evaluation for sequence processing
+      - Higher-Order Functions (e.g., `map`, `filter`, `fold`)
+      - Enums and pattern matching for sum types.
+   - *Expressive Error Handling*: Types like `Option`, `Result` promote predictable, safe error handling.
 
-- This chapter focuses on the last two: Closures and Iterators. 
+- This chapter focuses on the two we have yet to cover: *Closures* and *Iterators*. 
 
 ## Iterators and Closures: Why they matter
 
@@ -62,6 +73,8 @@ title: "13. Functional Language Features: Iterators and Closures"
 # Closures
 
 ## Closures in general
+
+Example in R:
 
 ```r
 example_closure <- function(x) {
@@ -250,10 +263,13 @@ impl<T> Option<T> {
 ## FnMut example
 
 ```{rust}
+impl<T> [T] {
 pub fn sort_by_key<K, F>(&mut self, f: F)
 where
     F: FnMut(&T) -> K,
     K: Ord,
+// snip
+
 ```
 
 - Standard library function on slices that takes a function that produces the sort key K. 
@@ -356,6 +372,9 @@ for val in v1_iter {
     println!("Got: {val}");
 }
 ```
+. . .
+
+N.B. The `for` syntax will call iter for you, so `for val in v1` will also work.
 
 ## Iterator trait
 ```{rust}
@@ -521,7 +540,9 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 # Comparing Performance: Loops vs. Iterators
 
  
-## Manual loop example
+## Example {.smaller}
+
+### Loop
 
 ```rust
 let numbers = vec![1, 2, 3, 4, 5];
@@ -538,7 +559,7 @@ println!("Result: {:?}", result);
 [Rust playground](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=9e31eed13045fde04ce4c849ceeb4898)
 
 
-## Iterator-based example
+### Iterator 
 
 ```rust
 let numbers = vec![1, 2, 3, 4, 5];
@@ -552,8 +573,13 @@ println!("Result: {:?}", result);
 [Rust playground](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=5dd39cd09c0445bfdd9f482a161627d6)
 
 
-- Iterators often compile to the similar machine code as loops. ('Zero cost abstraction')
-- Enables concise, declarative code without sacrificing performance.
+## Zero-cost abstractions
+
+![](img/itsfree.png)
+
+- Iterators often compile to machine code that is as efficient as hand-written loops. This is referred to as a *zero-cost abstraction*
+
+- This enables concise, declarative code without sacrificing performance.
 
 
 ## Summary  
@@ -565,7 +591,6 @@ println!("Result: {:?}", result);
    - **Iterators** for lazy, efficient, and declarative data processing.  
    - Higher-order functions (e.g., `map`, `filter`) for transforming data.  
    - Immutability by default 
-   - Enums with pattern matching for sum types.  
 
 - Enables concise, safe code without sacrificing performance.  
 
