@@ -27,6 +27,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-f77ede3f8df5db7b2f50cc1693ca0955.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -132,11 +197,15 @@
 </div>
 
 </section>
+<section>
 <section id="learning-objectives" class="title-slide slide level1 center">
 <h1>Learning objectives</h1>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>Closures</li>
+<li>Iterators</li>
+<li>Improve our I/O program from last chapter</li>
+<li>‘Zero-cost’ abstractions</li>
 </ul>
 </div>
 <aside class="notes">
@@ -156,33 +225,623 @@
           display:block!important;
       }</style></aside>
 </section>
+<section id="functional-programming" class="slide level2">
+<h2>Functional Programming</h2>
 
-<section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
-
+<img data-src="img/functional.png" class="r-stretch quarto-figure-center"><p class="caption">-</p><div class="fragment">
+<blockquote>
+<p>R, at its heart, is a functional language - <em>Hadley Wickham, Advanced R</em></p>
+</blockquote>
+</div>
 </section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="functional-programming-1" class="slide level2">
+<h2>Functional Programming</h2>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li class="fragment"><p><em>Emphasizes purity</em>: Focuses on side-effect free, “true” <em>functions</em>.</p></li>
+<li class="fragment"><p><em>Avoid mutability</em>: Promote “assignment free” programming.</p></li>
+<li class="fragment"><p><em>Encourages declarative style</em>: Evaluating <em>expressions</em> over executing <em>statements</em>.</p></li>
+<li class="fragment"><p><em>Treats functions as first-class citizens</em>: Functions are values too.</p></li>
 </ul>
 </section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+<section id="aside-why-purity-and-immutability-matter" class="slide level2">
+<h2>Aside: Why purity and immutability matter</h2>
+<ul>
+<li class="fragment">Easier to reason about programs.</li>
+<li class="fragment">Less concern about evaluation order when composing expressions.</li>
+<li class="fragment">Enables safe concurrency and parallelism.</li>
+</ul>
+</section>
+<section id="functional-programming-in-rust" class="slide level2 smaller">
+<h2>Functional programming in Rust</h2>
+<ul>
+<li class="fragment"><p>Rust has extensive support for programming in a functional style:</p>
+<ul>
+<li class="fragment"><em>Immutability by Default</em>: Encourage pure functions and minimize side-effects.</li>
+<li class="fragment"><em>Closures</em>: Functions as values, supporting functional composition.<br>
+</li>
+<li class="fragment"><em>Declarative style</em>:
+<ul>
+<li class="fragment">Iterators with lazy evaluation for sequence processing</li>
+<li class="fragment">Higher-Order Functions (e.g., <code>map</code>, <code>filter</code>, <code>fold</code>)</li>
+<li class="fragment">Enums and pattern matching for sum types.</li>
+</ul></li>
+<li class="fragment"><em>Expressive Error Handling</em>: Types like <code>Option</code>, <code>Result</code> promote predictable, safe error handling.</li>
+</ul></li>
+<li class="fragment"><p>This chapter focuses on the two we have yet to cover: <em>Closures</em> and <em>Iterators</em>.</p></li>
+</ul>
+</section>
+<section id="iterators-and-closures-why-they-matter" class="slide level2">
+<h2>Iterators and Closures: Why they matter</h2>
+<ul>
+<li class="fragment"><p><strong>Closures</strong> : Function <em>values</em> that capture variables from the environment</p></li>
+<li class="fragment"><p><strong>Iterators</strong> : Abstractions for <em>lazy</em> processing of sequences</p></li>
+<li class="fragment"><p>Core to functional programming:</p>
+<ul>
+<li class="fragment">Work together: Closures can used with iterators to enable concise, declarative code. (e.g.&nbsp;<code>map</code>, <code>filter</code>)</li>
+<li class="fragment">Express complex operations without explicit state.</li>
+</ul></li>
+</ul>
 </section></section>
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="closures" class="title-slide slide level1 center">
+<h1>Closures</h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="closures-in-general" class="slide level2">
+<h2>Closures in general</h2>
+<p>Example in R:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>example_closure <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-2"><a></a>    y <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-3"><a></a>    <span class="cf">function</span>() {</span>
+<span id="cb1-4"><a></a>        x <span class="sc">+</span> y</span>
+<span id="cb1-5"><a></a>    }</span>
+<span id="cb1-6"><a></a>}</span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a>closure_instance <span class="ot">&lt;-</span> <span class="fu">example_closure</span>(<span class="dv">5</span>)</span>
+<span id="cb1-9"><a></a><span class="fu">closure_instance</span>()  <span class="co"># Returns 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li class="fragment">Closures are functions that can capture variables from surrounding environment.</li>
+<li class="fragment">One of the key tools for functional programming.</li>
+<li class="fragment">These variables are stored alongside the closure for later use.</li>
+<li class="fragment">In R, every regular function is a closure, there is no special syntax.</li>
+</ul>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
+<section id="rust-closures" class="slide level2">
+<h2>Rust closures</h2>
+<ul>
+<li class="fragment">In Rust, closures can capture their environment as well.</li>
+<li class="fragment">Ordinary functions are <em>not</em> closures, and do not capture anything.</li>
+<li class="fragment">Only anonymous functions can be closures.</li>
+<li class="fragment">Closure (and function pointers) can be used as first-class citizens:
+<ul>
+<li class="fragment">Stored in variables</li>
+<li class="fragment">Passed as arguments</li>
+<li class="fragment">Returned from other functions.</li>
+</ul></li>
+</ul>
+</section>
+<section id="closure-syntax" class="slide level2">
+<h2>Closure syntax</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a><span class="kw">fn</span>   add_one_v1   (num <span class="op">:</span> <span class="dt">u32</span>) <span class="op">-&gt;</span> <span class="dt">u32</span> <span class="op">{</span>num <span class="op">+</span> <span class="dv">1</span><span class="op">}</span></span>
+<span id="cb2-2"><a></a><span class="kw">let</span>  add_one_v2 <span class="op">=</span> <span class="op">|</span>num <span class="op">:</span> <span class="dt">u32</span><span class="op">|</span> <span class="op">-&gt;</span> <span class="dt">u32</span> <span class="op">{</span>num <span class="op">+</span> <span class="dv">1</span><span class="op">};</span></span>
+<span id="cb2-3"><a></a><span class="kw">let</span>  add_one_v3 <span class="op">=</span> <span class="op">|</span>num<span class="op">|</span>               num <span class="op">+</span> <span class="dv">1</span> <span class="op">;</span></span>
+<span id="cb2-4"><a></a></span>
+<span id="cb2-5"><a></a><span class="pp">println!</span>(<span class="st">"{}"</span><span class="op">,</span>add_one_v3(<span class="dv">3</span>)) <span class="co">// 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Arguments inclosed in <code>||</code>instead of <code>()</code></li>
+<li class="fragment">Type annotations are optional, rust will generally infer the types.</li>
+<li class="fragment">Curly brackets also optional for one liner.</li>
+<li class="fragment">Closure is called just like any other function</li>
+</ul>
+</section>
+<section id="inner-function-vs-closure" class="slide level2">
+<h2>Inner function vs Closure</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="kw">fn</span> outer_function() <span class="op">{</span></span>
+<span id="cb3-2"><a></a>    <span class="kw">let</span> outer_variable <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb3-3"><a></a></span>
+<span id="cb3-4"><a></a>    <span class="co">// Define an inner function</span></span>
+<span id="cb3-5"><a></a>    <span class="kw">fn</span> inner_function() <span class="op">{</span></span>
+<span id="cb3-6"><a></a>        <span class="co">// Attempt to access outer_variable</span></span>
+<span id="cb3-7"><a></a>        <span class="co">//println!("{}", outer_variable); // Error: can't capture dynamic environment in a fn item</span></span>
+<span id="cb3-8"><a></a>    <span class="op">}</span></span>
+<span id="cb3-9"><a></a>    </span>
+<span id="cb3-10"><a></a>        <span class="co">//  Captures `outer_variable` from the environment</span></span>
+<span id="cb3-11"><a></a>    <span class="kw">let</span> inner_closure <span class="op">=</span> <span class="op">||</span> <span class="op">{</span></span>
+<span id="cb3-12"><a></a>        <span class="pp">println!</span>(<span class="st">"{}"</span><span class="op">,</span> outer_variable)<span class="op">;</span> </span>
+<span id="cb3-13"><a></a>    <span class="op">};</span></span>
+<span id="cb3-14"><a></a></span>
+<span id="cb3-15"><a></a>    inner_function()<span class="op">;</span></span>
+<span id="cb3-16"><a></a>    inner_closure()<span class="op">;</span></span>
+<span id="cb3-17"><a></a><span class="op">}</span></span>
+<span id="cb3-18"><a></a></span>
+<span id="cb3-19"><a></a><span class="kw">fn</span> main()<span class="op">{</span></span>
+<span id="cb3-20"><a></a>    outer_function()<span class="op">;</span></span>
+<span id="cb3-21"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=release&amp;edition=2021&amp;gist=8cb29d8d30458ad91cd71b3cb4ec647d">Rust Playground</a></p>
+</section>
+<section id="example-use" class="slide level2">
+<h2>Example use</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Debug</span><span class="op">,</span> <span class="bu">PartialEq</span><span class="op">,</span> <span class="bu">Copy</span><span class="op">,</span> <span class="bu">Clone</span><span class="at">)]</span></span>
+<span id="cb4-2"><a></a><span class="kw">enum</span> ShirtColor <span class="op">{</span></span>
+<span id="cb4-3"><a></a>    Red<span class="op">,</span></span>
+<span id="cb4-4"><a></a>    Blue<span class="op">,</span></span>
+<span id="cb4-5"><a></a><span class="op">}</span></span>
+<span id="cb4-6"><a></a></span>
+<span id="cb4-7"><a></a><span class="kw">struct</span> Inventory <span class="op">{</span></span>
+<span id="cb4-8"><a></a>    shirts<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span>ShirtColor<span class="op">&gt;,</span></span>
+<span id="cb4-9"><a></a><span class="op">}</span></span>
+<span id="cb4-10"><a></a></span>
+<span id="cb4-11"><a></a><span class="kw">impl</span> Inventory <span class="op">{</span></span>
+<span id="cb4-12"><a></a>    <span class="kw">fn</span> giveaway(<span class="op">&amp;</span><span class="kw">self</span><span class="op">,</span> user_preference<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span>ShirtColor<span class="op">&gt;</span>) <span class="op">-&gt;</span> ShirtColor <span class="op">{</span></span>
+<span id="cb4-13"><a></a>        user_preference<span class="op">.</span>unwrap_or_else(<span class="op">||</span> <span class="kw">self</span><span class="op">.</span>most_stocked())</span>
+<span id="cb4-14"><a></a>    <span class="op">}</span></span>
+<span id="cb4-15"><a></a></span>
+<span id="cb4-16"><a></a>    <span class="kw">fn</span> most_stocked(<span class="op">&amp;</span><span class="kw">self</span>) <span class="op">-&gt;</span> ShirtColor <span class="op">{</span></span>
+<span id="cb4-17"><a></a>        <span class="kw">let</span> <span class="kw">mut</span> num_red <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-18"><a></a>        <span class="kw">let</span> <span class="kw">mut</span> num_blue <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-19"><a></a></span>
+<span id="cb4-20"><a></a>        <span class="cf">for</span> color <span class="kw">in</span> <span class="op">&amp;</span><span class="kw">self</span><span class="op">.</span>shirts <span class="op">{</span></span>
+<span id="cb4-21"><a></a>            <span class="cf">match</span> color <span class="op">{</span></span>
+<span id="cb4-22"><a></a>                <span class="pp">ShirtColor::</span>Red <span class="op">=&gt;</span> num_red <span class="op">+=</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb4-23"><a></a>                <span class="pp">ShirtColor::</span>Blue <span class="op">=&gt;</span> num_blue <span class="op">+=</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb4-24"><a></a>            <span class="op">}</span></span>
+<span id="cb4-25"><a></a>        <span class="op">}</span></span>
+<span id="cb4-26"><a></a>        <span class="cf">if</span> num_red <span class="op">&gt;</span> num_blue <span class="op">{</span></span>
+<span id="cb4-27"><a></a>            <span class="pp">ShirtColor::</span>Red</span>
+<span id="cb4-28"><a></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb4-29"><a></a>            <span class="pp">ShirtColor::</span>Blue</span>
+<span id="cb4-30"><a></a>        <span class="op">}</span></span>
+<span id="cb4-31"><a></a>    <span class="op">}</span></span>
+<span id="cb4-32"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="example-continued" class="slide level2">
+<h2>Example continued</h2>
+<ul>
+<li class="fragment">Illustrates use of closure in <code>unwrap_or_else</code>.</li>
+<li class="fragment">Calls the closure <code>|| self.most_stocked()</code> if <code>user_preference</code> is <code>None</code> variant.</li>
+<li class="fragment">Closure captures <code>self</code> (immutable reference to Inventory)</li>
+</ul>
+</section>
+<section id="capturing-modes" class="slide level2">
+<h2>Capturing Modes</h2>
+<p>Closure can capture values in the same three ways that functions can take parameters</p>
+<p>Immutable Reference</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="kw">let</span> list <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb5-2"><a></a><span class="kw">let</span> print_closure <span class="op">=</span> <span class="op">||</span> <span class="pp">println!</span>(<span class="st">"{:?}"</span><span class="op">,</span> list)<span class="op">;</span></span>
+<span id="cb5-3"><a></a>print_closure()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Mutable reference</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a><span class="kw">let</span> <span class="kw">mut</span> list <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb6-2"><a></a><span class="kw">let</span> <span class="kw">mut</span> add_to_list <span class="op">=</span> <span class="op">||</span> list<span class="op">.</span>push(<span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a></a>add_to_list()<span class="op">;</span></span>
+<span id="cb6-4"><a></a><span class="pp">println!</span>(<span class="st">"{:?}"</span><span class="op">,</span> list)<span class="op">;</span> <span class="co">// [1, 2, 3, 4]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="capture-modes-cont" class="slide level2">
+<h2>Capture modes (cont)</h2>
+<p>Moving ownership</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a><span class="kw">let</span> list <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb7-2"><a></a><span class="kw">let</span> moved <span class="op">=</span> <span class="op">||</span> drop(list)<span class="op">;</span></span>
+<span id="cb7-3"><a></a>moved()<span class="op">;</span></span>
+<span id="cb7-4"><a></a><span class="co">// println!("{:?}", list); // Error: list has been moved</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Can also explicitly move ownership:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="kw">let</span> list <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb8-2"><a></a><span class="kw">let</span> moved <span class="op">=</span> <span class="kw">move</span> <span class="op">||</span> <span class="pp">println!</span>(<span class="st">"{:?}"</span><span class="op">,</span> list)<span class="op">;</span></span>
+<span id="cb8-3"><a></a>moved()<span class="op">;</span></span>
+<span id="cb8-4"><a></a><span class="co">// println!("{:?}", list); // Error: list has been moved</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Rust will use the highest on the list possible: Immutable reference, then mutable if needed, and then move it if needed or requested.</p>
+</section>
+<section id="moving-captured-values-out" class="slide level2">
+<h2>Moving captured values <em>out</em></h2>
+<ul>
+<li class="fragment">Closure body can do any of the following:
+<ol type="1">
+<li class="fragment"><em>Move</em> a captured value out</li>
+<li class="fragment"><em>Mutate</em> a captured value</li>
+<li class="fragment"><em>Neither move nor mutate</em> captured values</li>
+<li class="fragment"><em>Capture nothing</em></li>
+</ol></li>
+<li class="fragment">This determines which traits are implemented
+<ul>
+<li class="fragment">FnOnce : Can be called at least once. All closures implement this.</li>
+<li class="fragment">FnMut : Can be called multiple times. Implemented by 2-4.</li>
+<li class="fragment">Fn : Can be called multiple times safely. Implemented by 3-4.</li>
+</ul></li>
+</ul>
+</section>
+<section id="fnonce-example" class="slide level2">
+<h2>FnOnce example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a><span class="kw">impl</span><span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="dt">Option</span><span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb9-2"><a></a>    <span class="kw">pub</span> <span class="kw">fn</span> unwrap_or_else<span class="op">&lt;</span>F<span class="op">&gt;</span>(<span class="kw">self</span><span class="op">,</span> f<span class="op">:</span> F) <span class="op">-&gt;</span> T</span>
+<span id="cb9-3"><a></a>    <span class="kw">where</span></span>
+<span id="cb9-4"><a></a>        F<span class="op">:</span> <span class="bu">FnOnce</span>() <span class="op">-&gt;</span> T</span>
+<span id="cb9-5"><a></a>    <span class="op">{</span></span>
+<span id="cb9-6"><a></a>        <span class="cf">match</span> <span class="kw">self</span> <span class="op">{</span></span>
+<span id="cb9-7"><a></a>            <span class="cn">Some</span>(x) <span class="op">=&gt;</span> x<span class="op">,</span></span>
+<span id="cb9-8"><a></a>            <span class="cn">None</span> <span class="op">=&gt;</span> f()<span class="op">,</span></span>
+<span id="cb9-9"><a></a>        <span class="op">}</span></span>
+<span id="cb9-10"><a></a>    <span class="op">}</span></span>
+<span id="cb9-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment"><code>F</code> is the generic type, with trait bound <code>FnOnce() -&gt; T</code></li>
+<li class="fragment">This means <code>F</code> can be any closure, since we only call it once.</li>
+</ul>
+</section>
+<section id="fnmut-example" class="slide level2">
+<h2>FnMut example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb10-1"><a></a><span class="kw">impl</span><span class="op">&lt;</span>T<span class="op">&gt;</span> [T] <span class="op">{</span></span>
+<span id="cb10-2"><a></a><span class="kw">pub</span> <span class="kw">fn</span> sort_by_key<span class="op">&lt;</span>K<span class="op">,</span> F<span class="op">&gt;</span>(<span class="op">&amp;</span><span class="kw">mut</span> <span class="kw">self</span><span class="op">,</span> f<span class="op">:</span> F)</span>
+<span id="cb10-3"><a></a><span class="kw">where</span></span>
+<span id="cb10-4"><a></a>    F<span class="op">:</span> <span class="bu">FnMut</span>(<span class="op">&amp;</span>T) <span class="op">-&gt;</span> K<span class="op">,</span></span>
+<span id="cb10-5"><a></a>    K<span class="op">:</span> <span class="bu">Ord</span><span class="op">,</span></span>
+<span id="cb10-6"><a></a><span class="co">// snip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment"><p>Standard library function on slices that takes a function that produces the sort key K.</p></li>
+<li class="fragment"><p><code>Ord</code> is a trait for ordering, requires <code>cmp</code> function, implemented by orderable types (e.g.&nbsp;all numbers)</p></li>
+<li class="fragment"><p>Takes a FnMut instead of FnOnce because it must be called multiple times to do the sort.</p></li>
+</ul>
+</section>
+<section id="sort_by_key-usage-example" class="slide level2">
+<h2><code>sort_by_key</code> usage example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb11-1"><a></a><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Debug</span><span class="at">)]</span></span>
+<span id="cb11-2"><a></a><span class="kw">struct</span> Rectangle <span class="op">{</span></span>
+<span id="cb11-3"><a></a>    width<span class="op">:</span> <span class="dt">u32</span><span class="op">,</span></span>
+<span id="cb11-4"><a></a>    height<span class="op">:</span> <span class="dt">u32</span><span class="op">,</span></span>
+<span id="cb11-5"><a></a><span class="op">}</span></span>
+<span id="cb11-6"><a></a></span>
+<span id="cb11-7"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb11-8"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> list <span class="op">=</span> [</span>
+<span id="cb11-9"><a></a>        Rectangle <span class="op">{</span> width<span class="op">:</span> <span class="dv">10</span><span class="op">,</span> height<span class="op">:</span> <span class="dv">1</span> <span class="op">},</span></span>
+<span id="cb11-10"><a></a>        Rectangle <span class="op">{</span> width<span class="op">:</span> <span class="dv">3</span><span class="op">,</span> height<span class="op">:</span> <span class="dv">5</span> <span class="op">},</span></span>
+<span id="cb11-11"><a></a>        Rectangle <span class="op">{</span> width<span class="op">:</span> <span class="dv">7</span><span class="op">,</span> height<span class="op">:</span> <span class="dv">12</span> <span class="op">},</span></span>
+<span id="cb11-12"><a></a>    ]<span class="op">;</span></span>
+<span id="cb11-13"><a></a></span>
+<span id="cb11-14"><a></a>    list<span class="op">.</span>sort_by_key(<span class="op">|</span>r<span class="op">|</span> r<span class="op">.</span>width)<span class="op">;</span></span>
+<span id="cb11-15"><a></a>    <span class="pp">println!</span>(<span class="st">"{list:#?}"</span>)<span class="op">;</span></span>
+<span id="cb11-16"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Closure implements all the traits, including <code>FnMut</code> so OK.</li>
+</ul>
+</section>
+<section id="broken-example" class="slide level2">
+<h2>Broken example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb12-1"><a></a><span class="co">// snip</span></span>
+<span id="cb12-2"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb12-3"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> list <span class="op">=</span> [</span>
+<span id="cb12-4"><a></a>     <span class="co">// snip</span></span>
+<span id="cb12-5"><a></a>    ]<span class="op">;</span></span>
+<span id="cb12-6"><a></a></span>
+<span id="cb12-7"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> sort_operations <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
+<span id="cb12-8"><a></a>    <span class="kw">let</span> value <span class="op">=</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">"closure called"</span>)<span class="op">;</span></span>
+<span id="cb12-9"><a></a></span>
+<span id="cb12-10"><a></a>    list<span class="op">.</span>sort_by_key(<span class="op">|</span>r<span class="op">|</span> <span class="op">{</span></span>
+<span id="cb12-11"><a></a>        sort_operations<span class="op">.</span>push(value)<span class="op">;</span> <span class="co">// Moves capture value out</span></span>
+<span id="cb12-12"><a></a>        r<span class="op">.</span>width</span>
+<span id="cb12-13"><a></a>    <span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb12-14"><a></a>    <span class="pp">println!</span>(<span class="st">"{list:#?}"</span>)<span class="op">;</span></span>
+<span id="cb12-15"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Closure moves the captured value <code>value</code> out.</li>
+<li class="fragment">Implements only <code>FnOnce</code>, <em>not</em> <code>FnMut</code>.</li>
+<li class="fragment">Compiler error. <a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=7e697e3eacd03a200a69de0f7cea6aec">Rust Playground</a></li>
+</ul>
+</section>
+<section id="fixed-example" class="slide level2">
+<h2>Fixed example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb13-1"><a></a></span>
+<span id="cb13-2"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb13-3"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> list <span class="op">=</span> [</span>
+<span id="cb13-4"><a></a>      <span class="co">// snip</span></span>
+<span id="cb13-5"><a></a>    ]<span class="op">;</span></span>
+<span id="cb13-6"><a></a></span>
+<span id="cb13-7"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> num_sort_operations <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-8"><a></a>    list<span class="op">.</span>sort_by_key(<span class="op">|</span>r<span class="op">|</span> <span class="op">{</span></span>
+<span id="cb13-9"><a></a>        num_sort_operations <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-10"><a></a>        r<span class="op">.</span>width</span>
+<span id="cb13-11"><a></a>    <span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb13-12"><a></a>    <span class="pp">println!</span>(<span class="st">"{list:#?}, sorted in {num_sort_operations} operations"</span>)<span class="op">;</span></span>
+<span id="cb13-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Counts number of calls without moving</li>
+<li class="fragment">This time the closure implements <code>FnMut</code> (in addition to <code>FnOnce</code>)</li>
+</ul>
+</section></section>
+<section>
+<section id="iterators" class="title-slide slide level1 center">
+<h1>Iterators</h1>
+
+</section>
+<section id="what-are-iterators" class="slide level2">
+<h2>What are Iterators?</h2>
+<ul>
+<li class="fragment"><strong>Definition</strong>: An Iterator provides a sequence of items (one at a time)</li>
+<li class="fragment"><strong>Laziness</strong>: Iterators do nothing until <em>consumed</em>
+<ul>
+<li class="fragment">Calling <code>iter()</code> on a collection by itself does nothing</li>
+<li class="fragment">Methods like <code>sum()</code>, <code>collect()</code>, or a <code>for</code> loop <em>consume</em> the iterator</li>
+</ul></li>
+<li class="fragment"><strong>Benefit</strong>: You avoid writing index-based loops manually
+<ul>
+<li class="fragment">Less chance of off-by-one errors</li>
+<li class="fragment">Consistent, reusable iteration logic. Functional style.</li>
+</ul></li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb14-1"><a></a><span class="kw">let</span> v1 <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb14-2"><a></a></span>
+<span id="cb14-3"><a></a><span class="co">// Creating an iterator (does nothing yet)</span></span>
+<span id="cb14-4"><a></a><span class="kw">let</span> v1_iter <span class="op">=</span> v1<span class="op">.</span>iter()<span class="op">;</span> </span>
+<span id="cb14-5"><a></a></span>
+<span id="cb14-6"><a></a><span class="co">// Consuming the iterator in a for loop</span></span>
+<span id="cb14-7"><a></a><span class="cf">for</span> val <span class="kw">in</span> v1_iter <span class="op">{</span></span>
+<span id="cb14-8"><a></a>    <span class="pp">println!</span>(<span class="st">"Got: {val}"</span>)<span class="op">;</span></span>
+<span id="cb14-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>N.B. The <code>for</code> syntax will call iter for you, so <code>for val in v1</code> will also work.</p>
+</div>
+</section>
+<section id="iterator-trait" class="slide level2">
+<h2>Iterator trait</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb15-1"><a></a><span class="kw">pub</span> <span class="kw">trait</span> <span class="bu">Iterator</span> <span class="op">{</span></span>
+<span id="cb15-2"><a></a>    <span class="kw">type</span> Item<span class="op">;</span></span>
+<span id="cb15-3"><a></a>    <span class="kw">fn</span> next(<span class="op">&amp;</span><span class="kw">mut</span> <span class="kw">self</span>) <span class="op">-&gt;</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">Self</span><span class="pp">::</span>Item<span class="op">&gt;;</span></span>
+<span id="cb15-4"><a></a>    <span class="co">// other default methods elided</span></span>
+<span id="cb15-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">One method required, <code>next</code>.</li>
+<li class="fragment"><code>Item</code> is an <em>associated type</em>. More on this in Chapter 19.</li>
+</ul>
+</section>
+<section id="demonstrating-next" class="slide level2">
+<h2>Demonstrating <code>next</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb16-1"><a></a>    <span class="kw">fn</span> iterator_demonstration() <span class="op">{</span></span>
+<span id="cb16-2"><a></a>        <span class="kw">let</span> v1 <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb16-3"><a></a></span>
+<span id="cb16-4"><a></a>        <span class="kw">let</span> <span class="kw">mut</span> v1_iter <span class="op">=</span> v1<span class="op">.</span>iter()<span class="op">;</span></span>
+<span id="cb16-5"><a></a></span>
+<span id="cb16-6"><a></a>        <span class="pp">assert_eq!</span>(v1_iter<span class="op">.</span>next()<span class="op">,</span> <span class="cn">Some</span>(<span class="op">&amp;</span><span class="dv">1</span>))<span class="op">;</span></span>
+<span id="cb16-7"><a></a>        <span class="pp">assert_eq!</span>(v1_iter<span class="op">.</span>next()<span class="op">,</span> <span class="cn">Some</span>(<span class="op">&amp;</span><span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb16-8"><a></a>        <span class="pp">assert_eq!</span>(v1_iter<span class="op">.</span>next()<span class="op">,</span> <span class="cn">Some</span>(<span class="op">&amp;</span><span class="dv">3</span>))<span class="op">;</span></span>
+<span id="cb16-9"><a></a>        <span class="pp">assert_eq!</span>(v1_iter<span class="op">.</span>next()<span class="op">,</span> <span class="cn">None</span>)<span class="op">;</span></span>
+<span id="cb16-10"><a></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Note that v1_iter must be mutable. <code>next</code> takes mutable ref to self.</li>
+<li class="fragment">This consumes the iterator.</li>
+<li class="fragment">Also note that the values are immutable references to the values in v1.
+<ul>
+<li class="fragment"><code>iter_mut</code> gives mutable references</li>
+<li class="fragment"><code>into_iter</code> gives owned values.</li>
+</ul></li>
+</ul>
+</section>
+<section id="adaptors" class="slide level2">
+<h2>Adaptors</h2>
+<ul>
+<li class="fragment">Consuming Adaptors:
+<ul>
+<li class="fragment">Methods that call <code>next</code> on an iterator.</li>
+<li class="fragment">Examples: <code>sum</code> and <code>collect</code></li>
+</ul></li>
+<li class="fragment">Iterator Adaptors:
+<ul>
+<li class="fragment">Methods that transform the iterator into a different one.</li>
+<li class="fragment">Examples: <code>filter</code> and <code>map</code>.</li>
+</ul></li>
+<li class="fragment">Chain multiple calls to perform complex actions <em>declaratively</em>.</li>
+</ul>
+</section>
+<section id="example-1" class="slide level2">
+<h2>Example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb17-1"><a></a><span class="kw">fn</span> main()<span class="op">{</span></span>
+<span id="cb17-2"><a></a>    <span class="kw">let</span> v1<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">6</span>]<span class="op">;</span></span>
+<span id="cb17-3"><a></a>    <span class="kw">let</span> v2<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span>_<span class="op">&gt;</span> <span class="op">=</span> v1<span class="op">.</span>iter()<span class="op">.</span>filter(<span class="op">|</span>x<span class="op">|</span> <span class="op">*</span>x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>)<span class="op">.</span>map(<span class="op">|</span>x<span class="op">|</span> x <span class="op">+</span> <span class="dv">1</span>)<span class="op">.</span>collect()<span class="op">;</span></span>
+<span id="cb17-4"><a></a>    <span class="pp">println!</span>(<span class="st">"{v2:?}"</span>)  <span class="co">// [3, 5, 7]</span></span>
+<span id="cb17-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Note that we need to dereference the <code>x</code> in the filter since <code>iter</code> gives <code>&amp;&amp;i32</code></li>
+<li class="fragment">The type annotation on <code>v2</code> is not optional, collect can produce different types of collections.</li>
+</ul>
+</section>
+<section id="bonus-example" class="slide level2">
+<h2>Bonus example</h2>
+<p>Rust</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb18-1"><a></a><span class="kw">fn</span> main()<span class="op">{</span></span>
+<span id="cb18-2"><a></a>    <span class="kw">let</span> m <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="cb18-3"><a></a>    <span class="kw">let</span> sum_n <span class="op">=</span> <span class="op">|</span>n<span class="op">|</span> (<span class="dv">1</span><span class="op">..</span>)<span class="op">.</span>take(n)<span class="op">.</span>fold(<span class="dv">0</span><span class="op">,</span> <span class="op">|</span>sum<span class="op">,</span> i<span class="op">|</span> sum <span class="op">+</span> i)<span class="op">;</span> </span>
+<span id="cb18-4"><a></a>    <span class="pp">println!</span>(<span class="st">"Sum first {} integers: {:?}"</span><span class="op">,</span> m<span class="op">,</span> sum_n(m))<span class="op">;</span></span>
+<span id="cb18-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Haskell</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource haskell number-lines code-with-copy"><code class="sourceCode haskell"><span id="cb19-1"><a></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb19-2"><a></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb19-3"><a></a>    <span class="kw">let</span> m <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb19-4"><a></a>        sumN n <span class="ot">=</span> <span class="fu">foldl</span> (<span class="op">+</span>) <span class="dv">0</span> <span class="op">$</span> <span class="fu">take</span> n [<span class="dv">1</span><span class="op">..</span>]</span>
+<span id="cb19-5"><a></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">"Sum first "</span> <span class="op">++</span> <span class="fu">show</span> m <span class="op">++</span> <span class="st">" integers: "</span> <span class="op">++</span> <span class="fu">show</span> (sumN m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="improving-our-io-project" class="title-slide slide level1 center">
+<h1>Improving our IO Project</h1>
+
+</section>
+<section id="removing-clone-using-an-iterator." class="slide level2">
+<h2>Removing clone using an iterator.</h2>
+<ul>
+<li class="fragment">IO project from last chapter used inefficient <code>clone</code> calls.</li>
+<li class="fragment">This was because <code>Config::Build</code> didn’t own args.</li>
+<li class="fragment">We can fix this by having <code>Config::Build</code> take ownership of an iterator to the args.</li>
+</ul>
+</section>
+<section id="updating-main" class="slide level2">
+<h2>Updating main</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb20-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb20-2"><a></a>    <span class="kw">let</span> config <span class="op">=</span> <span class="pp">Config::</span>build(<span class="pp">env::</span>args())<span class="op">.</span>unwrap_or_else(<span class="op">|</span>err<span class="op">|</span> <span class="op">{</span></span>
+<span id="cb20-3"><a></a>        <span class="pp">eprintln!</span>(<span class="st">"Problem parsing arguments: {err}"</span>)<span class="op">;</span></span>
+<span id="cb20-4"><a></a>        <span class="pp">process::</span>exit(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb20-5"><a></a>    <span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb20-6"><a></a></span>
+<span id="cb20-7"><a></a>    <span class="co">// --snip--</span></span>
+<span id="cb20-8"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment"><code>env::args()</code> returns and iterator.</li>
+<li class="fragment">Instead of collecting , just move it into the build function.<br>
+</li>
+<li class="fragment">Won’t compile yet, need to fix <code>build</code></li>
+</ul>
+</section>
+<section id="updating-configbuild-signature" class="slide level2">
+<h2>Updating <code>Config::build</code> signature</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb21-1"><a></a><span class="kw">impl</span> Config <span class="op">{</span></span>
+<span id="cb21-2"><a></a>    <span class="kw">pub</span> <span class="kw">fn</span> build(</span>
+<span id="cb21-3"><a></a>        <span class="kw">mut</span> args<span class="op">:</span> <span class="kw">impl</span> <span class="bu">Iterator</span><span class="op">&lt;</span>Item <span class="op">=</span> <span class="dt">String</span><span class="op">&gt;,</span></span>
+<span id="cb21-4"><a></a>    ) <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>Config<span class="op">,</span> <span class="op">&amp;</span><span class="ot">'static</span> <span class="dt">str</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb21-5"><a></a>        <span class="co">// --snip--</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">All we need to know about <code>args</code> is that it implements an iterator that returns <code>String</code> items.</li>
+<li class="fragment">Reminder: <code>impl Trait</code> syntax was covered in Chapter 10 and is syntactic sugar for a type variable with a trait bound.</li>
+</ul>
+</section>
+<section id="updating-configbuild-body" class="slide level2">
+<h2>Updating <code>Config::build</code> body</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb22-1"><a></a><span class="kw">impl</span> Config <span class="op">{</span></span>
+<span id="cb22-2"><a></a>    <span class="kw">pub</span> <span class="kw">fn</span> build(</span>
+<span id="cb22-3"><a></a>        <span class="kw">mut</span> args<span class="op">:</span> <span class="kw">impl</span> <span class="bu">Iterator</span><span class="op">&lt;</span>Item <span class="op">=</span> <span class="dt">String</span><span class="op">&gt;,</span></span>
+<span id="cb22-4"><a></a>    ) <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>Config<span class="op">,</span> <span class="op">&amp;</span><span class="ot">'static</span> <span class="dt">str</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb22-5"><a></a>        args<span class="op">.</span>next()<span class="op">;</span></span>
+<span id="cb22-6"><a></a></span>
+<span id="cb22-7"><a></a>        <span class="kw">let</span> query <span class="op">=</span> <span class="cf">match</span> args<span class="op">.</span>next() <span class="op">{</span></span>
+<span id="cb22-8"><a></a>            <span class="cn">Some</span>(arg) <span class="op">=&gt;</span> arg<span class="op">,</span></span>
+<span id="cb22-9"><a></a>            <span class="cn">None</span> <span class="op">=&gt;</span> <span class="cf">return</span> <span class="cn">Err</span>(<span class="st">"Didn't get a query string"</span>)<span class="op">,</span></span>
+<span id="cb22-10"><a></a>        <span class="op">};</span></span>
+<span id="cb22-11"><a></a></span>
+<span id="cb22-12"><a></a>        <span class="kw">let</span> file_path <span class="op">=</span> <span class="cf">match</span> args<span class="op">.</span>next() <span class="op">{</span></span>
+<span id="cb22-13"><a></a>            <span class="cn">Some</span>(arg) <span class="op">=&gt;</span> arg<span class="op">,</span></span>
+<span id="cb22-14"><a></a>            <span class="cn">None</span> <span class="op">=&gt;</span> <span class="cf">return</span> <span class="cn">Err</span>(<span class="st">"Didn't get a file path"</span>)<span class="op">,</span></span>
+<span id="cb22-15"><a></a>        <span class="op">};</span></span>
+<span id="cb22-16"><a></a></span>
+<span id="cb22-17"><a></a>        <span class="kw">let</span> ignore_case <span class="op">=</span> <span class="pp">env::</span>var(<span class="st">"IGNORE_CASE"</span>)<span class="op">.</span>is_ok()<span class="op">;</span></span>
+<span id="cb22-18"><a></a></span>
+<span id="cb22-19"><a></a>        <span class="cn">Ok</span>(Config <span class="op">{</span></span>
+<span id="cb22-20"><a></a>            query<span class="op">,</span></span>
+<span id="cb22-21"><a></a>            file_path<span class="op">,</span></span>
+<span id="cb22-22"><a></a>            ignore_case<span class="op">,</span></span>
+<span id="cb22-23"><a></a>        <span class="op">}</span>)</span>
+<span id="cb22-24"><a></a>    <span class="op">}</span></span>
+<span id="cb22-25"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Since we own the iterator we can move out the owned String values</li>
+<li class="fragment">NO need to clone!</li>
+</ul>
+</section>
+<section id="clean-up-using-iterator-adaptors" class="slide level2">
+<h2>Clean up using Iterator Adaptors</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb23-1"><a></a><span class="kw">pub</span> <span class="kw">fn</span> search<span class="op">&lt;</span><span class="ot">'a</span><span class="op">&gt;</span>(query<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span><span class="op">,</span> contents<span class="op">:</span> <span class="op">&amp;</span><span class="ot">'a</span> <span class="dt">str</span>) <span class="op">-&gt;</span> <span class="dt">Vec</span><span class="op">&lt;&amp;</span><span class="ot">'a</span> <span class="dt">str</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb23-2"><a></a>    contents</span>
+<span id="cb23-3"><a></a>        <span class="op">.</span>lines()</span>
+<span id="cb23-4"><a></a>        <span class="op">.</span>filter(<span class="op">|</span>line<span class="op">|</span> line<span class="op">.</span>contains(query))</span>
+<span id="cb23-5"><a></a>        <span class="op">.</span>collect()</span>
+<span id="cb23-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">This converts the <code>search</code> function to a functional style.</li>
+<li class="fragment">We eliminate the mutable state (<code>results</code> in the original code).</li>
+<li class="fragment">Use of the higher order <code>filter</code>:
+<ul>
+<li class="fragment">Removes need for mutable state (<code>results</code>)</li>
+<li class="fragment">Removes need for looping with <code>contains</code></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="comparing-performance-loops-vs.-iterators" class="title-slide slide level1 center">
+<h1>Comparing Performance: Loops vs.&nbsp;Iterators</h1>
+
+</section>
+<section id="example-2" class="slide level2 smaller">
+<h2>Example</h2>
+<h3 id="loop">Loop</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb24-1"><a></a><span class="kw">let</span> numbers <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb24-2"><a></a><span class="kw">let</span> <span class="kw">mut</span> result <span class="op">=</span> <span class="dt">Vec</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb24-3"><a></a></span>
+<span id="cb24-4"><a></a><span class="cf">for</span> <span class="op">&amp;</span>num <span class="kw">in</span> <span class="op">&amp;</span>numbers <span class="op">{</span></span>
+<span id="cb24-5"><a></a>    <span class="cf">if</span> num <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">{</span></span>
+<span id="cb24-6"><a></a>        result<span class="op">.</span>push(num <span class="op">*</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb24-7"><a></a>    <span class="op">}</span></span>
+<span id="cb24-8"><a></a><span class="op">}</span></span>
+<span id="cb24-9"><a></a></span>
+<span id="cb24-10"><a></a><span class="pp">println!</span>(<span class="st">"Result: {:?}"</span><span class="op">,</span> result)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=release&amp;edition=2021&amp;gist=9e31eed13045fde04ce4c849ceeb4898">Rust playground</a></p>
+<h3 id="iterator">Iterator</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb25-1"><a></a><span class="kw">let</span> numbers <span class="op">=</span> <span class="pp">vec!</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb25-2"><a></a><span class="kw">let</span> result<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span>_<span class="op">&gt;</span> <span class="op">=</span> numbers<span class="op">.</span>iter()</span>
+<span id="cb25-3"><a></a>    <span class="op">.</span>filter(<span class="op">|&amp;&amp;</span>x<span class="op">|</span> x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>)</span>
+<span id="cb25-4"><a></a>    <span class="op">.</span>map(<span class="op">|&amp;</span>x<span class="op">|</span> x <span class="op">*</span> <span class="dv">2</span>)</span>
+<span id="cb25-5"><a></a>    <span class="op">.</span>collect()<span class="op">;</span></span>
+<span id="cb25-6"><a></a></span>
+<span id="cb25-7"><a></a><span class="pp">println!</span>(<span class="st">"Result: {:?}"</span><span class="op">,</span> result)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=release&amp;edition=2021&amp;gist=5dd39cd09c0445bfdd9f482a161627d6">Rust playground</a></p>
+</section>
+<section id="zero-cost-abstractions" class="slide level2">
+<h2>Zero-cost abstractions</h2>
+
+<img data-src="img/itsfree.png" class="r-stretch"><ul>
+<li class="fragment"><p>Iterators often compile to machine code that is as efficient as hand-written loops. This is referred to as a <em>zero-cost abstraction</em></p></li>
+<li class="fragment"><p>This enables concise, declarative code without sacrificing performance.</p></li>
+</ul>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li class="fragment"><p>Functional programming emphasizes <strong>evaluating expressions</strong> over executing statements.</p></li>
+<li class="fragment"><p>Rust provides robust support for functional programming:</p>
+<ul>
+<li class="fragment"><strong>Closures</strong> for capturing and reusing surrounding context.<br>
+</li>
+<li class="fragment"><strong>Iterators</strong> for lazy, efficient, and declarative data processing.<br>
+</li>
+<li class="fragment">Higher-order functions (e.g., <code>map</code>, <code>filter</code>) for transforming data.<br>
+</li>
+<li class="fragment">Immutability by default</li>
+</ul></li>
+<li class="fragment"><p>Enables concise, safe code without sacrificing performance.</p></li>
+</ul>
 
 
 </section></section>
