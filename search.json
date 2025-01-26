@@ -1100,41 +1100,391 @@
     ]
   },
   {
-    "objectID": "slides/15-smart_pointers.html#slide",
-    "href": "slides/15-smart_pointers.html#slide",
+    "objectID": "slides/15-smart_pointers.html#learning-objectives",
+    "href": "slides/15-smart_pointers.html#learning-objectives",
     "title": "15. Smart Pointers",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Learning objectives",
+    "text": "Learning objectives\n\n\nUnderstand what a smart pointer is\nIdentify common smart pointers\nIdentify use-cases of smart pointers",
     "crumbs": [
       "15. Smart Pointers"
     ]
   },
   {
-    "objectID": "slides/15-smart_pointers.html#slide-1",
-    "href": "slides/15-smart_pointers.html#slide-1",
+    "objectID": "slides/15-smart_pointers.html#smart-pointer",
+    "href": "slides/15-smart_pointers.html#smart-pointer",
     "title": "15. Smart Pointers",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Smart pointer",
+    "text": "Smart pointer\n\nSmart pointers … are data structures that act like a pointer but also have additional metadata and capabilities.\n\n\nA pointer (reference) that holds some more information or can do a bit more.",
     "crumbs": [
       "15. Smart Pointers"
     ]
   },
   {
-    "objectID": "slides/15-smart_pointers.html#slide-2",
-    "href": "slides/15-smart_pointers.html#slide-2",
+    "objectID": "slides/15-smart_pointers.html#common-smart-pointers",
+    "href": "slides/15-smart_pointers.html#common-smart-pointers",
     "title": "15. Smart Pointers",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Common smart pointers",
+    "text": "Common smart pointers\n\n\nBox&lt;T&gt;\nRc&lt;T&gt;\nRef&lt;T&gt;\n\nRefMut&lt;T&gt;\nRefCell&lt;T&gt;",
     "crumbs": [
       "15. Smart Pointers"
     ]
   },
   {
-    "objectID": "slides/15-smart_pointers.html#slide-3",
-    "href": "slides/15-smart_pointers.html#slide-3",
+    "objectID": "slides/15-smart_pointers.html#boxt-1",
+    "href": "slides/15-smart_pointers.html#boxt-1",
     "title": "15. Smart Pointers",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Box<T>",
+    "text": "Box&lt;T&gt;\nPoints to data on the heap\nfn main() {\n    let b = Box::new(5);\n    println!(\"b = {b}\");\n}\n\nReminder: stack is faster to read/write than the heap, but size is needed at compile time",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#boxt-usage",
+    "href": "slides/15-smart_pointers.html#boxt-usage",
+    "title": "15. Smart Pointers",
+    "section": "Box<T> Usage",
+    "text": "Box&lt;T&gt; Usage\n\n\nSize of T unkown & need to use value of T in context where size is needed\nOwn a value & only care that T implements a trait, not specific type of T\nLarge amount of data & need to transfer ownership without copying\n\nTransfering ownership moves data around stack (slow)\nInstead, store data on heap and only keep pointers on stack (fast)\n\n\n\n\nCase 1 - we’ll see shortly\nCase 2 - called trait object, we’ll see in Chapter 17\nCase 3 - if we have a lot of data we want to minimize copying.\nWith Boxes, we can store the large data once, and only need to copy the relatively small data of pointers.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#recursive-types-with-boxes",
+    "href": "slides/15-smart_pointers.html#recursive-types-with-boxes",
+    "title": "15. Smart Pointers",
+    "section": "Recursive types with Boxes",
+    "text": "Recursive types with Boxes\n(1, (2, (3, Nil)))\ncons list\nEach element contains\n\n\na value\na cons list\n\n\n\nTo see how boxes can be used we’re going to implement what’s called a cons list.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#recursive-types-with-boxes-1",
+    "href": "slides/15-smart_pointers.html#recursive-types-with-boxes-1",
+    "title": "15. Smart Pointers",
+    "section": "Recursive types with Boxes",
+    "text": "Recursive types with Boxes\nenum List {\n  Cons(i32, List),\n  Nil,\n}\n\nIn Rust speak, a cons list would look something like this.\nNote that this is recursive since the 2nd element of the Cons variant is also a List.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#recursive-types-with-boxes-2",
+    "href": "slides/15-smart_pointers.html#recursive-types-with-boxes-2",
+    "title": "15. Smart Pointers",
+    "section": "Recursive types with Boxes",
+    "text": "Recursive types with Boxes\n\n\nRust Playground\n\n\nSince this is a recursive data type, the Rust compiler does not know how much memory is needed. It sees this as needing infinite memory.\nLook at error code in Rust Playground:\ncompiler says to use ‘indirection’\n“Indirection” here refers to how a pointer ‘directs’ you to the value.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#recursive-types-with-boxes-3",
+    "href": "slides/15-smart_pointers.html#recursive-types-with-boxes-3",
+    "title": "15. Smart Pointers",
+    "section": "Recursive types with Boxes",
+    "text": "Recursive types with Boxes\nenum List {\n    Cons(i32, Box&lt;List&gt;),\n    Nil,\n}\n\nRust Playground\n\n\nIf we wrap the List in a Box, we’re telling the compiler that this data structure is not infinite.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#recursive-types-with-boxes-4",
+    "href": "slides/15-smart_pointers.html#recursive-types-with-boxes-4",
+    "title": "15. Smart Pointers",
+    "section": "Recursive types with Boxes",
+    "text": "Recursive types with Boxes\n\n\nThe compiler knows how much memory a Box requires so it can see that we are no longer in an infinite loop.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#deref-trait",
+    "href": "slides/15-smart_pointers.html#deref-trait",
+    "title": "15. Smart Pointers",
+    "section": "Deref trait",
+    "text": "Deref trait\nCustomize behavior of dereference * operator\nCode agnostic to pointer type\n\nThe Deref trait allows you to customize how the derefernce operator works for your smart pointer.\nIn doing so it allows you to write code that can work with smart pointers as if they were regular references.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#a-pointer-points-to-a-value",
+    "href": "slides/15-smart_pointers.html#a-pointer-points-to-a-value",
+    "title": "15. Smart Pointers",
+    "section": "A pointer ‘points’ to a value",
+    "text": "A pointer ‘points’ to a value\nfn main() {\n    let x = 5;\n    let y = &x;\n\n    assert_eq!(5, x);\n    assert_eq!(5, *y);\n}\n\nRust Playground\n\n\nRemember that we use & and * to reference and dereference values.\nHere, y is a reference, or pointer, to x. To access the value of y, we need to dereference it with *.\nRust Playground:\nShow what happens when we remove the *.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#boxt-as-a-pointer",
+    "href": "slides/15-smart_pointers.html#boxt-as-a-pointer",
+    "title": "15. Smart Pointers",
+    "section": "Box<T> as a pointer",
+    "text": "Box&lt;T&gt; as a pointer\nfn main() {\n    let x = 5;\n    let y = Box::new(x);\n\n    assert_eq!(5, x);\n    assert_eq!(5, *y);\n}\n\nRust Playground\n\n\nSimilarly, we could use a Box in place of a reference, because Box implementes the Deref trait.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#ourbox",
+    "href": "slides/15-smart_pointers.html#ourbox",
+    "title": "15. Smart Pointers",
+    "section": "OurBox",
+    "text": "OurBox\nstruct OurBox&lt;T&gt;(T);\n\nimpl&lt;T&gt; OurBox&lt;T&gt; {\n    fn new(x: T) -&gt; OurBox&lt;T&gt; {\n        OurBox(x)\n    }\n}\n\nTo see how the Deref trait works, let’s implement our own type of Box.\nWe want it to work with any type T.\nAnd we’ll add a function to create a new box.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#ourbox-1",
+    "href": "slides/15-smart_pointers.html#ourbox-1",
+    "title": "15. Smart Pointers",
+    "section": "OurBox",
+    "text": "OurBox\nfn main() {\n    let x = 5;\n    let y = OurBox::new(x);\n\n    assert_eq!(5, x);\n    assert_eq!(5, *y);\n}\n\nRust Playground\n\n\nWhat we want is is for our box to function like this, where we can use the dereference operator * to get at the underlying value, just like with references.\nHowever, we can’t quite do that yet because Rust doesn’t know how to derefence our box.\nGo to Rust Playground.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#ourbox-2",
+    "href": "slides/15-smart_pointers.html#ourbox-2",
+    "title": "15. Smart Pointers",
+    "section": "OurBox",
+    "text": "OurBox\nimpl&lt;T&gt; Deref for OurBox&lt;T&gt; {\n    type Target = T;\n\n    fn deref(&self) -&gt; &Self::Target {\n        &self.0\n    }\n}\n\nRust Playground\n\n\nIn order to use the dereference operator like we would with a regular reference, we need to implement the Deref trait.\nThe deref method takes a reference to self and returns a reference to the data.\nGo to Rust Playground.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#deref-coercion",
+    "href": "slides/15-smart_pointers.html#deref-coercion",
+    "title": "15. Smart Pointers",
+    "section": "Deref coercion",
+    "text": "Deref coercion\nIf T implements Deref, then &T can be converted to &U.\n\nRust also has functionality called Deref coercion.\nWhat that mean is Rust can automatically convert a reference to a type T to a reference of another type U, as long as T implements Deref.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#deref-coercion-1",
+    "href": "slides/15-smart_pointers.html#deref-coercion-1",
+    "title": "15. Smart Pointers",
+    "section": "Deref coercion",
+    "text": "Deref coercion\nfn hello(name: &str) {\n    println!(\"Hello, {name}!\");\n}\n\nfn main() {\n    let m = OurBox::new(String::from(\"Rust\"));\n    // hello(&(*m)[..]); w/o Deref coercion\n    hello(&m);\n}\n\nRust Playground\n\n\nAs an example let’s say we have our box point to a String.\nThe String type implements Deref by returning a reference to a str.\nThanks to Deref coercion, we can pass a reference to our box to the function hello even though hello expects a reference to a str.\nWithout Deref coercion, we would have to use a more complicated and hard to read syntax.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#drop-trait",
+    "href": "slides/15-smart_pointers.html#drop-trait",
+    "title": "15. Smart Pointers",
+    "section": "Drop trait",
+    "text": "Drop trait\nCustomize cleanup behavior when value goes out of scope\n\nSimilar to Deref smart pointers can also have a Drop trait.\nDrop allows you to control what happens when a value of your type goes out of scope.\nLike with Deref, Rust will run this code for you automatically.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#drop-trait-1",
+    "href": "slides/15-smart_pointers.html#drop-trait-1",
+    "title": "15. Smart Pointers",
+    "section": "Drop trait",
+    "text": "Drop trait\nimpl&lt;T&gt; Drop for OurBox&lt;T&gt; {\n    fn drop(&mut self) {\n        println!(\"Dropping OurBox\");\n    }\n}\n\nfn main() {\n    let _b = OurBox::new(5);\n    println!(\"OurBox '_b' created\");\n}\n\nRust Playground\n\n\nIn this example, our box _b goes out of scope when main does.\nSince we have implented the Drop trait, Rust will automatically call the drop method on OurBox.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#stdmemdrop",
+    "href": "slides/15-smart_pointers.html#stdmemdrop",
+    "title": "15. Smart Pointers",
+    "section": "std::mem::drop",
+    "text": "std::mem::drop\nstruct OurBox&lt;T&gt;(T);\n\nimpl&lt;T&gt; OurBox&lt;T&gt; {\n    fn new(x: T) -&gt; OurBox&lt;T&gt; {\n        OurBox(x)\n    }\n}\n\nfn main() {\n    let b = OurBox::new(5);\n    println!(\"OurBox 'b' created\");\n    drop(b);\n    println!(\"OurBox 'b' dropped\")\n}\n\nRust Playground\n\n\nRust also provides a mechanism to remove a value manually.\nYou can’t call the method of the Drop trait though, you need to use the drop function in the standard library.\nI don’t really see a use case for this other than manually managing memory, which is out of scope for us, but thought it might be worth mentioning.\nThe whole point of the Drop trait is Rust will call it for you, but it is possible to drop a value manually.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#rct-1",
+    "href": "slides/15-smart_pointers.html#rct-1",
+    "title": "15. Smart Pointers",
+    "section": "Rc<T>",
+    "text": "Rc&lt;T&gt;\n\nReference counting pointer\n\nmultiple owners\ncount how many references a value has\n\nUse when\n\nneed access to data in multiple places\ndon’t know at compile time who uses data last\n\nUsed in R for modify-in-place vs. copy-on-modify\n\n\nA reference counted pointer is a smart pointer that tracks how many owners a value has.\nWe use an Rc when we need to access data in multiple places, i.e. data has multiple owners.\nBut we don’t know at compile time what part of the program uses the data last.\nIf we did know that, then we could use the normal rules.\nThe last part of the program to use the data would be the owner and we would use the ownership and borrowing rules we are familiar with.\nR actually uses reference counting to determine if a copy needs to be made.\nIf there is only 1 reference to a value it can modify the value in place.\nBut if there is more than 1 reference, it will make a copy.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#sharing-data-with-rct",
+    "href": "slides/15-smart_pointers.html#sharing-data-with-rct",
+    "title": "15. Smart Pointers",
+    "section": "Sharing data with Rc<T>",
+    "text": "Sharing data with Rc&lt;T&gt;\n\n\nGoing back to cons list that we discussed before, a reference counting smart pointer could be used in a scenario like this.\n‘a’, ‘b’, and ‘c’ are each cons lists.\nBut both ‘b’ and ‘c’ contain list ‘a’.\nIn other words list ‘a’ has multiple owners.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#sharing-data-with-rct-1",
+    "href": "slides/15-smart_pointers.html#sharing-data-with-rct-1",
+    "title": "15. Smart Pointers",
+    "section": "Sharing data with Rc<T>",
+    "text": "Sharing data with Rc&lt;T&gt;\nenum List {\n    Cons(i32, Box&lt;List&gt;),\n    Nil,\n}\n\nuse crate::List::{Cons, Nil};\n\nfn main() {\n    let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));\n    let b = Cons(3, Box::new(a));\n    let c = Cons(4, Box::new(a));\n}\n\nRust Playground\n\n\nWe could try to implement these lists with Boxes.\nAs we saw before, this will handle the recursive type issue.\nBut it won’t handle the problem of multiple owners because a Box uses the standard ownership rules.\nThe cons lists own their data and we can’t have multiple owners.\nWe could have the cons lists hold references instead.\nBut then we would need to use lifetime parameters where we specify that every item of the list must live as long as the list itself.\nThat won’t work in every scenario though.\nGo to Rust Playground",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#sharing-data-with-rct-2",
+    "href": "slides/15-smart_pointers.html#sharing-data-with-rct-2",
+    "title": "15. Smart Pointers",
+    "section": "Sharing data with Rc<T>",
+    "text": "Sharing data with Rc&lt;T&gt;\nenum List {\n    Cons(i32, Rc&lt;List&gt;),\n    Nil,\n}\n\nuse crate::List::{Cons, Nil};\nuse std::rc::Rc;\n\nfn main() {\n    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));\n    let b = Cons(3, Rc::clone(&a));\n    let c = Cons(4, Rc::clone(&a));\n}\n\nRust Playground\n\n\nWhat we can do though is use an Rc instead of a Box.\nWe create a new reference count pointer a.\nThen pass that to our Cons lists b and c via the Rc::clone method.\nEach time we do this Rc, the count of a is increased.\nSo after c is created for example, Rust knows that a has 3 owners so it knows it can’t remove a.\nIt’s worth noting that Rc::clone does not make a copy of all the data.\nIt only increments the reference count.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#tracking-the-count-of-an-rct",
+    "href": "slides/15-smart_pointers.html#tracking-the-count-of-an-rct",
+    "title": "15. Smart Pointers",
+    "section": "Tracking the count of an Rc<T>",
+    "text": "Tracking the count of an Rc&lt;T&gt;\nfn main() {\n    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));\n    println!(\"count after creating a = {}\", Rc::strong_count(&a));\n    let b = Cons(3, Rc::clone(&a));\n    println!(\"count after creating b = {}\", Rc::strong_count(&a));\n    {\n        let c = Cons(4, Rc::clone(&a));\n        println!(\"count after creating c = {}\", Rc::strong_count(&a));\n    }\n    println!(\"count after c goes out of scope = {}\", Rc::strong_count(&a));\n}\n\nRust Playground\n\n\nTo see what’s happening under the hood we could add some print statements to print out the current count.\nGo to Rust Playground",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#refcellt-1",
+    "href": "slides/15-smart_pointers.html#refcellt-1",
+    "title": "15. Smart Pointers",
+    "section": "RefCell<T>",
+    "text": "RefCell&lt;T&gt;\n\n“A mutable memory location with dynamically checked borrow rules”\nBorrowing rules enforced at runtime instead of compile time\nUse to implement the interior mutability pattern\n\nmutate data via immutable references\n\n\n\nA RefCell is a smart pointer where borrowing rules are enforced at run time instead of compile time.\nOne use case of this is to have immutable references to mutable data.\nWe can have a structure that is mutable internally, but not externally.\nKind of like a private field in an object.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#interior-mutability-with-refcellt---mock-objects",
+    "href": "slides/15-smart_pointers.html#interior-mutability-with-refcellt---mock-objects",
+    "title": "15. Smart Pointers",
+    "section": "Interior mutability with RefCell<T> - mock objects",
+    "text": "Interior mutability with RefCell&lt;T&gt; - mock objects\n\nCreate a library to track a value against a maximum value & sends message\nCreate a library to track a value relative to a maximum value\n\nExample: API with limited calls per day\n\nSend message with status of tracked value\n\nUser expected to send message via Messenger trait\n\nUse a mock object for testing\n\n\nTo see how interior mutability works with RefCells we’re going to use an example.\nImagine we have an API where users can call the API a maximum number of times per day.\nWe’ll create a library to track API usage and create a status message.\nThe user will be expected to implement the actual sending of the message but we’ll provide the interface via the Messenger trait.\nFor testing, we’ll create a mock object using RefCells",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#interior-mutability-with-refcellt---mock-objects-1",
+    "href": "slides/15-smart_pointers.html#interior-mutability-with-refcellt---mock-objects-1",
+    "title": "15. Smart Pointers",
+    "section": "Interior mutability with RefCell<T> - mock objects",
+    "text": "Interior mutability with RefCell&lt;T&gt; - mock objects\npub struct LimitTracker&lt;'a, T: Messenger&gt; {\n    messenger: &'a T,\n    value: usize,\n    max: usize,\n}\n\nimpl&lt;'a, T&gt; LimitTracker&lt;'a, T&gt;\nwhere\n    T: Messenger,\n{\n    pub fn new(messenger: &'a T, max: usize) -&gt; LimitTracker&lt;'a, T&gt; {\n        LimitTracker {\n            messenger,\n            value: 0,\n            max,\n        }\n    }\n\n    pub fn set_value(&mut self, value: usize) {\n        self.value = value;\n\n        let percentage_of_max = self.value as f64 / self.max as f64;\n\n        if percentage_of_max &gt;= 1.0 {\n            self.messenger.send(\"Error: You are over your quota!\");\n        } else if percentage_of_max &gt;= 0.9 {\n            self.messenger\n                .send(\"Urgent warning: You've used up over 90% of your quota!\");\n        } else if percentage_of_max &gt;= 0.75 {\n            self.messenger\n                .send(\"Warning: You've used up over 75% of your quota!\");\n        }\n    }\n}\n\npub trait Messenger {\n    fn send(&self, msg: &str);\n}\n\nRust Playground\n\n\nWe’ll create a struct called LimitTracker that will contain the API call limit, the current number of API calls, and a messenger.\nWe will need a way to create a new LimitTracker and to set the current number of calls.\nEach time we set this value, we will update the trackers message.\nWe also need a Messenger trait.\nThis has a send method that takes an immutable reference to self.\nUsers will need to implement this trait to send an email for example.\nWe will need to implement this trait for our mock object.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#interior-mutability-with-refcellt---mock-objects-2",
+    "href": "slides/15-smart_pointers.html#interior-mutability-with-refcellt---mock-objects-2",
+    "title": "15. Smart Pointers",
+    "section": "Interior mutability with RefCell<T> - mock objects",
+    "text": "Interior mutability with RefCell&lt;T&gt; - mock objects\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    struct MockMessenger {\n        sent_messages: Vec&lt;String&gt;,\n    }\n\n    impl MockMessenger {\n        fn new() -&gt; MockMessenger {\n            MockMessenger {\n                sent_messages: vec![],\n            }\n        }\n    }\n\n    impl Messenger for MockMessenger {\n        fn send(&self, message: &str) {\n            self.sent_messages.push(String::from(message));\n        }\n    }\n\n    #[test]\n    fn it_sends_an_over_75_percent_warning_message() {\n        let mock_messenger = MockMessenger::new();\n        let mut limit_tracker = LimitTracker::new(&mock_messenger, 100);\n\n        limit_tracker.set_value(80);\n\n        assert_eq!(mock_messenger.sent_messages.len(), 1);\n    }\n}\n\nRust Playground\n\n\nLike good developers we want to write some tests to ensure our messages are being created correctly.\nWe can do that by creating a MockMessenger struct to keep track of the messages that are sent.\nSince this is a mock for testing, we’re not actually sending anything, we’re just storing the messages in a vector.\nHowever, this doesn’t work.\nThe send method of the Messenger trait expects an immutable reference to self.\nSo we can’t update the sent_messages vector of the mock object because that is a mutable operation.\nWe want to keep our send method to where it takes an immutable reference.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#interior-mutability-with-refcellt---mock-objects-3",
+    "href": "slides/15-smart_pointers.html#interior-mutability-with-refcellt---mock-objects-3",
+    "title": "15. Smart Pointers",
+    "section": "Interior mutability with RefCell<T> - mock objects",
+    "text": "Interior mutability with RefCell&lt;T&gt; - mock objects\n#[cfg(test)]\nmod tests {\n    use super::*;\n    use std::cell::RefCell;\n\n    struct MockMessenger {\n        sent_messages: RefCell&lt;Vec&lt;String&gt;&gt;,\n    }\n\n    impl MockMessenger {\n        fn new() -&gt; MockMessenger {\n            MockMessenger {\n                sent_messages: RefCell::new(vec![]),\n            }\n        }\n    }\n\n    impl Messenger for MockMessenger {\n        fn send(&self, message: &str) {\n            self.sent_messages.borrow_mut().push(String::from(message));\n        }\n    }\n\n    #[test]\n    fn it_sends_an_over_75_percent_warning_message() {\n        // --snip--\n\n        assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);\n    }\n}\n\nRust Playground\n\n\nTo overcome this we can use a RefCell to wrap our sent_messages vector.\nThen within our send method, we can borrow the sent_messages vector as a mutable and update it’s contents with the message.\nSimilarly, we can borrow the sent_messages vector in the assert statement.\nWe aren’t changing anything here though so we can do an immutable borrow.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#combining-refcellt-rct",
+    "href": "slides/15-smart_pointers.html#combining-refcellt-rct",
+    "title": "15. Smart Pointers",
+    "section": "Combining RefCell<T> & Rc<T>",
+    "text": "Combining RefCell&lt;T&gt; & Rc&lt;T&gt;\nRefCell&lt;T&gt; + Rc&lt;T&gt; = mutable data with multiple owners\n\nA common pattern is to use both RefCell and reference counting pointers.\nCombining the two allows you to have multiple owners for the same data, along with that data being internally mutable.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#combining-refcellt-rct-1",
+    "href": "slides/15-smart_pointers.html#combining-refcellt-rct-1",
+    "title": "15. Smart Pointers",
+    "section": "Combining RefCell<T> & Rc<T>",
+    "text": "Combining RefCell&lt;T&gt; & Rc&lt;T&gt;\n\n\n\nRc&lt;T&gt;\n\nmultiple owners of a\nlists are immutable\n\nRc&lt;T&gt; + RefCell&lt;T&gt;\n\nmultiple owners\nmutable lists\n\n\n\n\nGoing back to this cons list example.\nWhen we implemented lists with Rc&lt;T&gt;, it allowed us to have a list with multiple owners.\nHowever, once the lists are created, we can not modify them.\nIf we use RefCell in addtion to Rc though, we can have multiple owners and we can modify the lists after creation.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#combining-refcellt-rct-2",
+    "href": "slides/15-smart_pointers.html#combining-refcellt-rct-2",
+    "title": "15. Smart Pointers",
+    "section": "Combining RefCell<T> & Rc<T>",
+    "text": "Combining RefCell&lt;T&gt; & Rc&lt;T&gt;\n#[derive(Debug)]\nenum List {\n    Cons(Rc&lt;RefCell&lt;i32&gt;&gt;, Rc&lt;List&gt;),\n    Nil,\n}\n\nuse crate::List::{Cons, Nil};\nuse std::cell::RefCell;\nuse std::rc::Rc;\n\nfn main() {\n    let value = Rc::new(RefCell::new(5));\n\n    let a = Rc::new(Cons(Rc::clone(&value), Rc::new(Nil)));\n\n    let b = Cons(Rc::new(RefCell::new(3)), Rc::clone(&a));\n    let c = Cons(Rc::new(RefCell::new(4)), Rc::clone(&a));\n\n    *value.borrow_mut() += 10;\n\n    println!(\"a after = {a:?}\");\n    println!(\"b after = {b:?}\");\n    println!(\"c after = {c:?}\");\n}\n\nRust Playgroud\n\n\nWe can use Rc as before, allowing both b and c to have ownership of a.\nAnd we can place a RefCell within the Rc so that we can modify the value of a after creating it.\nGo to Rust Playground.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#refcellt-rct---memory-leaks",
+    "href": "slides/15-smart_pointers.html#refcellt-rct---memory-leaks",
+    "title": "15. Smart Pointers",
+    "section": "RefCell<T> & Rc<T> - memory leaks",
+    "text": "RefCell&lt;T&gt; & Rc&lt;T&gt; - memory leaks\n\n\nRust Playground\n\n\nUnfortunately, when using RefCell along with Rc it’s possible to have memory leaks.\nWe could have a situation like this where the cons lists a and b refer to each other in a cycle.\nThis leads to a memory leak because even when a and b go out of scope, their reference counts are never zero.\nThis means that the memory used will never be freed.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#prevent-reference-cycles",
+    "href": "slides/15-smart_pointers.html#prevent-reference-cycles",
+    "title": "15. Smart Pointers",
+    "section": "Prevent reference cycles",
+    "text": "Prevent reference cycles\n\n\nReplace Rc&lt;T&gt; with Weak&lt;T&gt;\nWeak&lt;T&gt;\n\nweak reference\nno ownership relationship\ncount does not affect Rc&lt;T&gt; clean up\n\n\n\n\nTo get around the cycle issue we can use another smart pointer called a weak reference.\nUnlike Rc&lt;T&gt;, Weak&lt;T&gt; doesn’t have an ownership relationship.\nAnd weak reference counts don’t affect an Rc&lt;T&gt;s strong reference count.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#weakt",
+    "href": "slides/15-smart_pointers.html#weakt",
+    "title": "15. Smart Pointers",
+    "section": "Weak<T>",
+    "text": "Weak&lt;T&gt;\nuse std::cell::RefCell;\nuse std::rc::{Rc, Weak};\n\n#[derive(Debug)]\nstruct Node {\n    value: i32,\n    parent: RefCell&lt;Weak&lt;Node&gt;&gt;,\n    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,\n}\n\nAs an example, let’s say we need to create a tree data structure.\nWe want any given node to know about both it’s children and it’s parent.\nWe can’t use Rc&lt;T&gt; here because then we would have a reference cycle between a nodes parent and children.\nWe can prevent a cycle by using a Weak reference for the parent and an Rc for the children.\nWith this, a parent node owns it’s child nodes.\nIf we remove a parent node from the tree, it’s children will be removed as well.\nBut by using a Weak reference for the parent of a node, the converse is not true.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#weakt-1",
+    "href": "slides/15-smart_pointers.html#weakt-1",
+    "title": "15. Smart Pointers",
+    "section": "Weak<T>",
+    "text": "Weak&lt;T&gt;\nfn main() {\n    let leaf = Rc::new(Node {\n        value: 3,\n        parent: RefCell::new(Weak::new()),\n        children: RefCell::new(vec![]),\n    });\n\n    // ...\n}\n\nRust Playground\n\n\nGo to Rust Playground\nAdding print statements let’s us see what is happening internally.",
+    "crumbs": [
+      "15. Smart Pointers"
+    ]
+  },
+  {
+    "objectID": "slides/15-smart_pointers.html#review",
+    "href": "slides/15-smart_pointers.html#review",
+    "title": "15. Smart Pointers",
+    "section": "Review",
+    "text": "Review\nWhen to use Box&lt;T&gt;, Rc&lt;T&gt;, and RefCell&lt;T&gt;\n\n\n“Rc enables multiple owners of the same data; Box and RefCell have single owners.”\n“Box allows immutable or mutable borrows checked at compile time; Rc allows only immutable borrows checked at compile time; RefCell allows immutable or mutable borrows checked at runtime.”\n“Because RefCell allows mutable borrows checked at runtime, you can mutate the value inside the RefCell even when the RefCell is immutable.”\n\n\n\nWe’ve talked about a lot of different smart pointers and how to combine them.\nTo finish things off I want to share these guidlines the book provides on when to use the main types of smart pointers we discussed.",
     "crumbs": [
       "15. Smart Pointers"
     ]

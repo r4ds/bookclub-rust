@@ -27,6 +27,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-f77ede3f8df5db7b2f50cc1693ca0955.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -132,18 +197,28 @@
 </div>
 
 </section>
-<section id="learning-objectives" class="title-slide slide level1 center">
-<h1>Learning objectives</h1>
+<section>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
+
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>Learning objectives</h2>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>Understand what a smart pointer is</li>
+<li>Identify common smart pointers</li>
+<li>Identify use-cases of smart pointers</li>
 </ul>
 </div>
+</section>
+<section id="smart-pointer" class="slide level2">
+<h2>Smart pointer</h2>
+<blockquote>
+<p><em>Smart pointers</em> … are data structures that act like a pointer but also have additional metadata and capabilities.</p>
+</blockquote>
 <aside class="notes">
-<ul>
-<li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
-</ul>
+<p>A pointer (reference) that holds some more information or can do a bit more.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -156,33 +231,1153 @@
           display:block!important;
       }</style></aside>
 </section>
-
-<section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
-
-</section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="common-smart-pointers" class="slide level2">
+<h2>Common smart pointers</h2>
+<div>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li><code>Box&lt;T&gt;</code></li>
+<li><code>Rc&lt;T&gt;</code></li>
+<li><code>Ref&lt;T&gt;</code>
+<ul>
+<li><code>RefMut&lt;T&gt;</code></li>
+<li><code>RefCell&lt;T&gt;</code></li>
+</ul></li>
 </ul>
-</section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+</div>
 </section></section>
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="boxt" class="title-slide slide level1 center">
+<h1><code>Box&lt;T&gt;</code></h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="boxt-1" class="slide level2">
+<h2><code>Box&lt;T&gt;</code></h2>
+<p>Points to data on the <em>heap</em></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb1-2"><a></a>    <span class="kw">let</span> b <span class="op">=</span> <span class="dt">Box</span><span class="pp">::</span>new(<span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a></a>    <span class="pp">println!</span>(<span class="st">"b = {b}"</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Reminder: stack is faster to read/write than the heap, but size is needed at compile time</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
+<section id="boxt-usage" class="slide level2">
+<h2><code>Box&lt;T&gt;</code> Usage</h2>
+<div>
+<ul>
+<li>Size of <code>T</code> unkown &amp; need to use value of <code>T</code> in context where size is needed</li>
+<li>Own a value &amp; only care that <code>T</code> implements a trait, not specific type of <code>T</code></li>
+<li>Large amount of data &amp; need to transfer ownership <em>without</em> copying
+<ul>
+<li>Transfering ownership moves data around stack (slow)</li>
+<li>Instead, store data on heap and only keep pointers on stack (fast)</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<p>Case 1 - we’ll see shortly</p>
+<p>Case 2 - called <em>trait object</em>, we’ll see in Chapter 17</p>
+<p>Case 3 - if we have a lot of data we want to minimize copying.</p>
+<p>With <code>Box</code>es, we can store the large data once, and only need to copy the relatively small data of pointers.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="recursive-types-with-boxes" class="slide level2">
+<h2>Recursive types with <code>Box</code>es</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a>(<span class="dv">1</span><span class="op">,</span> (<span class="dv">2</span><span class="op">,</span> (<span class="dv">3</span><span class="op">,</span> <span class="cn">Nil</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>cons</em> list</p>
+<p>Each element contains</p>
+<div>
+<ul>
+<li>a value</li>
+<li>a cons list</li>
+</ul>
+</div>
+<aside class="notes">
+<p>To see how boxes can be used we’re going to implement what’s called a <em>cons</em> list.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="recursive-types-with-boxes-1" class="slide level2">
+<h2>Recursive types with <code>Box</code>es</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="kw">enum</span> List <span class="op">{</span></span>
+<span id="cb3-2"><a></a>  <span class="cn">Cons</span>(<span class="dt">i32</span><span class="op">,</span> List)<span class="op">,</span></span>
+<span id="cb3-3"><a></a>  <span class="cn">Nil</span><span class="op">,</span></span>
+<span id="cb3-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>In Rust speak, a cons list would look something like this.</p>
+<p>Note that this is recursive since the 2nd element of the <code>Cons</code> variant is also a <code>List</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="recursive-types-with-boxes-2" class="slide level2">
+<h2>Recursive types with <code>Box</code>es</h2>
+
+<img data-src="img/cons-list-infinite.svg" alt="Cons list as nested boxes leading to infinity" class="r-stretch"><div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=034de42e7327684cfded861f87676ea8">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Since this is a recursive data type, the Rust compiler does not know how much memory is needed. It sees this as needing infinite memory.</p>
+<p>Look at error code in Rust Playground:</p>
+<p>compiler says to use ‘indirection’</p>
+<p>“Indirection” here refers to how a pointer ‘directs’ you to the value.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="recursive-types-with-boxes-3" class="slide level2">
+<h2>Recursive types with <code>Box</code>es</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="kw">enum</span> List <span class="op">{</span></span>
+<span id="cb4-2"><a></a>    <span class="cn">Cons</span>(<span class="dt">i32</span><span class="op">,</span> <span class="dt">Box</span><span class="op">&lt;</span>List<span class="op">&gt;</span>)<span class="op">,</span></span>
+<span id="cb4-3"><a></a>    <span class="cn">Nil</span><span class="op">,</span></span>
+<span id="cb4-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=8600a8f3d0256af458db595ab845a580">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>If we wrap the <code>List</code> in a <code>Box</code>, we’re telling the compiler that this data structure is not infinite.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="recursive-types-with-boxes-4" class="slide level2">
+<h2>Recursive types with <code>Box</code>es</h2>
+
+<img data-src="img/cons-list-box.svg" alt="Cons list as nested boxes with size usize" class="r-stretch"><aside class="notes">
+<p>The compiler knows how much memory a <code>Box</code> requires so it can see that we are no longer in an infinite loop.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="deref-drop" class="title-slide slide level1 center">
+<h1><code>Deref</code> &amp; <code>Drop</code></h1>
+<aside class="notes">
+<p>Before we move on to other types of smart pointers we’ll review the <code>Deref</code> and <code>Drop</code> traits.</p>
+<p>They are what makes a <code>Box</code> ‘smart’ and are key parts of other smart pointer types.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="deref-trait" class="slide level2">
+<h2><code>Deref</code> trait</h2>
+<p>Customize behavior of <em>dereference</em> <code>*</code> operator</p>
+<p>Code agnostic to pointer type</p>
+<aside class="notes">
+<p>The <code>Deref</code> trait allows you to customize how the derefernce operator works for your smart pointer.</p>
+<p>In doing so it allows you to write code that can work with smart pointers as if they were regular references.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-pointer-points-to-a-value" class="slide level2">
+<h2>A pointer ‘points’ to a value</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb5-2"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb5-3"><a></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="op">&amp;</span>x<span class="op">;</span></span>
+<span id="cb5-4"><a></a></span>
+<span id="cb5-5"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">5</span><span class="op">,</span> x)<span class="op">;</span></span>
+<span id="cb5-6"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">5</span><span class="op">,</span> <span class="op">*</span>y)<span class="op">;</span></span>
+<span id="cb5-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=eb69684331bc0e893ce10d49f33774d2">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Remember that we use <code>&amp;</code> and <code>*</code> to reference and dereference values.</p>
+<p>Here, <code>y</code> is a reference, or <em>pointer</em>, to <code>x</code>. To access the value of <code>y</code>, we need to dereference it with <code>*</code>.</p>
+<p>Rust Playground:</p>
+<p>Show what happens when we remove the <code>*</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="boxt-as-a-pointer" class="slide level2">
+<h2><code>Box&lt;T&gt;</code> as a pointer</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb6-2"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb6-3"><a></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="dt">Box</span><span class="pp">::</span>new(x)<span class="op">;</span></span>
+<span id="cb6-4"><a></a></span>
+<span id="cb6-5"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">5</span><span class="op">,</span> x)<span class="op">;</span></span>
+<span id="cb6-6"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">5</span><span class="op">,</span> <span class="op">*</span>y)<span class="op">;</span></span>
+<span id="cb6-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=b21c7db4960fdbc2300a0be3a74416f7">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Similarly, we could use a <code>Box</code> in place of a reference, because <code>Box</code> implementes the <code>Deref</code> trait.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ourbox" class="slide level2">
+<h2><code>OurBox</code></h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a><span class="kw">struct</span> OurBox<span class="op">&lt;</span>T<span class="op">&gt;</span>(T)<span class="op">;</span></span>
+<span id="cb7-2"><a></a></span>
+<span id="cb7-3"><a></a><span class="kw">impl</span><span class="op">&lt;</span>T<span class="op">&gt;</span> OurBox<span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb7-4"><a></a>    <span class="kw">fn</span> new(x<span class="op">:</span> T) <span class="op">-&gt;</span> OurBox<span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb7-5"><a></a>        OurBox(x)</span>
+<span id="cb7-6"><a></a>    <span class="op">}</span></span>
+<span id="cb7-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>To see how the <code>Deref</code> trait works, let’s implement our own type of <code>Box</code>.</p>
+<p>We want it to work with any type <code>T</code>.</p>
+<p>And we’ll add a function to create a new box.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ourbox-1" class="slide level2">
+<h2><code>OurBox</code></h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb8-2"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb8-3"><a></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="pp">OurBox::</span>new(x)<span class="op">;</span></span>
+<span id="cb8-4"><a></a></span>
+<span id="cb8-5"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">5</span><span class="op">,</span> x)<span class="op">;</span></span>
+<span id="cb8-6"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">5</span><span class="op">,</span> <span class="op">*</span>y)<span class="op">;</span></span>
+<span id="cb8-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=716e231ae8540523190399a42cfb4994">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>What we want is is for our box to function like this, where we can use the dereference operator <code>*</code> to get at the underlying value, just like with references.</p>
+<p>However, we can’t quite do that yet because Rust doesn’t know how to derefence our box.</p>
+<p>Go to Rust Playground.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ourbox-2" class="slide level2">
+<h2><code>OurBox</code></h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a><span class="kw">impl</span><span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="bu">Deref</span> <span class="cf">for</span> OurBox<span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb9-2"><a></a>    <span class="kw">type</span> Target <span class="op">=</span> T<span class="op">;</span></span>
+<span id="cb9-3"><a></a></span>
+<span id="cb9-4"><a></a>    <span class="kw">fn</span> deref(<span class="op">&amp;</span><span class="kw">self</span>) <span class="op">-&gt;</span> <span class="op">&amp;</span><span class="dt">Self</span><span class="pp">::</span>Target <span class="op">{</span></span>
+<span id="cb9-5"><a></a>        <span class="op">&amp;</span><span class="kw">self</span><span class="op">.</span><span class="dv">0</span></span>
+<span id="cb9-6"><a></a>    <span class="op">}</span></span>
+<span id="cb9-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=f9471414f928c6d39f76cba2206f73c0">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>In order to use the dereference operator like we would with a regular reference, we need to implement the <code>Deref</code> trait.</p>
+<p>The <code>deref</code> method takes a reference to <code>self</code> and returns a reference to the data.</p>
+<p>Go to Rust Playground.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="deref-coercion" class="slide level2">
+<h2><code>Deref</code> coercion</h2>
+<p>If <code>T</code> implements <code>Deref</code>, then <code>&amp;T</code> can be converted to <code>&amp;U</code>.</p>
+<aside class="notes">
+<p>Rust also has functionality called <em>Deref coercion</em>.</p>
+<p>What that mean is Rust can automatically convert a reference to a type <code>T</code> to a reference of another type <code>U</code>, as long as <code>T</code> implements <code>Deref</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="deref-coercion-1" class="slide level2">
+<h2><code>Deref</code> coercion</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb10-1"><a></a><span class="kw">fn</span> hello(name<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span>) <span class="op">{</span></span>
+<span id="cb10-2"><a></a>    <span class="pp">println!</span>(<span class="st">"Hello, {name}!"</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a></a><span class="op">}</span></span>
+<span id="cb10-4"><a></a></span>
+<span id="cb10-5"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb10-6"><a></a>    <span class="kw">let</span> m <span class="op">=</span> <span class="pp">OurBox::</span>new(<span class="dt">String</span><span class="pp">::</span>from(<span class="st">"Rust"</span>))<span class="op">;</span></span>
+<span id="cb10-7"><a></a>    <span class="co">// hello(&amp;(*m)[..]); w/o Deref coercion</span></span>
+<span id="cb10-8"><a></a>    hello(<span class="op">&amp;</span>m)<span class="op">;</span></span>
+<span id="cb10-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=27b4a702b8b69323db3f9268c9e8ef08">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>As an example let’s say we have our box point to a <code>String</code>.</p>
+<p>The <code>String</code> type implements <code>Deref</code> by returning a reference to a <code>str</code>.</p>
+<p>Thanks to Deref coercion, we can pass a reference to our box to the function <code>hello</code> even though <code>hello</code> expects a reference to a <code>str</code>.</p>
+<p>Without Deref coercion, we would have to use a more complicated and hard to read syntax.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="drop-trait" class="slide level2">
+<h2><code>Drop</code> trait</h2>
+<p>Customize cleanup behavior when value goes out of scope</p>
+<aside class="notes">
+<p>Similar to <code>Deref</code> smart pointers can also have a <code>Drop</code> trait.</p>
+<p><code>Drop</code> allows you to control what happens when a value of your type goes out of scope.</p>
+<p>Like with <code>Deref</code>, Rust will run this code for you automatically.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="drop-trait-1" class="slide level2">
+<h2><code>Drop</code> trait</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb11-1"><a></a><span class="kw">impl</span><span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="bu">Drop</span> <span class="cf">for</span> OurBox<span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb11-2"><a></a>    <span class="kw">fn</span> drop(<span class="op">&amp;</span><span class="kw">mut</span> <span class="kw">self</span>) <span class="op">{</span></span>
+<span id="cb11-3"><a></a>        <span class="pp">println!</span>(<span class="st">"Dropping OurBox"</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a></a>    <span class="op">}</span></span>
+<span id="cb11-5"><a></a><span class="op">}</span></span>
+<span id="cb11-6"><a></a></span>
+<span id="cb11-7"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb11-8"><a></a>    <span class="kw">let</span> _b <span class="op">=</span> <span class="pp">OurBox::</span>new(<span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb11-9"><a></a>    <span class="pp">println!</span>(<span class="st">"OurBox '_b' created"</span>)<span class="op">;</span></span>
+<span id="cb11-10"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=f197db7a27bbfc9424e287d05790147a">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>In this example, our box <code>_b</code> goes out of scope when <code>main</code> does.</p>
+<p>Since we have implented the <code>Drop</code> trait, Rust will automatically call the <code>drop</code> method on <code>OurBox</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="stdmemdrop" class="slide level2">
+<h2><code>std::mem::drop</code></h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb12-1"><a></a><span class="kw">struct</span> OurBox<span class="op">&lt;</span>T<span class="op">&gt;</span>(T)<span class="op">;</span></span>
+<span id="cb12-2"><a></a></span>
+<span id="cb12-3"><a></a><span class="kw">impl</span><span class="op">&lt;</span>T<span class="op">&gt;</span> OurBox<span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb12-4"><a></a>    <span class="kw">fn</span> new(x<span class="op">:</span> T) <span class="op">-&gt;</span> OurBox<span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb12-5"><a></a>        OurBox(x)</span>
+<span id="cb12-6"><a></a>    <span class="op">}</span></span>
+<span id="cb12-7"><a></a><span class="op">}</span></span>
+<span id="cb12-8"><a></a></span>
+<span id="cb12-9"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb12-10"><a></a>    <span class="kw">let</span> b <span class="op">=</span> <span class="pp">OurBox::</span>new(<span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb12-11"><a></a>    <span class="pp">println!</span>(<span class="st">"OurBox 'b' created"</span>)<span class="op">;</span></span>
+<span id="cb12-12"><a></a>    drop(b)<span class="op">;</span></span>
+<span id="cb12-13"><a></a>    <span class="pp">println!</span>(<span class="st">"OurBox 'b' dropped"</span>)</span>
+<span id="cb12-14"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=969a0ff6949696afa10f945c8fb717d2">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Rust also provides a mechanism to remove a value manually.</p>
+<p>You can’t call the method of the <code>Drop</code> trait though, you need to use the <code>drop</code> function in the standard library.</p>
+<p>I don’t really see a use case for this other than manually managing memory, which is out of scope for us, but thought it might be worth mentioning.</p>
+<p>The whole point of the <code>Drop</code> trait is Rust will call it for you, but it is possible to drop a value manually.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="rct" class="title-slide slide level1 center">
+<h1><code>Rc&lt;T&gt;</code></h1>
+<aside class="notes">
+<p>The next smart pointer we’ll talk about is called <code>Rc</code> which stands for reference counting.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="rct-1" class="slide level2">
+<h2><code>Rc&lt;T&gt;</code></h2>
+<ul>
+<li class="fragment"><em>Reference counting</em> pointer
+<ul>
+<li class="fragment">multiple owners</li>
+<li class="fragment"><em>count</em> how many <em>references</em> a value has</li>
+</ul></li>
+<li class="fragment">Use when
+<ul>
+<li class="fragment">need access to data in multiple places</li>
+<li class="fragment">don’t know at compile time who uses data last</li>
+</ul></li>
+<li class="fragment">Used in R for modify-in-place vs.&nbsp;copy-on-modify</li>
+</ul>
+<aside class="notes">
+<p>A reference counted pointer is a smart pointer that tracks how many owners a value has.</p>
+<p>We use an <code>Rc</code> when we need to access data in multiple places, i.e.&nbsp;data has multiple owners.</p>
+<p>But we don’t know at compile time what part of the program uses the data last.</p>
+<p>If we did know that, then we could use the normal rules.</p>
+<p>The last part of the program to use the data would be the owner and we would use the ownership and borrowing rules we are familiar with.</p>
+<p>R actually uses reference counting to determine if a copy needs to be made.</p>
+<p>If there is only 1 reference to a value it can modify the value in place.</p>
+<p>But if there is more than 1 reference, it will make a copy.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sharing-data-with-rct" class="slide level2">
+<h2>Sharing data with <code>Rc&lt;T&gt;</code></h2>
+
+<img data-src="img/cons-list-rc.svg" alt="Cons lists 'a' is contained within cons lists 'b' and 'c'." class="r-stretch"><aside class="notes">
+<p>Going back to cons list that we discussed before, a reference counting smart pointer could be used in a scenario like this.</p>
+<p>‘a’, ‘b’, and ‘c’ are each cons lists.</p>
+<p>But both ‘b’ and ‘c’ contain list ‘a’.</p>
+<p>In other words list ‘a’ has multiple owners.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sharing-data-with-rct-1" class="slide level2">
+<h2>Sharing data with <code>Rc&lt;T&gt;</code></h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb13-1"><a></a><span class="kw">enum</span> List <span class="op">{</span></span>
+<span id="cb13-2"><a></a>    <span class="cn">Cons</span>(<span class="dt">i32</span><span class="op">,</span> <span class="dt">Box</span><span class="op">&lt;</span>List<span class="op">&gt;</span>)<span class="op">,</span></span>
+<span id="cb13-3"><a></a>    <span class="cn">Nil</span><span class="op">,</span></span>
+<span id="cb13-4"><a></a><span class="op">}</span></span>
+<span id="cb13-5"><a></a></span>
+<span id="cb13-6"><a></a><span class="kw">use</span> <span class="kw">crate</span><span class="pp">::List::</span><span class="op">{</span><span class="cn">Cons</span><span class="op">,</span> <span class="cn">Nil</span><span class="op">};</span></span>
+<span id="cb13-7"><a></a></span>
+<span id="cb13-8"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb13-9"><a></a>    <span class="kw">let</span> a <span class="op">=</span> <span class="cn">Cons</span>(<span class="dv">5</span><span class="op">,</span> <span class="dt">Box</span><span class="pp">::</span>new(<span class="cn">Cons</span>(<span class="dv">10</span><span class="op">,</span> <span class="dt">Box</span><span class="pp">::</span>new(<span class="cn">Nil</span>))))<span class="op">;</span></span>
+<span id="cb13-10"><a></a>    <span class="kw">let</span> b <span class="op">=</span> <span class="cn">Cons</span>(<span class="dv">3</span><span class="op">,</span> <span class="dt">Box</span><span class="pp">::</span>new(a))<span class="op">;</span></span>
+<span id="cb13-11"><a></a>    <span class="kw">let</span> c <span class="op">=</span> <span class="cn">Cons</span>(<span class="dv">4</span><span class="op">,</span> <span class="dt">Box</span><span class="pp">::</span>new(a))<span class="op">;</span></span>
+<span id="cb13-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=a56229a13a79ccc1da849626e1831fb6">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>We could try to implement these lists with <code>Box</code>es.</p>
+<p>As we saw before, this will handle the recursive type issue.</p>
+<p>But it won’t handle the problem of multiple owners because a <code>Box</code> uses the standard ownership rules.</p>
+<p>The cons lists own their data and we can’t have multiple owners.</p>
+<p>We could have the cons lists hold references instead.</p>
+<p>But then we would need to use lifetime parameters where we specify that every item of the list must live as long as the list itself.</p>
+<p>That won’t work in every scenario though.</p>
+<p>Go to Rust Playground</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sharing-data-with-rct-2" class="slide level2">
+<h2>Sharing data with <code>Rc&lt;T&gt;</code></h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb14-1"><a></a><span class="kw">enum</span> List <span class="op">{</span></span>
+<span id="cb14-2"><a></a>    <span class="cn">Cons</span>(<span class="dt">i32</span><span class="op">,</span> Rc<span class="op">&lt;</span>List<span class="op">&gt;</span>)<span class="op">,</span></span>
+<span id="cb14-3"><a></a>    <span class="cn">Nil</span><span class="op">,</span></span>
+<span id="cb14-4"><a></a><span class="op">}</span></span>
+<span id="cb14-5"><a></a></span>
+<span id="cb14-6"><a></a><span class="kw">use</span> <span class="kw">crate</span><span class="pp">::List::</span><span class="op">{</span><span class="cn">Cons</span><span class="op">,</span> <span class="cn">Nil</span><span class="op">};</span></span>
+<span id="cb14-7"><a></a><span class="kw">use</span> <span class="pp">std::rc::</span>Rc<span class="op">;</span></span>
+<span id="cb14-8"><a></a></span>
+<span id="cb14-9"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb14-10"><a></a>    <span class="kw">let</span> a <span class="op">=</span> <span class="pp">Rc::</span>new(<span class="cn">Cons</span>(<span class="dv">5</span><span class="op">,</span> <span class="pp">Rc::</span>new(<span class="cn">Cons</span>(<span class="dv">10</span><span class="op">,</span> <span class="pp">Rc::</span>new(<span class="cn">Nil</span>)))))<span class="op">;</span></span>
+<span id="cb14-11"><a></a>    <span class="kw">let</span> b <span class="op">=</span> <span class="cn">Cons</span>(<span class="dv">3</span><span class="op">,</span> <span class="pp">Rc::</span>clone(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb14-12"><a></a>    <span class="kw">let</span> c <span class="op">=</span> <span class="cn">Cons</span>(<span class="dv">4</span><span class="op">,</span> <span class="pp">Rc::</span>clone(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb14-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=c662bc2ad0b1be444a7544a7de70d6f9">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>What we can do though is use an <code>Rc</code> instead of a <code>Box</code>.</p>
+<p>We create a new reference count pointer <code>a</code>.</p>
+<p>Then pass that to our <code>Cons</code> lists <code>b</code> and <code>c</code> via the <code>Rc::clone</code> method.</p>
+<p>Each time we do this <code>Rc</code>, the count of <code>a</code> is increased.</p>
+<p>So after <code>c</code> is created for example, Rust knows that <code>a</code> has 3 owners so it knows it can’t remove <code>a</code>.</p>
+<p>It’s worth noting that <code>Rc::clone</code> does not make a copy of all the data.</p>
+<p>It only increments the reference count.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="tracking-the-count-of-an-rct" class="slide level2">
+<h2>Tracking the count of an <code>Rc&lt;T&gt;</code></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb15-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb15-2"><a></a>    <span class="kw">let</span> a <span class="op">=</span> <span class="pp">Rc::</span>new(<span class="cn">Cons</span>(<span class="dv">5</span><span class="op">,</span> <span class="pp">Rc::</span>new(<span class="cn">Cons</span>(<span class="dv">10</span><span class="op">,</span> <span class="pp">Rc::</span>new(<span class="cn">Nil</span>)))))<span class="op">;</span></span>
+<span id="cb15-3"><a></a>    <span class="pp">println!</span>(<span class="st">"count after creating a = {}"</span><span class="op">,</span> <span class="pp">Rc::</span>strong_count(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb15-4"><a></a>    <span class="kw">let</span> b <span class="op">=</span> <span class="cn">Cons</span>(<span class="dv">3</span><span class="op">,</span> <span class="pp">Rc::</span>clone(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb15-5"><a></a>    <span class="pp">println!</span>(<span class="st">"count after creating b = {}"</span><span class="op">,</span> <span class="pp">Rc::</span>strong_count(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb15-6"><a></a>    <span class="op">{</span></span>
+<span id="cb15-7"><a></a>        <span class="kw">let</span> c <span class="op">=</span> <span class="cn">Cons</span>(<span class="dv">4</span><span class="op">,</span> <span class="pp">Rc::</span>clone(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb15-8"><a></a>        <span class="pp">println!</span>(<span class="st">"count after creating c = {}"</span><span class="op">,</span> <span class="pp">Rc::</span>strong_count(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb15-9"><a></a>    <span class="op">}</span></span>
+<span id="cb15-10"><a></a>    <span class="pp">println!</span>(<span class="st">"count after c goes out of scope = {}"</span><span class="op">,</span> <span class="pp">Rc::</span>strong_count(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb15-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=a3d256fce25cc84b6ef76d00a7afc711">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>To see what’s happening under the hood we could add some print statements to print out the current count.</p>
+<p>Go to Rust Playground</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="refcellt" class="title-slide slide level1 center">
+<h1><code>RefCell&lt;T&gt;</code></h1>
+<aside class="notes">
+<p>The last smart pointer we’ll discuss is the <code>RefCell</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="refcellt-1" class="slide level2">
+<h2><code>RefCell&lt;T&gt;</code></h2>
+<ul>
+<li class="fragment">“A mutable memory location with dynamically checked borrow rules”</li>
+<li class="fragment">Borrowing rules enforced at <em>runtime</em> instead of <em>compile</em> time</li>
+<li class="fragment">Use to implement the <em>interior mutability</em> pattern
+<ul>
+<li class="fragment"><em>mutate</em> data via <em>immutable</em> references</li>
+</ul></li>
+</ul>
+<aside class="notes">
+<p>A <code>RefCell</code> is a smart pointer where borrowing rules are enforced at run time instead of compile time.</p>
+<p>One use case of this is to have immutable references to mutable data.</p>
+<p>We can have a structure that is mutable internally, but not externally.</p>
+<p>Kind of like a private field in an object.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="interior-mutability-with-refcellt---mock-objects" class="slide level2">
+<h2>Interior mutability with <code>RefCell&lt;T&gt;</code> - mock objects</h2>
+<ul>
+<li class="fragment"><p>Create a library to track a value against a maximum value &amp; sends message</p></li>
+<li class="fragment"><p>Create a library to track a value relative to a maximum value</p>
+<ul>
+<li class="fragment">Example: API with limited calls per day</li>
+</ul></li>
+<li class="fragment"><p>Send message with status of tracked value</p>
+<ul>
+<li class="fragment">User expected to send message via <code>Messenger</code> trait</li>
+</ul></li>
+<li class="fragment"><p>Use a mock object for testing</p></li>
+</ul>
+<aside class="notes">
+<p>To see how interior mutability works with <code>RefCell</code>s we’re going to use an example.</p>
+<p>Imagine we have an API where users can call the API a maximum number of times per day.</p>
+<p>We’ll create a library to track API usage and create a status message.</p>
+<p>The user will be expected to implement the actual sending of the message but we’ll provide the interface via the <code>Messenger</code> trait.</p>
+<p>For testing, we’ll create a mock object using <code>RefCell</code>s</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="interior-mutability-with-refcellt---mock-objects-1" class="slide level2">
+<h2>Interior mutability with <code>RefCell&lt;T&gt;</code> - mock objects</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb16-1"><a></a><span class="kw">pub</span> <span class="kw">struct</span> LimitTracker<span class="op">&lt;</span><span class="ot">'a</span><span class="op">,</span> T<span class="op">:</span> Messenger<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb16-2"><a></a>    messenger<span class="op">:</span> <span class="op">&amp;</span><span class="ot">'a</span> T<span class="op">,</span></span>
+<span id="cb16-3"><a></a>    value<span class="op">:</span> <span class="dt">usize</span><span class="op">,</span></span>
+<span id="cb16-4"><a></a>    max<span class="op">:</span> <span class="dt">usize</span><span class="op">,</span></span>
+<span id="cb16-5"><a></a><span class="op">}</span></span>
+<span id="cb16-6"><a></a></span>
+<span id="cb16-7"><a></a><span class="kw">impl</span><span class="op">&lt;</span><span class="ot">'a</span><span class="op">,</span> T<span class="op">&gt;</span> LimitTracker<span class="op">&lt;</span><span class="ot">'a</span><span class="op">,</span> T<span class="op">&gt;</span></span>
+<span id="cb16-8"><a></a><span class="kw">where</span></span>
+<span id="cb16-9"><a></a>    T<span class="op">:</span> Messenger<span class="op">,</span></span>
+<span id="cb16-10"><a></a><span class="op">{</span></span>
+<span id="cb16-11"><a></a>    <span class="kw">pub</span> <span class="kw">fn</span> new(messenger<span class="op">:</span> <span class="op">&amp;</span><span class="ot">'a</span> T<span class="op">,</span> max<span class="op">:</span> <span class="dt">usize</span>) <span class="op">-&gt;</span> LimitTracker<span class="op">&lt;</span><span class="ot">'a</span><span class="op">,</span> T<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb16-12"><a></a>        LimitTracker <span class="op">{</span></span>
+<span id="cb16-13"><a></a>            messenger<span class="op">,</span></span>
+<span id="cb16-14"><a></a>            value<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb16-15"><a></a>            max<span class="op">,</span></span>
+<span id="cb16-16"><a></a>        <span class="op">}</span></span>
+<span id="cb16-17"><a></a>    <span class="op">}</span></span>
+<span id="cb16-18"><a></a></span>
+<span id="cb16-19"><a></a>    <span class="kw">pub</span> <span class="kw">fn</span> set_value(<span class="op">&amp;</span><span class="kw">mut</span> <span class="kw">self</span><span class="op">,</span> value<span class="op">:</span> <span class="dt">usize</span>) <span class="op">{</span></span>
+<span id="cb16-20"><a></a>        <span class="kw">self</span><span class="op">.</span>value <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb16-21"><a></a></span>
+<span id="cb16-22"><a></a>        <span class="kw">let</span> percentage_of_max <span class="op">=</span> <span class="kw">self</span><span class="op">.</span>value <span class="kw">as</span> <span class="dt">f64</span> <span class="op">/</span> <span class="kw">self</span><span class="op">.</span>max <span class="kw">as</span> <span class="dt">f64</span><span class="op">;</span></span>
+<span id="cb16-23"><a></a></span>
+<span id="cb16-24"><a></a>        <span class="cf">if</span> percentage_of_max <span class="op">&gt;=</span> <span class="dv">1.0</span> <span class="op">{</span></span>
+<span id="cb16-25"><a></a>            <span class="kw">self</span><span class="op">.</span>messenger<span class="op">.</span>send(<span class="st">"Error: You are over your quota!"</span>)<span class="op">;</span></span>
+<span id="cb16-26"><a></a>        <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> percentage_of_max <span class="op">&gt;=</span> <span class="dv">0.9</span> <span class="op">{</span></span>
+<span id="cb16-27"><a></a>            <span class="kw">self</span><span class="op">.</span>messenger</span>
+<span id="cb16-28"><a></a>                <span class="op">.</span>send(<span class="st">"Urgent warning: You've used up over 90% of your quota!"</span>)<span class="op">;</span></span>
+<span id="cb16-29"><a></a>        <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> percentage_of_max <span class="op">&gt;=</span> <span class="dv">0.75</span> <span class="op">{</span></span>
+<span id="cb16-30"><a></a>            <span class="kw">self</span><span class="op">.</span>messenger</span>
+<span id="cb16-31"><a></a>                <span class="op">.</span>send(<span class="st">"Warning: You've used up over 75% of your quota!"</span>)<span class="op">;</span></span>
+<span id="cb16-32"><a></a>        <span class="op">}</span></span>
+<span id="cb16-33"><a></a>    <span class="op">}</span></span>
+<span id="cb16-34"><a></a><span class="op">}</span></span>
+<span id="cb16-35"><a></a></span>
+<span id="cb16-36"><a></a><span class="kw">pub</span> <span class="kw">trait</span> Messenger <span class="op">{</span></span>
+<span id="cb16-37"><a></a>    <span class="kw">fn</span> send(<span class="op">&amp;</span><span class="kw">self</span><span class="op">,</span> msg<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span>)<span class="op">;</span></span>
+<span id="cb16-38"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=dd44e89b023dbf171e7f409c95d722d7">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>We’ll create a struct called <code>LimitTracker</code> that will contain the API call limit, the current number of API calls, and a messenger.</p>
+<p>We will need a way to create a new <code>LimitTracker</code> and to set the current number of calls.</p>
+<p>Each time we set this value, we will update the trackers message.</p>
+<p>We also need a <code>Messenger</code> trait.</p>
+<p>This has a <code>send</code> method that takes an immutable reference to <code>self</code>.</p>
+<p>Users will need to implement this trait to send an email for example.</p>
+<p>We will need to implement this trait for our mock object.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="interior-mutability-with-refcellt---mock-objects-2" class="slide level2">
+<h2>Interior mutability with <code>RefCell&lt;T&gt;</code> - mock objects</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb17-1"><a></a><span class="at">#[</span>cfg<span class="at">(</span>test<span class="at">)]</span></span>
+<span id="cb17-2"><a></a><span class="kw">mod</span> tests <span class="op">{</span></span>
+<span id="cb17-3"><a></a>    <span class="kw">use</span> <span class="kw">super</span><span class="pp">::</span><span class="op">*;</span></span>
+<span id="cb17-4"><a></a></span>
+<span id="cb17-5"><a></a>    <span class="kw">struct</span> MockMessenger <span class="op">{</span></span>
+<span id="cb17-6"><a></a>        sent_messages<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">&gt;,</span></span>
+<span id="cb17-7"><a></a>    <span class="op">}</span></span>
+<span id="cb17-8"><a></a></span>
+<span id="cb17-9"><a></a>    <span class="kw">impl</span> MockMessenger <span class="op">{</span></span>
+<span id="cb17-10"><a></a>        <span class="kw">fn</span> new() <span class="op">-&gt;</span> MockMessenger <span class="op">{</span></span>
+<span id="cb17-11"><a></a>            MockMessenger <span class="op">{</span></span>
+<span id="cb17-12"><a></a>                sent_messages<span class="op">:</span> <span class="pp">vec!</span>[]<span class="op">,</span></span>
+<span id="cb17-13"><a></a>            <span class="op">}</span></span>
+<span id="cb17-14"><a></a>        <span class="op">}</span></span>
+<span id="cb17-15"><a></a>    <span class="op">}</span></span>
+<span id="cb17-16"><a></a></span>
+<span id="cb17-17"><a></a>    <span class="kw">impl</span> Messenger <span class="cf">for</span> MockMessenger <span class="op">{</span></span>
+<span id="cb17-18"><a></a>        <span class="kw">fn</span> send(<span class="op">&amp;</span><span class="kw">self</span><span class="op">,</span> message<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span>) <span class="op">{</span></span>
+<span id="cb17-19"><a></a>            <span class="kw">self</span><span class="op">.</span>sent_messages<span class="op">.</span>push(<span class="dt">String</span><span class="pp">::</span>from(message))<span class="op">;</span></span>
+<span id="cb17-20"><a></a>        <span class="op">}</span></span>
+<span id="cb17-21"><a></a>    <span class="op">}</span></span>
+<span id="cb17-22"><a></a></span>
+<span id="cb17-23"><a></a>    <span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb17-24"><a></a>    <span class="kw">fn</span> it_sends_an_over_75_percent_warning_message() <span class="op">{</span></span>
+<span id="cb17-25"><a></a>        <span class="kw">let</span> mock_messenger <span class="op">=</span> <span class="pp">MockMessenger::</span>new()<span class="op">;</span></span>
+<span id="cb17-26"><a></a>        <span class="kw">let</span> <span class="kw">mut</span> limit_tracker <span class="op">=</span> <span class="pp">LimitTracker::</span>new(<span class="op">&amp;</span>mock_messenger<span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb17-27"><a></a></span>
+<span id="cb17-28"><a></a>        limit_tracker<span class="op">.</span>set_value(<span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb17-29"><a></a></span>
+<span id="cb17-30"><a></a>        <span class="pp">assert_eq!</span>(mock_messenger<span class="op">.</span>sent_messages<span class="op">.</span>len()<span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb17-31"><a></a>    <span class="op">}</span></span>
+<span id="cb17-32"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=b1ab636d6aba8609b008ec185371ef08">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Like good developers we want to write some tests to ensure our messages are being created correctly.</p>
+<p>We can do that by creating a <code>MockMessenger</code> struct to keep track of the messages that are sent.</p>
+<p>Since this is a mock for testing, we’re not actually sending anything, we’re just storing the messages in a vector.</p>
+<p>However, this doesn’t work.</p>
+<p>The <code>send</code> method of the <code>Messenger</code> trait expects an immutable reference to <code>self</code>.</p>
+<p>So we can’t update the <code>sent_messages</code> vector of the mock object because that is a mutable operation.</p>
+<p>We want to keep our send method to where it takes an immutable reference.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="interior-mutability-with-refcellt---mock-objects-3" class="slide level2">
+<h2>Interior mutability with <code>RefCell&lt;T&gt;</code> - mock objects</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb18-1"><a></a><span class="at">#[</span>cfg<span class="at">(</span>test<span class="at">)]</span></span>
+<span id="cb18-2"><a></a><span class="kw">mod</span> tests <span class="op">{</span></span>
+<span id="cb18-3"><a></a>    <span class="kw">use</span> <span class="kw">super</span><span class="pp">::</span><span class="op">*;</span></span>
+<span id="cb18-4"><a></a>    <span class="kw">use</span> <span class="pp">std::cell::</span>RefCell<span class="op">;</span></span>
+<span id="cb18-5"><a></a></span>
+<span id="cb18-6"><a></a>    <span class="kw">struct</span> MockMessenger <span class="op">{</span></span>
+<span id="cb18-7"><a></a>        sent_messages<span class="op">:</span> RefCell<span class="op">&lt;</span><span class="dt">Vec</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">&gt;&gt;,</span></span>
+<span id="cb18-8"><a></a>    <span class="op">}</span></span>
+<span id="cb18-9"><a></a></span>
+<span id="cb18-10"><a></a>    <span class="kw">impl</span> MockMessenger <span class="op">{</span></span>
+<span id="cb18-11"><a></a>        <span class="kw">fn</span> new() <span class="op">-&gt;</span> MockMessenger <span class="op">{</span></span>
+<span id="cb18-12"><a></a>            MockMessenger <span class="op">{</span></span>
+<span id="cb18-13"><a></a>                sent_messages<span class="op">:</span> <span class="pp">RefCell::</span>new(<span class="pp">vec!</span>[])<span class="op">,</span></span>
+<span id="cb18-14"><a></a>            <span class="op">}</span></span>
+<span id="cb18-15"><a></a>        <span class="op">}</span></span>
+<span id="cb18-16"><a></a>    <span class="op">}</span></span>
+<span id="cb18-17"><a></a></span>
+<span id="cb18-18"><a></a>    <span class="kw">impl</span> Messenger <span class="cf">for</span> MockMessenger <span class="op">{</span></span>
+<span id="cb18-19"><a></a>        <span class="kw">fn</span> send(<span class="op">&amp;</span><span class="kw">self</span><span class="op">,</span> message<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span>) <span class="op">{</span></span>
+<span id="cb18-20"><a></a>            <span class="kw">self</span><span class="op">.</span>sent_messages<span class="op">.</span>borrow_mut()<span class="op">.</span>push(<span class="dt">String</span><span class="pp">::</span>from(message))<span class="op">;</span></span>
+<span id="cb18-21"><a></a>        <span class="op">}</span></span>
+<span id="cb18-22"><a></a>    <span class="op">}</span></span>
+<span id="cb18-23"><a></a></span>
+<span id="cb18-24"><a></a>    <span class="at">#[</span>test<span class="at">]</span></span>
+<span id="cb18-25"><a></a>    <span class="kw">fn</span> it_sends_an_over_75_percent_warning_message() <span class="op">{</span></span>
+<span id="cb18-26"><a></a>        <span class="co">// --snip--</span></span>
+<span id="cb18-27"><a></a></span>
+<span id="cb18-28"><a></a>        <span class="pp">assert_eq!</span>(mock_messenger<span class="op">.</span>sent_messages<span class="op">.</span>borrow()<span class="op">.</span>len()<span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb18-29"><a></a>    <span class="op">}</span></span>
+<span id="cb18-30"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=3ccdee5847fde4700d5453b4dc89fe43">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>To overcome this we can use a <code>RefCell</code> to wrap our <code>sent_messages</code> vector.</p>
+<p>Then within our <code>send</code> method, we can borrow the <code>sent_messages</code> vector as a mutable and update it’s contents with the message.</p>
+<p>Similarly, we can borrow the <code>sent_messages</code> vector in the <code>assert</code> statement.</p>
+<p>We aren’t changing anything here though so we can do an immutable borrow.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="combining-refcellt-rct" class="slide level2">
+<h2>Combining <code>RefCell&lt;T&gt;</code> &amp; <code>Rc&lt;T&gt;</code></h2>
+<p><code>RefCell&lt;T&gt;</code> + <code>Rc&lt;T&gt;</code> = <em>mutable</em> data with <em>multiple</em> owners</p>
+<aside class="notes">
+<p>A common pattern is to use both <code>RefCell</code> and reference counting pointers.</p>
+<p>Combining the two allows you to have multiple owners for the same data, along with that data being internally mutable.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="combining-refcellt-rct-1" class="slide level2">
+<h2>Combining <code>RefCell&lt;T&gt;</code> &amp; <code>Rc&lt;T&gt;</code></h2>
+
+<img data-src="img/cons-list-rc.svg" alt="Cons lists 'a' is contained within cons lists 'b' and 'c'." class="r-stretch"><div>
+<ul>
+<li><code>Rc&lt;T&gt;</code>
+<ul>
+<li>multiple owners of <code>a</code></li>
+<li>lists are immutable</li>
+</ul></li>
+<li><code>Rc&lt;T&gt;</code> + <code>RefCell&lt;T&gt;</code>
+<ul>
+<li>multiple owners</li>
+<li>mutable lists</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<p>Going back to this cons list example.</p>
+<p>When we implemented lists with <code>Rc&lt;T&gt;</code>, it allowed us to have a list with multiple owners.</p>
+<p>However, once the lists are created, we can not modify them.</p>
+<p>If we use <code>RefCell</code> in addtion to <code>Rc</code> though, we can have multiple owners <em>and</em> we can modify the lists after creation.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="combining-refcellt-rct-2" class="slide level2">
+<h2>Combining <code>RefCell&lt;T&gt;</code> &amp; <code>Rc&lt;T&gt;</code></h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb19-1"><a></a><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Debug</span><span class="at">)]</span></span>
+<span id="cb19-2"><a></a><span class="kw">enum</span> List <span class="op">{</span></span>
+<span id="cb19-3"><a></a>    <span class="cn">Cons</span>(Rc<span class="op">&lt;</span>RefCell<span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;&gt;,</span> Rc<span class="op">&lt;</span>List<span class="op">&gt;</span>)<span class="op">,</span></span>
+<span id="cb19-4"><a></a>    <span class="cn">Nil</span><span class="op">,</span></span>
+<span id="cb19-5"><a></a><span class="op">}</span></span>
+<span id="cb19-6"><a></a></span>
+<span id="cb19-7"><a></a><span class="kw">use</span> <span class="kw">crate</span><span class="pp">::List::</span><span class="op">{</span><span class="cn">Cons</span><span class="op">,</span> <span class="cn">Nil</span><span class="op">};</span></span>
+<span id="cb19-8"><a></a><span class="kw">use</span> <span class="pp">std::cell::</span>RefCell<span class="op">;</span></span>
+<span id="cb19-9"><a></a><span class="kw">use</span> <span class="pp">std::rc::</span>Rc<span class="op">;</span></span>
+<span id="cb19-10"><a></a></span>
+<span id="cb19-11"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb19-12"><a></a>    <span class="kw">let</span> value <span class="op">=</span> <span class="pp">Rc::</span>new(<span class="pp">RefCell::</span>new(<span class="dv">5</span>))<span class="op">;</span></span>
+<span id="cb19-13"><a></a></span>
+<span id="cb19-14"><a></a>    <span class="kw">let</span> a <span class="op">=</span> <span class="pp">Rc::</span>new(<span class="cn">Cons</span>(<span class="pp">Rc::</span>clone(<span class="op">&amp;</span>value)<span class="op">,</span> <span class="pp">Rc::</span>new(<span class="cn">Nil</span>)))<span class="op">;</span></span>
+<span id="cb19-15"><a></a></span>
+<span id="cb19-16"><a></a>    <span class="kw">let</span> b <span class="op">=</span> <span class="cn">Cons</span>(<span class="pp">Rc::</span>new(<span class="pp">RefCell::</span>new(<span class="dv">3</span>))<span class="op">,</span> <span class="pp">Rc::</span>clone(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb19-17"><a></a>    <span class="kw">let</span> c <span class="op">=</span> <span class="cn">Cons</span>(<span class="pp">Rc::</span>new(<span class="pp">RefCell::</span>new(<span class="dv">4</span>))<span class="op">,</span> <span class="pp">Rc::</span>clone(<span class="op">&amp;</span>a))<span class="op">;</span></span>
+<span id="cb19-18"><a></a></span>
+<span id="cb19-19"><a></a>    <span class="op">*</span>value<span class="op">.</span>borrow_mut() <span class="op">+=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb19-20"><a></a></span>
+<span id="cb19-21"><a></a>    <span class="pp">println!</span>(<span class="st">"a after = {a:?}"</span>)<span class="op">;</span></span>
+<span id="cb19-22"><a></a>    <span class="pp">println!</span>(<span class="st">"b after = {b:?}"</span>)<span class="op">;</span></span>
+<span id="cb19-23"><a></a>    <span class="pp">println!</span>(<span class="st">"c after = {c:?}"</span>)<span class="op">;</span></span>
+<span id="cb19-24"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=d8617ad89142970bb373a33e07eccb33">Rust Playgroud</a></p>
+</div>
+<aside class="notes">
+<p>We can use <code>Rc</code> as before, allowing both <code>b</code> and <code>c</code> to have ownership of <code>a</code>.</p>
+<p>And we can place a <code>RefCell</code> within the <code>Rc</code> so that we can modify the value of <code>a</code> after creating it.</p>
+<p>Go to Rust Playground.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="refcellt-rct---memory-leaks" class="slide level2">
+<h2><code>RefCell&lt;T&gt;</code> &amp; <code>Rc&lt;T&gt;</code> - memory leaks</h2>
+
+<img data-src="img/cons-list-leak.svg" alt="Cons lists 'a' and 'b' have references to each other, causing a memory leak." class="r-stretch"><div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=1e69d8e6c23c7d17375b3ea08691f642">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Unfortunately, when using <code>RefCell</code> along with <code>Rc</code> it’s possible to have memory leaks.</p>
+<p>We could have a situation like this where the cons lists <code>a</code> and <code>b</code> refer to each other in a cycle.</p>
+<p>This leads to a memory leak because even when <code>a</code> and <code>b</code> go out of scope, their reference counts are never zero.</p>
+<p>This means that the memory used will never be freed.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="prevent-reference-cycles" class="slide level2">
+<h2>Prevent reference cycles</h2>
+<div>
+<ul>
+<li>Replace <code>Rc&lt;T&gt;</code> with <code>Weak&lt;T&gt;</code></li>
+<li><code>Weak&lt;T&gt;</code>
+<ul>
+<li><em>weak reference</em></li>
+<li>no ownership relationship</li>
+<li>count does not affect <code>Rc&lt;T&gt;</code> clean up</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<p>To get around the cycle issue we can use another smart pointer called a <em>weak</em> reference.</p>
+<p>Unlike <code>Rc&lt;T&gt;</code>, <code>Weak&lt;T&gt;</code> doesn’t have an ownership relationship.</p>
+<p>And weak reference counts don’t affect an <code>Rc&lt;T&gt;</code>s strong reference count.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="weakt" class="slide level2">
+<h2><code>Weak&lt;T&gt;</code></h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb20-1"><a></a><span class="kw">use</span> <span class="pp">std::cell::</span>RefCell<span class="op">;</span></span>
+<span id="cb20-2"><a></a><span class="kw">use</span> <span class="pp">std::rc::</span><span class="op">{</span>Rc<span class="op">,</span> Weak<span class="op">};</span></span>
+<span id="cb20-3"><a></a></span>
+<span id="cb20-4"><a></a><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Debug</span><span class="at">)]</span></span>
+<span id="cb20-5"><a></a><span class="kw">struct</span> Node <span class="op">{</span></span>
+<span id="cb20-6"><a></a>    value<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb20-7"><a></a>    parent<span class="op">:</span> RefCell<span class="op">&lt;</span>Weak<span class="op">&lt;</span>Node<span class="op">&gt;&gt;,</span></span>
+<span id="cb20-8"><a></a>    children<span class="op">:</span> RefCell<span class="op">&lt;</span><span class="dt">Vec</span><span class="op">&lt;</span>Rc<span class="op">&lt;</span>Node<span class="op">&gt;&gt;&gt;,</span></span>
+<span id="cb20-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>As an example, let’s say we need to create a tree data structure.</p>
+<p>We want any given node to know about both it’s children and it’s parent.</p>
+<p>We can’t use <code>Rc&lt;T&gt;</code> here because then we would have a reference cycle between a nodes parent and children.</p>
+<p>We can prevent a cycle by using a <code>Weak</code> reference for the parent and an <code>Rc</code> for the children.</p>
+<p>With this, a parent node owns it’s child nodes.</p>
+<p>If we remove a parent node from the tree, it’s children will be removed as well.</p>
+<p>But by using a <code>Weak</code> reference for the parent of a node, the converse is not true.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="weakt-1" class="slide level2">
+<h2><code>Weak&lt;T&gt;</code></h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb21-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb21-2"><a></a>    <span class="kw">let</span> leaf <span class="op">=</span> <span class="pp">Rc::</span>new(Node <span class="op">{</span></span>
+<span id="cb21-3"><a></a>        value<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb21-4"><a></a>        parent<span class="op">:</span> <span class="pp">RefCell::</span>new(<span class="pp">Weak::</span>new())<span class="op">,</span></span>
+<span id="cb21-5"><a></a>        children<span class="op">:</span> <span class="pp">RefCell::</span>new(<span class="pp">vec!</span>[])<span class="op">,</span></span>
+<span id="cb21-6"><a></a>    <span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-7"><a></a></span>
+<span id="cb21-8"><a></a>    <span class="co">// ...</span></span>
+<span id="cb21-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=490bff96a75a79c36d3eb657263fff81">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Go to Rust Playground</p>
+<p>Adding print statements let’s us see what is happening internally.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="review" class="slide level2">
+<h2>Review</h2>
+<p>When to use <code>Box&lt;T&gt;</code>, <code>Rc&lt;T&gt;</code>, and <code>RefCell&lt;T&gt;</code></p>
+<div>
+<ul>
+<li>“Rc<t> enables multiple owners of the same data; Box<t> and RefCell<t> have single owners.”</t></t></t></li>
+<li>“Box<t> allows immutable or mutable borrows checked at compile time; Rc<t> allows only immutable borrows checked at compile time; RefCell<t> allows immutable or mutable borrows checked at runtime.”</t></t></t></li>
+<li>“Because RefCell<t> allows mutable borrows checked at runtime, you can mutate the value inside the RefCell<t> even when the RefCell<t> is immutable.”</t></t></t></li>
+</ul>
+</div>
+<aside class="notes">
+<p>We’ve talked about a lot of different smart pointers and how to combine them.</p>
+<p>To finish things off I want to share these guidlines the book provides on when to use the main types of smart pointers we discussed.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 
 
 </section></section>
