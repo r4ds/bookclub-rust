@@ -6,26 +6,215 @@ title: "17. Object Oriented Programming Features of Rust"
 # Learning objectives
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Consider definitions of Object Oriented Programming (OOP) and whether Rust fits in
+- Look at Traits as an OOP technique
+- Implement State with Traits (and enums)
 :::
 
-::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
-:::
+# Is Rust an OOP-language?
 
-# SLIDE SECTION
+## Objects Contain Data and Behavior
 
-## SLIDE
+> Using this definition, Rust is object-oriented: structs and enums have data, and impl blocks provide methods on structs and enums. Even though structs and enums with methods aren’t called objects, they provide the same functionality, according to the Gang of Four’s definition of objects.
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+## Encapsulation that Hides Implementation Details
 
-## SLIDE
+> If encapsulation is a required aspect for a language to be considered object-oriented, then Rust meets that requirement. The option to use `pub` or not for different parts of code enables encapsulation of implementation details.
 
-# SLIDE SECTION
+## Inheritance as a Type System and as Code Sharing
 
-## SLIDE
+> If a language must have inheritance to be an object-oriented language, then Rust is not one. There is no way to define a struct that inherits the parent struct’s fields and method implementations without using a macro.
 
-## SLIDE
+> However, if you’re used to having inheritance in your programming toolbox, you can use other solutions in Rust, depending on your reason for reaching for inheritance in the first place.
+
+## Polymorphism and inheritance 
+
+> Rust instead uses generics to abstract over different possible types and trait bounds to impose constraints on what those types must provide. This is sometimes called bounded parametric polymorphism.
+
+# Traits as OOP
+
+##
+
+```rust
+trait Sound {
+    fn make_sound(&self);
+}
+```
+
+---
+
+```rust
+struct Animal {
+    sound: Box<dyn Sound>,
+}
+
+impl Animal {
+    fn new(sound: Box<dyn Sound>) -> Self {
+        Animal { sound }
+    }
+
+    fn make_sound(&self) {
+        self.sound.make_sound();
+    }
+}
+```
+
+---
+
+```rust
+struct Dog;
+impl Sound for Dog {
+    fn make_sound(&self) {
+        println!("Woof!");
+    }
+}
+// -- and birds & cats --
+```
+
+---
+
+```rust
+fn main() {
+    // Store different Animal instances in a vector
+    let animals: Vec<Animal> = vec![
+        Animal::new(Box::new(Dog)),
+        Animal::new(Box::new(Cat)),
+        Animal::new(Box::new(Bird)),
+    ];
+
+    // Iterate over the vector and call make_sound on each animal
+    for animal in &animals {
+        animal.make_sound();
+    }
+}
+```
+
+# Implementing State
+
+## 
+
+```rust
+use blog::Post;
+
+fn main() {
+    let mut post = Post::new();
+
+    post.add_text("I ate a salad for lunch today");
+    assert_eq!("", post.content());
+
+    post.request_review();
+    assert_eq!("", post.content());
+
+    post.approve();
+    assert_eq!("I ate a salad for lunch today", post.content());
+}
+```
+
+---
+
+```rust
+pub struct Post {
+    state: Option<Box<dyn State>>,
+    content: String,
+}
+
+impl Post {
+    pub fn new() -> Post {
+        Post {
+            state: Some(Box::new(Draft {})),
+            content: String::new(),
+        }
+    }
+}
+```
+
+
+---
+
+```rust
+impl Post {
+    // --snip--
+    pub fn request_review(&mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.request_review())
+        }
+    }
+}
+
+trait State {
+    fn request_review(self: Box<Self>) -> Box<dyn State>;
+}
+
+struct Draft {}
+
+impl State for Draft {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        Box::new(PendingReview {})
+    }
+}
+
+struct PendingReview {}
+
+impl State for PendingReview {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+}
+```
+
+
+---
+
+```rust
+impl Post {
+    // --snip--
+    pub fn approve(&mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.approve())
+        }
+    }
+}
+
+trait State {
+    fn request_review(self: Box<Self>) -> Box<dyn State>;
+    fn approve(self: Box<Self>) -> Box<dyn State>;
+}
+```
+
+---
+
+```rust
+
+struct PendingReview {}
+
+impl State for PendingReview {
+    // --snip--
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        Box::new(Published {})
+    }
+}
+```
+
+
+---
+
+```rust
+trait State {
+    // --snip--
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        ""
+    }
+}
+
+// --snip--
+struct Published {}
+
+impl State for Published {
+    // --snip--
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        &post.content
+    }
+}
+```
+
+# What about an enum?
