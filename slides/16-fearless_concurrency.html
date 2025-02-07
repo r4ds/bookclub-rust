@@ -136,7 +136,10 @@
 <h1>Learning objectives</h1>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>How to create threads to run multiple pieces of code at the same time</li>
+<li>Message-passing concurrency: where channels send messages between threads</li>
+<li>Shared-state concurrency: where multiple threads share access to some piece of data</li>
+<li>Rust’s <code>Sync</code> and <code>Send</code> traits</li>
 </ul>
 </div>
 <aside class="notes">
@@ -158,34 +161,160 @@
 </section>
 
 <section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
 
 </section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="concurrent-vs.-parallel" class="slide level2">
+<h2>Concurrent vs.&nbsp;Parallel</h2>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li class="fragment">Concurrent programming -&gt; different parts of a program execute independently</li>
+<li class="fragment">Parallel programming -&gt; different parts of a program execute at the same time</li>
+<li class="fragment">“Fearless Concurrency” applies to both concurrent and parallel programming</li>
 </ul>
 </section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+<section id="fearless-concurrency-with-rust" class="slide level2">
+<h2>Fearless Concurrency with Rust</h2>
+<ul>
+<li class="fragment">Rust’s ownership and type system manages memory safety AND concurrency problems</li>
+<li class="fragment">This helps convert run-time errors into compile-time errors</li>
+<li class="fragment">You can fix your code while you are working on it, rather than after it has been shipped</li>
+</ul>
+</section>
+<section id="opearting-systems-run-programs-concurrently" class="slide level2">
+<h2>Opearting systems run programs concurrently</h2>
+<ul>
+<li class="fragment">Operating systems run executed code in a process</li>
+<li class="fragment">Multiple processes can be run at once</li>
+</ul>
+</section>
+<section id="programs-can-run-their-parts-concurrently-as-well" class="slide level2">
+<h2>Programs can run their parts concurrently as well</h2>
+<ul>
+<li class="fragment">Within a program, independent parts can also run simultaneously</li>
+<li class="fragment">The features that run these independent parts are called threads</li>
+<li class="fragment">e.g.&nbsp;Web Servers have multiple threads to respond to multiple requests at once</li>
+</ul>
+</section>
+<section id="typical-challenges-of-concurrency" class="slide level2">
+<h2>Typical challenges of concurrency</h2>
+<ul>
+<li class="fragment">Race conditions: threads accessing resources in an unexpected order</li>
+<li class="fragment">Deadlocks: where two threads are waiting for each other, preventing progress</li>
+<li class="fragment">Bugs that only happen in certain contexts and are difficult to reproduce</li>
+</ul>
+</section>
+<section id="thread-models" class="slide level2">
+<h2>Thread models</h2>
+<ul>
+<li class="fragment">Rust’s standard library uses a 1:1 model of thread implementation
+<ul>
+<li class="fragment">A program uses one operating system thread per one language thread</li>
+</ul></li>
+<li class="fragment">Different crates offer different implementations, with different trade-offs</li>
+</ul>
 </section></section>
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="creating-threads" class="title-slide slide level1 center">
+<h1>Creating Threads</h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="spawning-a-thread-in-rust" class="slide level2">
+<h2>Spawning a thread in Rust</h2>
+<ul>
+<li class="fragment">To create a new thread, we use <code>thread::spawn</code>, and pass it to a closure</li>
+<li class="fragment">The closure should contain the code that we want to run in that thread</li>
+<li class="fragment">When the main thread of a Rust program completes, all spawned threads are shut down</li>
+<li class="fragment">Code example!</li>
+</ul>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
-
-
+<section id="join-handles" class="slide level2">
+<h2>Join handles</h2>
+<ul>
+<li class="fragment">Calling <code>join</code> on the handle blocks the currently running thread</li>
+<li class="fragment">It unblocks when the thread represented by the handle terminates</li>
+<li class="fragment">Code examples!</li>
+</ul>
+</section>
+<section id="transfer-ownership-with-move" class="slide level2">
+<h2>Transfer ownership with <code>move</code></h2>
+<ul>
+<li class="fragment">Using the <code>move</code> keyword with closures passed to <code>thread::spawn</code></li>
+<li class="fragment">This transfer ownership of the values it uses from the environment to the thread</li>
+<li class="fragment">Code example!</li>
+</ul>
 </section></section>
+<section>
+<section id="message-passing-concurrency" class="title-slide slide level1 center">
+<h1>Message Passing Concurrency</h1>
+<ul>
+<li class="fragment">Threads communicate to each other by passing messages with data</li>
+<li class="fragment">“Do not communicate by sharing memory, share memory by communicating”</li>
+</ul>
+</section>
+<section id="channels" class="slide level2">
+<h2>Channels</h2>
+<ul>
+<li class="fragment">In Rust, message passing concurrency is achieved using <code>channels</code></li>
+<li class="fragment">Channels can be thought of as the directional channel of a river</li>
+<li class="fragment">Messages placed in the channel travel downstream until the end</li>
+</ul>
+</section>
+<section id="transmitters-and-receivers" class="slide level2">
+<h2>Transmitters and Receivers</h2>
+<ul>
+<li class="fragment">Upstream: code calls methods on the <code>transmitter</code> with the data you want to send</li>
+<li class="fragment">Downstream: code checks the <code>receiving</code> end for arriving messages</li>
+<li class="fragment">A transmitter and receiver can be initialized with <code>mpsc::channel()</code></li>
+<li class="fragment">Code example!</li>
+</ul>
+</section></section>
+<section>
+<section id="shared-state-concurrency" class="title-slide slide level1 center">
+<h1>Shared-State Concurrency</h1>
+<ul>
+<li class="fragment">Instead of passing messages, multiple threads could also access the same shared data</li>
+<li class="fragment">Channels are similar to single ownership</li>
+<li class="fragment">Shared memory is similar to shared ownership</li>
+<li class="fragment">Mutexes are a common primitive used for sharing memory between owners</li>
+</ul>
+</section>
+<section id="mutexes" class="slide level2">
+<h2>Mutexes</h2>
+<ul>
+<li class="fragment">Short for Mutual exclusion</li>
+<li class="fragment">A mutex allows only one owner to access data at any given time</li>
+<li class="fragment">To access data in a mutex, a thread must ask to acquire the mutex’s lock</li>
+<li class="fragment">The lock keeps track of who currently has exclusive access to the data</li>
+<li class="fragment">“Mutexes guard the data they hold with a locking system”</li>
+</ul>
+</section>
+<section id="two-rules-of-mutexes" class="slide level2">
+<h2>Two rules of mutexes</h2>
+<ul>
+<li class="fragment">Attempt to acquire their lock before using their data</li>
+<li class="fragment">When you’re done with the data, you must unlock the data</li>
+<li class="fragment">Code example!</li>
+</ul>
+</section>
+<section id="sharing-a-mutex-between-threads" class="slide level2">
+<h2>Sharing a Mutex between threads</h2>
+<ul>
+<li class="fragment"><code>Mutex&lt;T&gt;</code> is not safe to share between multiple threads by default</li>
+<li class="fragment">Use <code>Arc</code> (Atomic Reference Counting) to enable multiple ownership.</li>
+<li class="fragment">Code example!</li>
+</ul>
+</section></section>
+<section id="extending-concurrency-with-sync-and-send" class="title-slide slide level1 center">
+<h1>Extending Concurrency with <code>Sync</code> and <code>Send</code></h1>
+<ul>
+<li class="fragment">Concurrency can be extended in Rust using the <code>Sync</code> and <code>Send</code> traits</li>
+<li class="fragment"><code>Send</code> indicates that ownership of values of that type can move between threads</li>
+<li class="fragment"><code>Sync</code> indicates that it is safe for that type to be referenced from multiple threads</li>
+</ul>
+
+
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

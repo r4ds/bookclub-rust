@@ -1970,41 +1970,141 @@
     ]
   },
   {
-    "objectID": "slides/16-fearless_concurrency.html#slide",
-    "href": "slides/16-fearless_concurrency.html#slide",
+    "objectID": "slides/16-fearless_concurrency.html#concurrent-vs.-parallel",
+    "href": "slides/16-fearless_concurrency.html#concurrent-vs.-parallel",
     "title": "16. Fearless Concurrency",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Concurrent vs. Parallel",
+    "text": "Concurrent vs. Parallel\n\nConcurrent programming -&gt; different parts of a program execute independently\nParallel programming -&gt; different parts of a program execute at the same time\n“Fearless Concurrency” applies to both concurrent and parallel programming",
     "crumbs": [
       "16. Fearless Concurrency"
     ]
   },
   {
-    "objectID": "slides/16-fearless_concurrency.html#slide-1",
-    "href": "slides/16-fearless_concurrency.html#slide-1",
+    "objectID": "slides/16-fearless_concurrency.html#fearless-concurrency-with-rust",
+    "href": "slides/16-fearless_concurrency.html#fearless-concurrency-with-rust",
     "title": "16. Fearless Concurrency",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Fearless Concurrency with Rust",
+    "text": "Fearless Concurrency with Rust\n\nRust’s ownership and type system manages memory safety AND concurrency problems\nThis helps convert run-time errors into compile-time errors\nYou can fix your code while you are working on it, rather than after it has been shipped",
     "crumbs": [
       "16. Fearless Concurrency"
     ]
   },
   {
-    "objectID": "slides/16-fearless_concurrency.html#slide-2",
-    "href": "slides/16-fearless_concurrency.html#slide-2",
+    "objectID": "slides/16-fearless_concurrency.html#opearting-systems-run-programs-concurrently",
+    "href": "slides/16-fearless_concurrency.html#opearting-systems-run-programs-concurrently",
     "title": "16. Fearless Concurrency",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Opearting systems run programs concurrently",
+    "text": "Opearting systems run programs concurrently\n\nOperating systems run executed code in a process\nMultiple processes can be run at once",
     "crumbs": [
       "16. Fearless Concurrency"
     ]
   },
   {
-    "objectID": "slides/16-fearless_concurrency.html#slide-3",
-    "href": "slides/16-fearless_concurrency.html#slide-3",
+    "objectID": "slides/16-fearless_concurrency.html#programs-can-run-their-parts-concurrently-as-well",
+    "href": "slides/16-fearless_concurrency.html#programs-can-run-their-parts-concurrently-as-well",
     "title": "16. Fearless Concurrency",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Programs can run their parts concurrently as well",
+    "text": "Programs can run their parts concurrently as well\n\nWithin a program, independent parts can also run simultaneously\nThe features that run these independent parts are called threads\ne.g. Web Servers have multiple threads to respond to multiple requests at once",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#typical-challenges-of-concurrency",
+    "href": "slides/16-fearless_concurrency.html#typical-challenges-of-concurrency",
+    "title": "16. Fearless Concurrency",
+    "section": "Typical challenges of concurrency",
+    "text": "Typical challenges of concurrency\n\nRace conditions: threads accessing resources in an unexpected order\nDeadlocks: where two threads are waiting for each other, preventing progress\nBugs that only happen in certain contexts and are difficult to reproduce",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#thread-models",
+    "href": "slides/16-fearless_concurrency.html#thread-models",
+    "title": "16. Fearless Concurrency",
+    "section": "Thread models",
+    "text": "Thread models\n\nRust’s standard library uses a 1:1 model of thread implementation\n\nA program uses one operating system thread per one language thread\n\nDifferent crates offer different implementations, with different trade-offs",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#spawning-a-thread-in-rust",
+    "href": "slides/16-fearless_concurrency.html#spawning-a-thread-in-rust",
+    "title": "16. Fearless Concurrency",
+    "section": "Spawning a thread in Rust",
+    "text": "Spawning a thread in Rust\n\nTo create a new thread, we use thread::spawn, and pass it to a closure\nThe closure should contain the code that we want to run in that thread\nWhen the main thread of a Rust program completes, all spawned threads are shut down\nCode example!",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#join-handles",
+    "href": "slides/16-fearless_concurrency.html#join-handles",
+    "title": "16. Fearless Concurrency",
+    "section": "Join handles",
+    "text": "Join handles\n\nCalling join on the handle blocks the currently running thread\nIt unblocks when the thread represented by the handle terminates\nCode examples!",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#transfer-ownership-with-move",
+    "href": "slides/16-fearless_concurrency.html#transfer-ownership-with-move",
+    "title": "16. Fearless Concurrency",
+    "section": "Transfer ownership with move",
+    "text": "Transfer ownership with move\n\nUsing the move keyword with closures passed to thread::spawn\nThis transfer ownership of the values it uses from the environment to the thread\nCode example!",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#channels",
+    "href": "slides/16-fearless_concurrency.html#channels",
+    "title": "16. Fearless Concurrency",
+    "section": "Channels",
+    "text": "Channels\n\nIn Rust, message passing concurrency is achieved using channels\nChannels can be thought of as the directional channel of a river\nMessages placed in the channel travel downstream until the end",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#transmitters-and-receivers",
+    "href": "slides/16-fearless_concurrency.html#transmitters-and-receivers",
+    "title": "16. Fearless Concurrency",
+    "section": "Transmitters and Receivers",
+    "text": "Transmitters and Receivers\n\nUpstream: code calls methods on the transmitter with the data you want to send\nDownstream: code checks the receiving end for arriving messages\nA transmitter and receiver can be initialized with mpsc::channel()\nCode example!",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#mutexes",
+    "href": "slides/16-fearless_concurrency.html#mutexes",
+    "title": "16. Fearless Concurrency",
+    "section": "Mutexes",
+    "text": "Mutexes\n\nShort for Mutual exclusion\nA mutex allows only one owner to access data at any given time\nTo access data in a mutex, a thread must ask to acquire the mutex’s lock\nThe lock keeps track of who currently has exclusive access to the data\n“Mutexes guard the data they hold with a locking system”",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#two-rules-of-mutexes",
+    "href": "slides/16-fearless_concurrency.html#two-rules-of-mutexes",
+    "title": "16. Fearless Concurrency",
+    "section": "Two rules of mutexes",
+    "text": "Two rules of mutexes\n\nAttempt to acquire their lock before using their data\nWhen you’re done with the data, you must unlock the data\nCode example!",
+    "crumbs": [
+      "16. Fearless Concurrency"
+    ]
+  },
+  {
+    "objectID": "slides/16-fearless_concurrency.html#sharing-a-mutex-between-threads",
+    "href": "slides/16-fearless_concurrency.html#sharing-a-mutex-between-threads",
+    "title": "16. Fearless Concurrency",
+    "section": "Sharing a Mutex between threads",
+    "text": "Sharing a Mutex between threads\n\nMutex&lt;T&gt; is not safe to share between multiple threads by default\nUse Arc (Atomic Reference Counting) to enable multiple ownership.\nCode example!",
     "crumbs": [
       "16. Fearless Concurrency"
     ]
