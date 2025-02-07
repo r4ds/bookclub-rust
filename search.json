@@ -80,41 +80,61 @@
     ]
   },
   {
-    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide",
-    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide",
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#objects-contain-data-and-behavior",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#objects-contain-data-and-behavior",
     "title": "17. Object Oriented Programming Features of Rust",
-    "section": "SLIDE",
-    "text": "SLIDE\n\nDENOTE MAJOR SECTIONS WITH # TITLE (eg # Installation)\nADD INDIVIDUAL SLIDES WITH ## (eg ## rustup on Linux/macOS)\nKEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.",
+    "section": "Objects Contain Data and Behavior",
+    "text": "Objects Contain Data and Behavior\n\nUsing this definition, Rust is object-oriented: structs and enums have data, and impl blocks provide methods on structs and enums. Even though structs and enums with methods aren’t called objects, they provide the same functionality, according to the Gang of Four’s definition of objects.",
     "crumbs": [
       "17. Object Oriented Programming Features of Rust"
     ]
   },
   {
-    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-1",
-    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-1",
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#encapsulation-that-hides-implementation-details",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#encapsulation-that-hides-implementation-details",
     "title": "17. Object Oriented Programming Features of Rust",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Encapsulation that Hides Implementation Details",
+    "text": "Encapsulation that Hides Implementation Details\n\nIf encapsulation is a required aspect for a language to be considered object-oriented, then Rust meets that requirement. The option to use pub or not for different parts of code enables encapsulation of implementation details.",
     "crumbs": [
       "17. Object Oriented Programming Features of Rust"
     ]
   },
   {
-    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-2",
-    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-2",
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#inheritance-as-a-type-system-and-as-code-sharing",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#inheritance-as-a-type-system-and-as-code-sharing",
     "title": "17. Object Oriented Programming Features of Rust",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Inheritance as a Type System and as Code Sharing",
+    "text": "Inheritance as a Type System and as Code Sharing\n\nIf a language must have inheritance to be an object-oriented language, then Rust is not one. There is no way to define a struct that inherits the parent struct’s fields and method implementations without using a macro.\n\n\nHowever, if you’re used to having inheritance in your programming toolbox, you can use other solutions in Rust, depending on your reason for reaching for inheritance in the first place.",
     "crumbs": [
       "17. Object Oriented Programming Features of Rust"
     ]
   },
   {
-    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#slide-3",
-    "href": "slides/17-object_oriented_programming_features_of_rust.html#slide-3",
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#polymorphism-and-inheritance",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#polymorphism-and-inheritance",
     "title": "17. Object Oriented Programming Features of Rust",
-    "section": "SLIDE",
-    "text": "SLIDE",
+    "section": "Polymorphism and inheritance",
+    "text": "Polymorphism and inheritance\n\nRust instead uses generics to abstract over different possible types and trait bounds to impose constraints on what those types must provide. This is sometimes called bounded parametric polymorphism.",
+    "crumbs": [
+      "17. Object Oriented Programming Features of Rust"
+    ]
+  },
+  {
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#section",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#section",
+    "title": "17. Object Oriented Programming Features of Rust",
+    "section": "",
+    "text": "trait Sound {\n    fn make_sound(&self);\n}",
+    "crumbs": [
+      "17. Object Oriented Programming Features of Rust"
+    ]
+  },
+  {
+    "objectID": "slides/17-object_oriented_programming_features_of_rust.html#section-1",
+    "href": "slides/17-object_oriented_programming_features_of_rust.html#section-1",
+    "title": "17. Object Oriented Programming Features of Rust",
+    "section": "",
+    "text": "use blog::Post;\n\nfn main() {\n    let mut post = Post::new();\n\n    post.add_text(\"I ate a salad for lunch today\");\n    assert_eq!(\"\", post.content());\n\n    post.request_review();\n    assert_eq!(\"\", post.content());\n\n    post.approve();\n    assert_eq!(\"I ate a salad for lunch today\", post.content());\n}",
     "crumbs": [
       "17. Object Oriented Programming Features of Rust"
     ]

@@ -27,6 +27,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-f77ede3f8df5db7b2f50cc1693ca0955.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -136,56 +201,219 @@
 <h1>Learning objectives</h1>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>Consider definitions of Object Oriented Programming (OOP) and whether Rust fits in</li>
+<li>Look at Traits as an OOP technique</li>
+<li>Implement State with Traits (and enums)</li>
 </ul>
 </div>
-<aside class="notes">
-<ul>
-<li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 
 <section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="is-rust-an-oop-language" class="title-slide slide level1 center">
+<h1>Is Rust an OOP-language?</h1>
 
 </section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
-<ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
-</ul>
+<section id="objects-contain-data-and-behavior" class="slide level2">
+<h2>Objects Contain Data and Behavior</h2>
+<blockquote>
+<p>Using this definition, Rust is object-oriented: structs and enums have data, and impl blocks provide methods on structs and enums. Even though structs and enums with methods aren’t called objects, they provide the same functionality, according to the Gang of Four’s definition of objects.</p>
+</blockquote>
 </section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+<section id="encapsulation-that-hides-implementation-details" class="slide level2">
+<h2>Encapsulation that Hides Implementation Details</h2>
+<blockquote>
+<p>If encapsulation is a required aspect for a language to be considered object-oriented, then Rust meets that requirement. The option to use <code>pub</code> or not for different parts of code enables encapsulation of implementation details.</p>
+</blockquote>
+</section>
+<section id="inheritance-as-a-type-system-and-as-code-sharing" class="slide level2">
+<h2>Inheritance as a Type System and as Code Sharing</h2>
+<blockquote>
+<p>If a language must have inheritance to be an object-oriented language, then Rust is not one. There is no way to define a struct that inherits the parent struct’s fields and method implementations without using a macro.</p>
+</blockquote>
+<blockquote>
+<p>However, if you’re used to having inheritance in your programming toolbox, you can use other solutions in Rust, depending on your reason for reaching for inheritance in the first place.</p>
+</blockquote>
+</section>
+<section id="polymorphism-and-inheritance" class="slide level2">
+<h2>Polymorphism and inheritance</h2>
+<blockquote>
+<p>Rust instead uses generics to abstract over different possible types and trait bounds to impose constraints on what those types must provide. This is sometimes called bounded parametric polymorphism.</p>
+</blockquote>
 </section></section>
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="traits-as-oop" class="title-slide slide level1 center">
+<h1>Traits as OOP</h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a></a><span class="kw">trait</span> Sound <span class="op">{</span></span>
+<span id="cb1-2"><a></a>    <span class="kw">fn</span> make_sound(<span class="op">&amp;</span><span class="kw">self</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
+<section class="slide level2">
 
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a><span class="kw">struct</span> Animal <span class="op">{</span></span>
+<span id="cb2-2"><a></a>    sound<span class="op">:</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> Sound<span class="op">&gt;,</span></span>
+<span id="cb2-3"><a></a><span class="op">}</span></span>
+<span id="cb2-4"><a></a></span>
+<span id="cb2-5"><a></a><span class="kw">impl</span> Animal <span class="op">{</span></span>
+<span id="cb2-6"><a></a>    <span class="kw">fn</span> new(sound<span class="op">:</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> Sound<span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Self</span> <span class="op">{</span></span>
+<span id="cb2-7"><a></a>        Animal <span class="op">{</span> sound <span class="op">}</span></span>
+<span id="cb2-8"><a></a>    <span class="op">}</span></span>
+<span id="cb2-9"><a></a></span>
+<span id="cb2-10"><a></a>    <span class="kw">fn</span> make_sound(<span class="op">&amp;</span><span class="kw">self</span>) <span class="op">{</span></span>
+<span id="cb2-11"><a></a>        <span class="kw">self</span><span class="op">.</span>sound<span class="op">.</span>make_sound()<span class="op">;</span></span>
+<span id="cb2-12"><a></a>    <span class="op">}</span></span>
+<span id="cb2-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2">
 
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="kw">struct</span> Dog<span class="op">;</span></span>
+<span id="cb3-2"><a></a><span class="kw">impl</span> Sound <span class="cf">for</span> Dog <span class="op">{</span></span>
+<span id="cb3-3"><a></a>    <span class="kw">fn</span> make_sound(<span class="op">&amp;</span><span class="kw">self</span>) <span class="op">{</span></span>
+<span id="cb3-4"><a></a>        <span class="pp">println!</span>(<span class="st">"Woof!"</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a></a>    <span class="op">}</span></span>
+<span id="cb3-6"><a></a><span class="op">}</span></span>
+<span id="cb3-7"><a></a><span class="co">// -- and birds &amp; cats --</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2">
+
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb4-2"><a></a>    <span class="co">// Store different Animal instances in a vector</span></span>
+<span id="cb4-3"><a></a>    <span class="kw">let</span> animals<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span>Animal<span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[</span>
+<span id="cb4-4"><a></a>        <span class="pp">Animal::</span>new(<span class="dt">Box</span><span class="pp">::</span>new(Dog))<span class="op">,</span></span>
+<span id="cb4-5"><a></a>        <span class="pp">Animal::</span>new(<span class="dt">Box</span><span class="pp">::</span>new(Cat))<span class="op">,</span></span>
+<span id="cb4-6"><a></a>        <span class="pp">Animal::</span>new(<span class="dt">Box</span><span class="pp">::</span>new(Bird))<span class="op">,</span></span>
+<span id="cb4-7"><a></a>    ]<span class="op">;</span></span>
+<span id="cb4-8"><a></a></span>
+<span id="cb4-9"><a></a>    <span class="co">// Iterate over the vector and call make_sound on each animal</span></span>
+<span id="cb4-10"><a></a>    <span class="cf">for</span> animal <span class="kw">in</span> <span class="op">&amp;</span>animals <span class="op">{</span></span>
+<span id="cb4-11"><a></a>        animal<span class="op">.</span>make_sound()<span class="op">;</span></span>
+<span id="cb4-12"><a></a>    <span class="op">}</span></span>
+<span id="cb4-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
+<section>
+<section id="implementing-state" class="title-slide slide level1 center">
+<h1>Implementing State</h1>
+
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="kw">use</span> <span class="pp">blog::</span>Post<span class="op">;</span></span>
+<span id="cb5-2"><a></a></span>
+<span id="cb5-3"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb5-4"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> post <span class="op">=</span> <span class="pp">Post::</span>new()<span class="op">;</span></span>
+<span id="cb5-5"><a></a></span>
+<span id="cb5-6"><a></a>    post<span class="op">.</span>add_text(<span class="st">"I ate a salad for lunch today"</span>)<span class="op">;</span></span>
+<span id="cb5-7"><a></a>    <span class="pp">assert_eq!</span>(<span class="st">""</span><span class="op">,</span> post<span class="op">.</span>content())<span class="op">;</span></span>
+<span id="cb5-8"><a></a></span>
+<span id="cb5-9"><a></a>    post<span class="op">.</span>request_review()<span class="op">;</span></span>
+<span id="cb5-10"><a></a>    <span class="pp">assert_eq!</span>(<span class="st">""</span><span class="op">,</span> post<span class="op">.</span>content())<span class="op">;</span></span>
+<span id="cb5-11"><a></a></span>
+<span id="cb5-12"><a></a>    post<span class="op">.</span>approve()<span class="op">;</span></span>
+<span id="cb5-13"><a></a>    <span class="pp">assert_eq!</span>(<span class="st">"I ate a salad for lunch today"</span><span class="op">,</span> post<span class="op">.</span>content())<span class="op">;</span></span>
+<span id="cb5-14"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2">
+
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a><span class="kw">pub</span> <span class="kw">struct</span> Post <span class="op">{</span></span>
+<span id="cb6-2"><a></a>    state<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> State<span class="op">&gt;&gt;,</span></span>
+<span id="cb6-3"><a></a>    content<span class="op">:</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb6-4"><a></a><span class="op">}</span></span>
+<span id="cb6-5"><a></a></span>
+<span id="cb6-6"><a></a><span class="kw">impl</span> Post <span class="op">{</span></span>
+<span id="cb6-7"><a></a>    <span class="kw">pub</span> <span class="kw">fn</span> new() <span class="op">-&gt;</span> Post <span class="op">{</span></span>
+<span id="cb6-8"><a></a>        Post <span class="op">{</span></span>
+<span id="cb6-9"><a></a>            state<span class="op">:</span> <span class="cn">Some</span>(<span class="dt">Box</span><span class="pp">::</span>new(Draft <span class="op">{}</span>))<span class="op">,</span></span>
+<span id="cb6-10"><a></a>            content<span class="op">:</span> <span class="dt">String</span><span class="pp">::</span>new()<span class="op">,</span></span>
+<span id="cb6-11"><a></a>        <span class="op">}</span></span>
+<span id="cb6-12"><a></a>    <span class="op">}</span></span>
+<span id="cb6-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2">
+
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a><span class="kw">impl</span> Post <span class="op">{</span></span>
+<span id="cb7-2"><a></a>    <span class="co">// --snip--</span></span>
+<span id="cb7-3"><a></a>    <span class="kw">pub</span> <span class="kw">fn</span> request_review(<span class="op">&amp;</span><span class="kw">mut</span> <span class="kw">self</span>) <span class="op">{</span></span>
+<span id="cb7-4"><a></a>        <span class="cf">if</span> <span class="kw">let</span> <span class="cn">Some</span>(s) <span class="op">=</span> <span class="kw">self</span><span class="op">.</span>state<span class="op">.</span>take() <span class="op">{</span></span>
+<span id="cb7-5"><a></a>            <span class="kw">self</span><span class="op">.</span>state <span class="op">=</span> <span class="cn">Some</span>(s<span class="op">.</span>request_review())</span>
+<span id="cb7-6"><a></a>        <span class="op">}</span></span>
+<span id="cb7-7"><a></a>    <span class="op">}</span></span>
+<span id="cb7-8"><a></a><span class="op">}</span></span>
+<span id="cb7-9"><a></a></span>
+<span id="cb7-10"><a></a><span class="kw">trait</span> State <span class="op">{</span></span>
+<span id="cb7-11"><a></a>    <span class="kw">fn</span> request_review(<span class="kw">self</span><span class="op">:</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="dt">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> State<span class="op">&gt;;</span></span>
+<span id="cb7-12"><a></a><span class="op">}</span></span>
+<span id="cb7-13"><a></a></span>
+<span id="cb7-14"><a></a><span class="kw">struct</span> Draft <span class="op">{}</span></span>
+<span id="cb7-15"><a></a></span>
+<span id="cb7-16"><a></a><span class="kw">impl</span> State <span class="cf">for</span> Draft <span class="op">{</span></span>
+<span id="cb7-17"><a></a>    <span class="kw">fn</span> request_review(<span class="kw">self</span><span class="op">:</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="dt">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> State<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb7-18"><a></a>        <span class="dt">Box</span><span class="pp">::</span>new(PendingReview <span class="op">{}</span>)</span>
+<span id="cb7-19"><a></a>    <span class="op">}</span></span>
+<span id="cb7-20"><a></a><span class="op">}</span></span>
+<span id="cb7-21"><a></a></span>
+<span id="cb7-22"><a></a><span class="kw">struct</span> PendingReview <span class="op">{}</span></span>
+<span id="cb7-23"><a></a></span>
+<span id="cb7-24"><a></a><span class="kw">impl</span> State <span class="cf">for</span> PendingReview <span class="op">{</span></span>
+<span id="cb7-25"><a></a>    <span class="kw">fn</span> request_review(<span class="kw">self</span><span class="op">:</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="dt">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> State<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb7-26"><a></a>        <span class="kw">self</span></span>
+<span id="cb7-27"><a></a>    <span class="op">}</span></span>
+<span id="cb7-28"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2">
+
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="kw">impl</span> Post <span class="op">{</span></span>
+<span id="cb8-2"><a></a>    <span class="co">// --snip--</span></span>
+<span id="cb8-3"><a></a>    <span class="kw">pub</span> <span class="kw">fn</span> approve(<span class="op">&amp;</span><span class="kw">mut</span> <span class="kw">self</span>) <span class="op">{</span></span>
+<span id="cb8-4"><a></a>        <span class="cf">if</span> <span class="kw">let</span> <span class="cn">Some</span>(s) <span class="op">=</span> <span class="kw">self</span><span class="op">.</span>state<span class="op">.</span>take() <span class="op">{</span></span>
+<span id="cb8-5"><a></a>            <span class="kw">self</span><span class="op">.</span>state <span class="op">=</span> <span class="cn">Some</span>(s<span class="op">.</span>approve())</span>
+<span id="cb8-6"><a></a>        <span class="op">}</span></span>
+<span id="cb8-7"><a></a>    <span class="op">}</span></span>
+<span id="cb8-8"><a></a><span class="op">}</span></span>
+<span id="cb8-9"><a></a></span>
+<span id="cb8-10"><a></a><span class="kw">trait</span> State <span class="op">{</span></span>
+<span id="cb8-11"><a></a>    <span class="kw">fn</span> request_review(<span class="kw">self</span><span class="op">:</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="dt">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> State<span class="op">&gt;;</span></span>
+<span id="cb8-12"><a></a>    <span class="kw">fn</span> approve(<span class="kw">self</span><span class="op">:</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="dt">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> State<span class="op">&gt;;</span></span>
+<span id="cb8-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2">
+
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a></span>
+<span id="cb9-2"><a></a><span class="kw">struct</span> PendingReview <span class="op">{}</span></span>
+<span id="cb9-3"><a></a></span>
+<span id="cb9-4"><a></a><span class="kw">impl</span> State <span class="cf">for</span> PendingReview <span class="op">{</span></span>
+<span id="cb9-5"><a></a>    <span class="co">// --snip--</span></span>
+<span id="cb9-6"><a></a>    <span class="kw">fn</span> approve(<span class="kw">self</span><span class="op">:</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="dt">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> State<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb9-7"><a></a>        <span class="dt">Box</span><span class="pp">::</span>new(Published <span class="op">{}</span>)</span>
+<span id="cb9-8"><a></a>    <span class="op">}</span></span>
+<span id="cb9-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2">
+
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb10-1"><a></a><span class="kw">trait</span> State <span class="op">{</span></span>
+<span id="cb10-2"><a></a>    <span class="co">// --snip--</span></span>
+<span id="cb10-3"><a></a>    <span class="kw">fn</span> content<span class="op">&lt;</span><span class="ot">'a</span><span class="op">&gt;</span>(<span class="op">&amp;</span><span class="kw">self</span><span class="op">,</span> post<span class="op">:</span> <span class="op">&amp;</span><span class="ot">'a</span> Post) <span class="op">-&gt;</span> <span class="op">&amp;</span><span class="ot">'a</span> <span class="dt">str</span> <span class="op">{</span></span>
+<span id="cb10-4"><a></a>        <span class="st">""</span></span>
+<span id="cb10-5"><a></a>    <span class="op">}</span></span>
+<span id="cb10-6"><a></a><span class="op">}</span></span>
+<span id="cb10-7"><a></a></span>
+<span id="cb10-8"><a></a><span class="co">// --snip--</span></span>
+<span id="cb10-9"><a></a><span class="kw">struct</span> Published <span class="op">{}</span></span>
+<span id="cb10-10"><a></a></span>
+<span id="cb10-11"><a></a><span class="kw">impl</span> State <span class="cf">for</span> Published <span class="op">{</span></span>
+<span id="cb10-12"><a></a>    <span class="co">// --snip--</span></span>
+<span id="cb10-13"><a></a>    <span class="kw">fn</span> content<span class="op">&lt;</span><span class="ot">'a</span><span class="op">&gt;</span>(<span class="op">&amp;</span><span class="kw">self</span><span class="op">,</span> post<span class="op">:</span> <span class="op">&amp;</span><span class="ot">'a</span> Post) <span class="op">-&gt;</span> <span class="op">&amp;</span><span class="ot">'a</span> <span class="dt">str</span> <span class="op">{</span></span>
+<span id="cb10-14"><a></a>        <span class="op">&amp;</span>post<span class="op">.</span>content</span>
+<span id="cb10-15"><a></a>    <span class="op">}</span></span>
+<span id="cb10-16"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section id="what-about-an-enum" class="title-slide slide level1 center">
+<h1>What about an enum?</h1>
+
+
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
