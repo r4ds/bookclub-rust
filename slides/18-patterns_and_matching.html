@@ -27,6 +27,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-f77ede3f8df5db7b2f50cc1693ca0955.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -132,18 +197,31 @@
 </div>
 
 </section>
-<section id="learning-objectives" class="title-slide slide level1 center">
-<h1>Learning objectives</h1>
+<section>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
+
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>Learning objectives</h2>
 <div>
 <ul>
-<li>THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY</li>
+<li>Identify the available patterns we can match against</li>
+<li>Understand the difference between <em>refutable</em> and <em>irrefutable</em> patterns</li>
 </ul>
 </div>
+</section>
+<section id="patterns-and-matching" class="slide level2">
+<h2>Patterns and Matching</h2>
+<blockquote>
+<p><em>Patterns</em> are a special syntax in Rust for matching against the structure of types …</p>
+</blockquote>
+<div class="fragment">
+<p>We can <em>control</em> the <em>flow</em> of a program by <em>matching</em> against patterns.</p>
+</div>
 <aside class="notes">
-<ul>
-<li>You can add notes on each slide with blocks like this!</li>
-<li>Load a deck in the browser and type “s” to see these notes.</li>
-</ul>
+<p>Patterns are a way to denote the structure of a type</p>
+<p>We can use patterns as control flow, where different code is run depending on which pattern a value matches</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -156,33 +234,1113 @@
           display:block!important;
       }</style></aside>
 </section>
-
-<section>
-<section id="slide-section" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
-
+<section id="patterns" class="slide level2">
+<h2>Patterns</h2>
+<p>Patterns describe the <em>shape</em> of data</p>
+<div class="fragment">
+<p>Ex: <span class="math inline">\(m \times n\)</span> matrix vs.&nbsp;<span class="math inline">\(n \times p\)</span> matrix</p>
+</div>
+<aside class="notes">
+<p>Another way to think about pattern is that they describe the shape of our data</p>
+<p>For example, we always describe matrices by the shape of their rows and columns</p>
+<p>An m x n matrix is one shape, or pattern</p>
+<p>An n x p matrix is a different shape</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="slide" class="slide level2">
-<h2>SLIDE</h2>
+<section id="types-of-patterns" class="slide level2">
+<h2>Types of patterns</h2>
+<div>
 <ul>
-<li class="fragment">DENOTE MAJOR SECTIONS WITH <code># TITLE</code> (eg <code># Installation</code>)</li>
-<li class="fragment">ADD INDIVIDUAL SLIDES WITH <code>##</code> (eg <code>## rustup on Linux/macOS</code>)</li>
-<li class="fragment">KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.</li>
+<li>Literals (<code>1</code>)</li>
+<li>Destructured arrays, enums, structs, tuples (<code>(x, y) = (1, 2)</code>)</li>
+<li>Variables (<code>match x ...</code>)</li>
+<li>Wildcards (<code>_</code>)</li>
+<li>Placeholders (<code>_</code>)</li>
 </ul>
-</section>
-<section id="slide-1" class="slide level2">
-<h2>SLIDE</h2>
+</div>
+<aside class="notes">
+<p>Patterns can be comprised of different things and can be very simple like a literal <code>1</code> or more complex like destructuring a tuple</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
-<section id="slide-section-1" class="title-slide slide level1 center">
-<h1>SLIDE SECTION</h1>
+<section id="where-patterns-can-be-used" class="title-slide slide level1 center">
+<h1>Where patterns can be used</h1>
 
 </section>
-<section id="slide-2" class="slide level2">
-<h2>SLIDE</h2>
+<section id="match-expression" class="slide level2">
+<h2><code>match</code> expression</h2>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a></a><span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb1-2"><a></a>    <span class="cn">None</span> <span class="op">=&gt;</span> <span class="cn">None</span><span class="op">,</span></span>
+<span id="cb1-3"><a></a>    <span class="cn">Some</span>(i) <span class="op">=&gt;</span> <span class="cn">Some</span>(i <span class="op">+</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb1-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a></a><span class="cf">match</span> VALUE <span class="op">{</span></span>
+<span id="cb2-2"><a></a>  PATTERN <span class="op">=&gt;</span> EXPRESSION<span class="op">,</span></span>
+<span id="cb2-3"><a></a>  PATTERN <span class="op">=&gt;</span> EXPRESSION<span class="op">,</span></span>
+<span id="cb2-4"><a></a>  <span class="op">...</span></span>
+<span id="cb2-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside class="notes">
+<p>We’ve seen the match expression a lot so far, so this should look familiar</p>
+<p>What I want to point out here is the structure</p>
+<p>We match a <em>value</em> to different <em>patterns</em></p>
+<p>If a <em>pattern</em> is found, we run it’s corresponding <em>expression</em></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="slide-3" class="slide level2">
-<h2>SLIDE</h2>
+<section id="if-let-expression" class="slide level2">
+<h2><code>if let</code> expression</h2>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a></a><span class="cf">if</span> <span class="kw">let</span> PATTERN <span class="op">=</span> VALUE <span class="op">{</span></span>
+<span id="cb3-2"><a></a>  EXPRESSION</span>
+<span id="cb3-3"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb4-1"><a></a><span class="cf">if</span> <span class="kw">let</span> PATTERN <span class="op">=</span> VALUE <span class="op">{</span></span>
+<span id="cb4-2"><a></a>  EXPRESSION</span>
+<span id="cb4-3"><a></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> PATTERN <span class="op">=</span> VALUE <span class="op">{</span></span>
+<span id="cb4-4"><a></a>  EXPRESSION</span>
+<span id="cb4-5"><a></a><span class="op">}</span></span>
+<span id="cb4-6"><a></a><span class="op">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside class="notes">
+<p>Another place we’ve seen patterns is <code>if let</code> expressions</p>
+<p>The structure here is if the <em>value</em> matches the <em>pattern</em>, then we run the <em>expression</em></p>
+<p>And of course we can extend this with more <code>if</code>s, <code>else</code>s and <code>if else</code>s</p>
+<p>Adding more branches like this is just like a <code>match</code> statement</p>
+<p>But <code>if let</code> expressions are actually more general than <code>match</code> expressions</p>
+<p>With <code>match</code> we can only compare patterns to one value</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="if-let-expression-1" class="slide level2">
+<h2><code>if let</code> expression</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb5-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb5-2"><a></a>    <span class="kw">let</span> favorite_color<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;&amp;</span><span class="dt">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="cn">None</span><span class="op">;</span></span>
+<span id="cb5-3"><a></a>    <span class="kw">let</span> is_tuesday <span class="op">=</span> <span class="cn">false</span><span class="op">;</span></span>
+<span id="cb5-4"><a></a>    <span class="kw">let</span> age<span class="op">:</span> <span class="dt">Result</span><span class="op">&lt;</span><span class="dt">u8</span><span class="op">,</span> _<span class="op">&gt;</span> <span class="op">=</span> <span class="st">"34"</span><span class="op">.</span>parse()<span class="op">;</span></span>
+<span id="cb5-5"><a></a></span>
+<span id="cb5-6"><a></a>    <span class="cf">if</span> <span class="kw">let</span> <span class="cn">Some</span>(color) <span class="op">=</span> favorite_color <span class="op">{</span></span>
+<span id="cb5-7"><a></a>        <span class="pp">println!</span>(<span class="st">"Using your favorite color, {color}, as the background"</span>)<span class="op">;</span></span>
+<span id="cb5-8"><a></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> is_tuesday <span class="op">{</span> <span class="co">// unrelated to favorite_color</span></span>
+<span id="cb5-9"><a></a>        <span class="pp">println!</span>(<span class="st">"Tuesday is green day!"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="kw">let</span> <span class="cn">Ok</span>(age) <span class="op">=</span> age <span class="op">{</span></span>
+<span id="cb5-11"><a></a>        <span class="cf">if</span> age <span class="op">&gt;</span> <span class="dv">30</span> <span class="op">{</span> <span class="co">// shadow variable age</span></span>
+<span id="cb5-12"><a></a>            <span class="pp">println!</span>(<span class="st">"Using purple as the background color"</span>)<span class="op">;</span></span>
+<span id="cb5-13"><a></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb5-14"><a></a>            <span class="pp">println!</span>(<span class="st">"Using orange as the background color"</span>)<span class="op">;</span></span>
+<span id="cb5-15"><a></a>        <span class="op">}</span></span>
+<span id="cb5-16"><a></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb5-17"><a></a>        <span class="pp">println!</span>(<span class="st">"Using blue as the background color"</span>)<span class="op">;</span></span>
+<span id="cb5-18"><a></a>    <span class="op">}</span></span>
+<span id="cb5-19"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=9444027241fcf7eb73d157dc5dbee348">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>But with <code>if let</code> we can use different patterns and different values</p>
+<p>The branch conditions don’t have to relate to each other</p>
+<p>Ex: <code>is_tuesday</code> on like 8 doesn’t have anything to do with <code>favorite_color</code> on like 6</p>
+<p>Another thing to note with <code>if let</code> statements is that we can use <em>shadow</em> variables</p>
+<p>Ex: on line 10 we have a shadow variable <code>age</code></p>
+<p>This <code>age</code> as a <code>u8</code> is scoped only to these brackets</p>
+<p>That’s why the <code>age &gt; 30</code> on line 11 must be <em>within</em> the brackets on line 10</p>
+<p>Outside of that scope, <code>age</code> is a <code>Result</code> type</p>
+<p>The last thing to note is that the compiler doesn’t check for exhaustiveness of an <code>if let</code> expression like it does with a match expression</p>
+<p>So we have to be careful and make sure we’ve captured all possible conditions</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="while-let-expression" class="slide level2">
+<h2><code>while let</code> expression</h2>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb6-1"><a></a><span class="cf">while</span> <span class="kw">let</span> PATTERN <span class="op">=</span> VALUE <span class="op">{</span></span>
+<span id="cb6-2"><a></a>  EXPRESSION</span>
+<span id="cb6-3"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb7-1"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> stack <span class="op">=</span> <span class="dt">Vec</span><span class="pp">::</span>new()<span class="op">;</span></span>
+<span id="cb7-2"><a></a></span>
+<span id="cb7-3"><a></a>    stack<span class="op">.</span>push(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb7-4"><a></a>    stack<span class="op">.</span>push(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb7-5"><a></a>    stack<span class="op">.</span>push(<span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb7-6"><a></a></span>
+<span id="cb7-7"><a></a>    <span class="cf">while</span> <span class="kw">let</span> <span class="cn">Some</span>(top) <span class="op">=</span> stack<span class="op">.</span>pop() <span class="op">{</span></span>
+<span id="cb7-8"><a></a>        <span class="pp">println!</span>(<span class="st">"{top}"</span>)<span class="op">;</span></span>
+<span id="cb7-9"><a></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside class="notes">
+<p>We also have while expressions which are pretty straightforward</p>
+<p>As long as the <em>value</em> matches the <em>pattern</em>, the <em>expression</em> will keep running.</p>
+<p>Ex: we pick off the last element of a vector until we run out of elements</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="for-loop" class="slide level2">
+<h2><code>for</code> loop</h2>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb8-1"><a></a><span class="cf">for</span> PATTERN <span class="kw">in</span> VALUE <span class="op">{</span></span>
+<span id="cb8-2"><a></a>  EXPRESSION</span>
+<span id="cb8-3"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb9-1"><a></a>    <span class="kw">let</span> v <span class="op">=</span> <span class="pp">vec!</span>[<span class="ch">'a'</span><span class="op">,</span> <span class="ch">'b'</span><span class="op">,</span> <span class="ch">'c'</span>]<span class="op">;</span></span>
+<span id="cb9-2"><a></a></span>
+<span id="cb9-3"><a></a>    <span class="cf">for</span> (index<span class="op">,</span> value) <span class="kw">in</span> v<span class="op">.</span>iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
+<span id="cb9-4"><a></a>        <span class="pp">println!</span>(<span class="st">"{value} is at index {index}"</span>)<span class="op">;</span></span>
+<span id="cb9-5"><a></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside class="notes">
+<p>Similarly, we can use patterns in for loops</p>
+<p>In this example the pattern is a tuple where we’re destructuring the tuple into individual values</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="let" class="slide level2">
+<h2><code>let</code></h2>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb10-1"><a></a><span class="kw">let</span> PATTERN <span class="op">=</span> EXPRESSION</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb11-1"><a></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb11-2"><a></a></span>
+<span id="cb11-3"><a></a><span class="kw">let</span> (x<span class="op">,</span> y<span class="op">,</span> z) <span class="op">=</span> (<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside class="notes">
+<p>It’s worth noting that we’ve been using patterns all along</p>
+<p>A very simiple case is a <code>let</code> statement where we’re saying take whatever the <em>expression</em> produces and assign it to the <em>pattern</em></p>
+<p>In this case the pattern is one or more variable names</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="fun-parameters" class="slide level2">
+<h2><code>fun</code> parameters</h2>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb12-1"><a></a>fun name(PATTERN<span class="op">:</span> <span class="kw">type</span>) {}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb13-1"><a></a></span>
+<span id="cb13-2"><a></a><span class="kw">fn</span> foo(x<span class="op">:</span> <span class="dt">i32</span>) <span class="op">{}</span></span>
+<span id="cb13-3"><a></a></span>
+<span id="cb13-4"><a></a><span class="kw">fn</span> print_coordinates(<span class="op">&amp;</span>(x<span class="op">,</span> y)<span class="op">:</span> <span class="op">&amp;</span>(<span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span>)) <span class="op">{</span></span>
+<span id="cb13-5"><a></a>    <span class="pp">println!</span>(<span class="st">"Current location: ({x}, {y})"</span>)<span class="op">;</span></span>
+<span id="cb13-6"><a></a><span class="op">}</span></span>
+<span id="cb13-7"><a></a></span>
+<span id="cb13-8"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb13-9"><a></a>    <span class="kw">let</span> point <span class="op">=</span> (<span class="dv">3</span><span class="op">,</span> <span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb13-10"><a></a>    print_coordinates(<span class="op">&amp;</span>point)<span class="op">;</span></span>
+<span id="cb13-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=28406459f66f41b6625afff871635d19">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Similarly, we’ve been using patterns in functions</p>
+<p>Here the parameters are a pattern</p>
+<p>It could be something simple like <code>x</code> in line 2</p>
+<p>Or more complex like in line 3 where we use a reference to a tuple</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="refutable-vs.-irrefutable-patterns" class="title-slide slide level1 center">
+<h1>Refutable vs.&nbsp;irrefutable patterns</h1>
+<aside class="notes">
+<p>We’ve seen a lot of places where patterns can be used</p>
+<p>But it’s important to note that patterns don’t work the same in every place</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="refutable-vs.-irrefutable" class="slide level2">
+<h2>Refutable vs.&nbsp;irrefutable</h2>
+<blockquote>
+<p>Patterns that can fail to match for some possible value are <em>refutable</em>.</p>
+</blockquote>
+<blockquote>
+<p>Patterns that will match for any possible value passed are <em>irrefutable</em>.</p>
+</blockquote>
+<aside class="notes">
+<p>In general there are 2 types of patterns: refutable and irrefutable</p>
+<p>A <em>refutable</em> pattern means a pattern that does <em>not</em> caputure all possibilities</p>
+<p>An <em>irrefutable</em> pattern is the opposite, where every possible outcome is accounted for</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="refutable-vs.-irrefutable-1" class="slide level2">
+<h2>Refutable vs.&nbsp;irrefutable</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb14-1"><a></a><span class="co">// refutable</span></span>
+<span id="cb14-2"><a></a><span class="cf">if</span> <span class="kw">let</span> <span class="cn">Some</span>(x) <span class="op">=</span> value <span class="op">{};</span></span>
+<span id="cb14-3"><a></a></span>
+<span id="cb14-4"><a></a><span class="co">// irrefutable</span></span>
+<span id="cb14-5"><a></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>For example <code>let Some(x) = value</code> is refutable because it doesn’t account for the possibility that <code>values</code> is <code>None</code></p>
+<p>And <code>let x = 5</code> is irrefutable because <code>x</code> matches whatever the right-hand-side is so it accounts for every possibility</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="refutable-vs.-irrefutable-2" class="slide level2">
+<h2>Refutable vs.&nbsp;irrefutable</h2>
+<p>Some places require <em>refutable</em> patterns, some places require <em>irrefutable</em> patterns</p>
+<aside class="notes">
+<p>We generally don’t need to think about refutability vs.&nbsp;irrefutability</p>
+<p>But sometimes Rust expects patterns of a particular type and the compiler will refer to the type by name</p>
+<p>So we need to know what the terms mean</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="refutable-pattern---irrefutable-expected" class="slide level2">
+<h2>Refutable pattern - irrefutable expected</h2>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb15-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb15-2"><a></a>    <span class="kw">let</span> some_option_value<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="cn">None</span><span class="op">;</span></span>
+<span id="cb15-3"><a></a>    <span class="kw">let</span> <span class="cn">Some</span>(x) <span class="op">=</span> some_option_value<span class="op">;</span></span>
+<span id="cb15-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb16-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb16-2"><a></a>    <span class="kw">let</span> some_option_value<span class="op">:</span> <span class="dt">Option</span><span class="op">&lt;</span><span class="dt">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="cn">None</span><span class="op">;</span></span>
+<span id="cb16-3"><a></a>    <span class="cf">if</span> <span class="kw">let</span> <span class="cn">Some</span>(x) <span class="op">=</span> some_option_value <span class="op">{</span></span>
+<span id="cb16-4"><a></a>        <span class="pp">println!</span>(<span class="st">"{x}"</span>)<span class="op">;</span></span>
+<span id="cb16-5"><a></a>    <span class="op">}</span></span>
+<span id="cb16-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=efe8a4d4cac33aacffee5ffec5096390">Rust Playground (error)</a> | <a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=b9e24ec74388cbd53da4470ed6c3a4a1">Rust Playground (working)</a></p>
+</div>
+<aside class="notes">
+<p>A <code>let</code> statement requires an irrrefutable pattern, b/c it needs to know the type of the value being assigned</p>
+<p>But <code>Some(x)</code> is a refutable pattern because it doesn’t account for <code>None</code></p>
+<p>In this case the compiler will tell us that <code>let</code> statements require an irrefutable pattern so we need to know what that means in order to fix our code</p>
+<p>To fix this we can use <code>if let</code> instead of just <code>let</code> so if the pattern doesn’t match we can skip the expression and our code has a valid way of continuing</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="irrefutable-pattern---refutable-expected" class="slide level2">
+<h2>Irrefutable pattern - refutable expected</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb17-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb17-2"><a></a>    <span class="cf">if</span> <span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span> <span class="op">{</span></span>
+<span id="cb17-3"><a></a>        <span class="pp">println!</span>(<span class="st">"{x}"</span>)<span class="op">;</span></span>
+<span id="cb17-4"><a></a>    <span class="op">};</span></span>
+<span id="cb17-5"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=220d9705dcc698869ab824259540322a">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>Conversely, we can use an irrefutable pattern where a refutable pattern is expected</p>
+<p>Here <code>if let</code> expects a refutable pattern but we’re giving it an irrefutable pattern b/c <code>x</code> will always match</p>
+<p>In this case our program can still run b/c it’s not at risk of crashing, but the compiler will give us a warning, telling us that the <code>if</code> part doesn’t matter</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="pattern-syntax" class="title-slide slide level1 center">
+<h1>Pattern Syntax</h1>
+<aside class="notes">
+<p>So far we’ve looked at a lot of different patterns and where they can be used</p>
+<p>Now we’ll look at more of the syntax for patterns and when we might want to use different patterns</p>
+<p>We’ll look at a <em>lot</em> of examples here and I’ll run through them fairly quickly</p>
+<p>Don’t think of this as needing to remember them all, just think of this section as a reference for the future</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="literals" class="slide level2">
+<h2>Literals</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: respond to specific values</p>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb18-1"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a>    <span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb18-4"><a></a>        <span class="dv">1</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"one"</span>)<span class="op">,</span></span>
+<span id="cb18-5"><a></a>        <span class="dv">2</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"two"</span>)<span class="op">,</span></span>
+<span id="cb18-6"><a></a>        <span class="dv">3</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"three"</span>)<span class="op">,</span></span>
+<span id="cb18-7"><a></a>        _ <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"anything"</span>)<span class="op">,</span></span>
+<span id="cb18-8"><a></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>The simplest syntax is matching against literals</p>
+<p>We use this pattern when we want to take some action based on specific, concrete values</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="named-variables" class="slide level2">
+<h2>Named variables</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: match any value</p>
+</div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb19-1"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb19-2"><a></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb19-3"><a></a></span>
+<span id="cb19-4"><a></a>    <span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb19-5"><a></a>        <span class="cn">Some</span>(<span class="dv">50</span>) <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Got 50"</span>)<span class="op">,</span></span>
+<span id="cb19-6"><a></a>        <span class="cn">Some</span>(y) <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Matched, y = {y}"</span>)<span class="op">,</span></span>
+<span id="cb19-7"><a></a>        _ <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Default case, x = {x:?}"</span>)<span class="op">,</span></span>
+<span id="cb19-8"><a></a>    <span class="op">}</span></span>
+<span id="cb19-9"><a></a></span>
+<span id="cb19-10"><a></a>    <span class="pp">println!</span>(<span class="st">"at the end: x = {x:?}, y = {y}"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Sometimes we may want to match against any value, using a named variable to represent that value</p>
+<p>In this code, the <code>y</code> in the expression after <code>Some(y)</code> refers to whatever value <code>x</code> holds</p>
+<p>This is <em>not</em> the same <code>y</code> defined in line 2</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="multiple-patterns" class="slide level2">
+<h2>Multiple patterns</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: match against multiple patterns</p>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb20-1"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb20-2"><a></a></span>
+<span id="cb20-3"><a></a>    <span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb20-4"><a></a>        <span class="dv">1</span> <span class="op">|</span> <span class="dv">2</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"one or two"</span>)<span class="op">,</span></span>
+<span id="cb20-5"><a></a>        <span class="dv">3</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"three"</span>)<span class="op">,</span></span>
+<span id="cb20-6"><a></a>        _ <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"anything"</span>)<span class="op">,</span></span>
+<span id="cb20-7"><a></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Sometimes we may want to run some code if we match more than 1 pattern.</p>
+<p>This is what we’re doing in line 4</p>
+<p>We’re saying that I want to match against both the literal <code>1</code> and the literal <code>2</code></p>
+<p>If <code>x</code> matches either pattern, then I want to run this expression</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="multiple-patterns-in-a-range" class="slide level2">
+<h2>Multiple patterns in a range</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: match against a range of values</p>
+</div>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb21-1"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a>    <span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb21-4"><a></a>        <span class="dv">1</span><span class="op">..=</span><span class="dv">5</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"one through five"</span>)<span class="op">,</span></span>
+<span id="cb21-5"><a></a>        _ <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"something else"</span>)<span class="op">,</span></span>
+<span id="cb21-6"><a></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb22-1"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="ch">'c'</span><span class="op">;</span></span>
+<span id="cb22-2"><a></a></span>
+<span id="cb22-3"><a></a>    <span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb22-4"><a></a>        <span class="ch">'a'</span><span class="op">..=</span><span class="ch">'j'</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"early ASCII letter"</span>)<span class="op">,</span></span>
+<span id="cb22-5"><a></a>        <span class="ch">'k'</span><span class="op">..=</span><span class="ch">'z'</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"late ASCII letter"</span>)<span class="op">,</span></span>
+<span id="cb22-6"><a></a>        _ <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"something else"</span>)<span class="op">,</span></span>
+<span id="cb22-7"><a></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside class="notes">
+<p>We can generalize matching against multiple literal patterns by matching against a range of values</p>
+<p>Here, the pattern on line 4 is the range of values 1 to 5</p>
+<p>We could use <code>1 | 2 | 3 | 4 | 5</code> but this syntax gives us a shortcut</p>
+<p>We can also use this syntax for <code>char</code> values</p>
+<p>Just note that this only works for numeric or <code>char</code> values b/c those are the only types where Rust can tell if a range is empty or not</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="destructuring---structs" class="slide level2">
+<h2>Destructuring - structs</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: match against different parts</p>
+</div>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb23-1"><a></a><span class="kw">struct</span> Point <span class="op">{</span></span>
+<span id="cb23-2"><a></a>    x<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb23-3"><a></a>    y<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb23-4"><a></a><span class="op">}</span></span>
+<span id="cb23-5"><a></a></span>
+<span id="cb23-6"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb23-7"><a></a>    <span class="kw">let</span> p <span class="op">=</span> Point <span class="op">{</span> x<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> y<span class="op">:</span> <span class="dv">7</span> <span class="op">};</span></span>
+<span id="cb23-8"><a></a></span>
+<span id="cb23-9"><a></a>    <span class="kw">let</span> Point <span class="op">{</span> x<span class="op">:</span> a<span class="op">,</span> y<span class="op">:</span> b <span class="op">}</span> <span class="op">=</span> p<span class="op">;</span></span>
+<span id="cb23-10"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">0</span><span class="op">,</span> a)<span class="op">;</span></span>
+<span id="cb23-11"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">7</span><span class="op">,</span> b)<span class="op">;</span></span>
+<span id="cb23-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb24-1"><a></a><span class="kw">struct</span> Point <span class="op">{</span></span>
+<span id="cb24-2"><a></a>    x<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb24-3"><a></a>    y<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb24-4"><a></a><span class="op">}</span></span>
+<span id="cb24-5"><a></a></span>
+<span id="cb24-6"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb24-7"><a></a>    <span class="kw">let</span> p <span class="op">=</span> Point <span class="op">{</span> x<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> y<span class="op">:</span> <span class="dv">7</span> <span class="op">};</span></span>
+<span id="cb24-8"><a></a></span>
+<span id="cb24-9"><a></a>    <span class="kw">let</span> Point <span class="op">{</span> x<span class="op">,</span> y <span class="op">}</span> <span class="op">=</span> p<span class="op">;</span></span>
+<span id="cb24-10"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">0</span><span class="op">,</span> x)<span class="op">;</span></span>
+<span id="cb24-11"><a></a>    <span class="pp">assert_eq!</span>(<span class="dv">7</span><span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb24-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside class="notes">
+<p>Another common syntax is destructuring which we can use with structs, tuples, and enums</p>
+<p>We can use this when we want to use different parts of a composite type</p>
+<p>Here we want the pull out the different components of the <code>Point</code> struct and use each value separately</p>
+<p>On line 9 we’re saying break apart <code>p</code> and assign the <code>x</code> component to <code>a</code> and the <code>y</code> component to <code>b</code></p>
+<p>But it’s a bit clearer to use the same names as in the struct so Rust gives us a shorthand syntax for this</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="destructuring---enums" class="slide level2">
+<h2>Destructuring - enums</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: match against different parts</p>
+</div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb25-1"><a></a><span class="kw">enum</span> Message <span class="op">{</span></span>
+<span id="cb25-2"><a></a>    Quit<span class="op">,</span></span>
+<span id="cb25-3"><a></a>    Move <span class="op">{</span> x<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span> y<span class="op">:</span> <span class="dt">i32</span> <span class="op">},</span></span>
+<span id="cb25-4"><a></a>    <span class="bu">Write</span>(<span class="dt">String</span>)<span class="op">,</span></span>
+<span id="cb25-5"><a></a>    ChangeColor(<span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span>)<span class="op">,</span></span>
+<span id="cb25-6"><a></a><span class="op">}</span></span>
+<span id="cb25-7"><a></a></span>
+<span id="cb25-8"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb25-9"><a></a>    <span class="kw">let</span> msg <span class="op">=</span> <span class="pp">Message::</span>ChangeColor(<span class="dv">0</span><span class="op">,</span> <span class="dv">160</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb25-10"><a></a></span>
+<span id="cb25-11"><a></a>    <span class="cf">match</span> msg <span class="op">{</span></span>
+<span id="cb25-12"><a></a>        <span class="pp">Message::</span>Quit <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb25-13"><a></a>            <span class="pp">println!</span>(<span class="st">"The Quit variant has no data to destructure."</span>)<span class="op">;</span></span>
+<span id="cb25-14"><a></a>        <span class="op">}</span></span>
+<span id="cb25-15"><a></a>        <span class="pp">Message::</span>Move <span class="op">{</span> x<span class="op">,</span> y <span class="op">}</span> <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb25-16"><a></a>            <span class="pp">println!</span>(<span class="st">"Move in the x direction {x} and in the y direction {y}"</span>)<span class="op">;</span></span>
+<span id="cb25-17"><a></a>        <span class="op">}</span></span>
+<span id="cb25-18"><a></a>        <span class="pp">Message::</span><span class="bu">Write</span>(text) <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb25-19"><a></a>            <span class="pp">println!</span>(<span class="st">"Text message: {text}"</span>)<span class="op">;</span></span>
+<span id="cb25-20"><a></a>        <span class="op">}</span></span>
+<span id="cb25-21"><a></a>        <span class="pp">Message::</span>ChangeColor(r<span class="op">,</span> g<span class="op">,</span> b) <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb25-22"><a></a>            <span class="pp">println!</span>(<span class="st">"Change the color to red {r}, green {g}, and blue {b}"</span>)</span>
+<span id="cb25-23"><a></a>        <span class="op">}</span></span>
+<span id="cb25-24"><a></a>    <span class="op">}</span></span>
+<span id="cb25-25"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Similarly we can destructure enums</p>
+<p>More specifically we can use a <code>match</code> where the patterns destructure the inner values of the enum so we can use them in the corresponding expressions</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="destructuring---nested-enums" class="slide level2">
+<h2>Destructuring - nested enums</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: match against different parts</p>
+</div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb26-1"><a></a><span class="kw">enum</span> Color <span class="op">{</span></span>
+<span id="cb26-2"><a></a>    Rgb(<span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span>)<span class="op">,</span></span>
+<span id="cb26-3"><a></a>    Hsv(<span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span><span class="op">,</span> <span class="dt">i32</span>)<span class="op">,</span></span>
+<span id="cb26-4"><a></a><span class="op">}</span></span>
+<span id="cb26-5"><a></a></span>
+<span id="cb26-6"><a></a><span class="kw">enum</span> Message <span class="op">{</span></span>
+<span id="cb26-7"><a></a>    Quit<span class="op">,</span></span>
+<span id="cb26-8"><a></a>    Move <span class="op">{</span> x<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span> y<span class="op">:</span> <span class="dt">i32</span> <span class="op">},</span></span>
+<span id="cb26-9"><a></a>    <span class="bu">Write</span>(<span class="dt">String</span>)<span class="op">,</span></span>
+<span id="cb26-10"><a></a>    ChangeColor(Color)<span class="op">,</span></span>
+<span id="cb26-11"><a></a><span class="op">}</span></span>
+<span id="cb26-12"><a></a></span>
+<span id="cb26-13"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb26-14"><a></a>    <span class="kw">let</span> msg <span class="op">=</span> <span class="pp">Message::</span>ChangeColor(<span class="pp">Color::</span>Hsv(<span class="dv">0</span><span class="op">,</span> <span class="dv">160</span><span class="op">,</span> <span class="dv">255</span>))<span class="op">;</span></span>
+<span id="cb26-15"><a></a></span>
+<span id="cb26-16"><a></a>    <span class="cf">match</span> msg <span class="op">{</span></span>
+<span id="cb26-17"><a></a>        <span class="pp">Message::</span>ChangeColor(<span class="pp">Color::</span>Rgb(r<span class="op">,</span> g<span class="op">,</span> b)) <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb26-18"><a></a>            <span class="pp">println!</span>(<span class="st">"Change color to red {r}, green {g}, and blue {b}"</span>)<span class="op">;</span></span>
+<span id="cb26-19"><a></a>        <span class="op">}</span></span>
+<span id="cb26-20"><a></a>        <span class="pp">Message::</span>ChangeColor(<span class="pp">Color::</span>Hsv(h<span class="op">,</span> s<span class="op">,</span> v)) <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb26-21"><a></a>            <span class="pp">println!</span>(<span class="st">"Change color to hue {h}, saturation {s}, value {v}"</span>)</span>
+<span id="cb26-22"><a></a>        <span class="op">}</span></span>
+<span id="cb26-23"><a></a>        _ <span class="op">=&gt;</span> ()<span class="op">,</span></span>
+<span id="cb26-24"><a></a>    <span class="op">}</span></span>
+<span id="cb26-25"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>We can even nest structs and enums and use patterns that reflect the nested structure</p>
+<p>For example we can extend the previous example so color can be either RGB or HSV by using a nested enum</p>
+<p>We can match against the <code>Rgb</code> variant within the <code>ChangeColor</code> variant of <code>Message</code> or we can match against the <code>Hsv</code> variant nested with <code>ChangeColor</code></p>
+<p>And since we’re using a destructuring pattern we can use the inner nested values within the expression</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="destructuring---structs-tuples" class="slide level2">
+<h2>Destructuring - structs &amp; tuples</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: match against different parts</p>
+</div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb27-1"><a></a><span class="kw">let</span> ((feet<span class="op">,</span> inches)<span class="op">,</span> Point <span class="op">{</span> x<span class="op">,</span> y <span class="op">}</span>) <span class="op">=</span> ((<span class="dv">3</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">,</span> Point <span class="op">{</span> x<span class="op">:</span> <span class="dv">3</span><span class="op">,</span> y<span class="op">:</span> <span class="op">-</span><span class="dv">10</span> <span class="op">}</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>We can even get really wild and mix different types together, destructuring to get at the individual values we need</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ignoring-values-in-a-pattern" class="slide level2">
+<h2>Ignoring values in a pattern</h2>
+<aside class="notes">
+<p>We’ve seen before how to use <code>_</code> to ignore values in a <code>match</code> expression</p>
+<p>But there are other places we can use <code>_</code> and other ways to ignore things</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ignore-a-value" class="slide level2">
+<h2>Ignore a value</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: ignore an entire value</p>
+</div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb28-1"><a></a><span class="kw">fn</span> foo(_<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span> y<span class="op">:</span> <span class="dt">i32</span>) <span class="op">{</span></span>
+<span id="cb28-2"><a></a>    <span class="pp">println!</span>(<span class="st">"This code only uses the y parameter: {y}"</span>)<span class="op">;</span></span>
+<span id="cb28-3"><a></a><span class="op">}</span></span>
+<span id="cb28-4"><a></a></span>
+<span id="cb28-5"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb28-6"><a></a>    foo(<span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb28-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>We can even use <code>_</code> in a function parameter</p>
+<p>The function <code>foo</code> here takes 2 integers but it really only cares about the second one so we can ignore the first</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ignore-part-of-a-value" class="slide level2">
+<h2>Ignore part of a value</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: ignore only part of a value</p>
+</div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb29-1"><a></a><span class="kw">fn</span> foo(_<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span> y<span class="op">:</span> <span class="dt">i32</span>) <span class="op">{</span></span>
+<span id="cb29-2"><a></a>    <span class="pp">println!</span>(<span class="st">"This code only uses the y parameter: {y}"</span>)<span class="op">;</span></span>
+<span id="cb29-3"><a></a><span class="op">}</span></span>
+<span id="cb29-4"><a></a></span>
+<span id="cb29-5"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb29-6"><a></a>    foo(<span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb29-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>We can even use <code>_</code> in a function parameter</p>
+<p>The function <code>foo</code> here takes 2 integers but it really only cares about the second one so we can ignore the first</p>
+<p>This can be used when implementing a trait for example, where your function needs a particular signature but your implementation doesn’t need all the values in the requried signature</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ignore-a-nested-value" class="slide level2">
+<h2>Ignore a nested value</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: ignore a nested value</p>
+</div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb30-1"><a></a>    <span class="kw">let</span> <span class="kw">mut</span> setting_value <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb30-2"><a></a>    <span class="kw">let</span> new_setting_value <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb30-3"><a></a></span>
+<span id="cb30-4"><a></a>    <span class="cf">match</span> (setting_value<span class="op">,</span> new_setting_value) <span class="op">{</span></span>
+<span id="cb30-5"><a></a>        (<span class="cn">Some</span>(_)<span class="op">,</span> <span class="cn">Some</span>(_)) <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb30-6"><a></a>            <span class="pp">println!</span>(<span class="st">"Can't overwrite an existing customized value"</span>)<span class="op">;</span></span>
+<span id="cb30-7"><a></a>        <span class="op">}</span></span>
+<span id="cb30-8"><a></a>        _ <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb30-9"><a></a>            setting_value <span class="op">=</span> new_setting_value<span class="op">;</span></span>
+<span id="cb30-10"><a></a>        <span class="op">}</span></span>
+<span id="cb30-11"><a></a>    <span class="op">}</span></span>
+<span id="cb30-12"><a></a></span>
+<span id="cb30-13"><a></a>    <span class="pp">println!</span>(<span class="st">"setting is {setting_value:?}"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Like we saw with nested enums, we can use <code>_</code> to ignore a nested value</p>
+<p>For example maybe we don’t need the actual value of the option type but we do need to ensure whether it’s a <code>Some</code> or a <code>None</code></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ignore-multiple-places" class="slide level2">
+<h2>Ignore multiple places</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: ignore multiple places in a single pattern</p>
+</div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb31-1"><a></a><span class="kw">let</span> numbers <span class="op">=</span> (<span class="dv">2</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="dv">32</span>)<span class="op">;</span></span>
+<span id="cb31-2"><a></a></span>
+<span id="cb31-3"><a></a><span class="cf">match</span> numbers <span class="op">{</span></span>
+<span id="cb31-4"><a></a>      (first<span class="op">,</span> _<span class="op">,</span> third<span class="op">,</span> _<span class="op">,</span> fifth) <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb31-5"><a></a>          <span class="pp">println!</span>(<span class="st">"Some numbers: {first}, {third}, {fifth}"</span>)</span>
+<span id="cb31-6"><a></a>      <span class="op">}</span></span>
+<span id="cb31-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>We can also use <code>_</code> to ignore multiple values within the same pattern</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ignore-unused-variable" class="slide level2">
+<h2>Ignore unused variable</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: ignore an unused variable</p>
+</div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb32-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb32-2"><a></a>    <span class="kw">let</span> _x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb32-3"><a></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb32-4"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Remember that the compiler will complain if you have a value that isnt’ used</p>
+<p>If the name of that variable starts with an <code>_</code> however, we signal to the compiler that yes we know we aren’t using the variable and that’s OK</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ignore-remaining-parts" class="slide level2">
+<h2>Ignore remaining parts</h2>
+<div style="margin-bottom:2rem;">
+<p>Usage: use first part(s) of a value, ignore the rest</p>
+</div>
+<div style="margin-bottom:2rem;">
+<div class="sourceCode" id="cb33"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb33-1"><a></a><span class="kw">struct</span> Point <span class="op">{</span></span>
+<span id="cb33-2"><a></a>    x<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb33-3"><a></a>    y<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb33-4"><a></a>    z<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span></span>
+<span id="cb33-5"><a></a><span class="op">}</span></span>
+<span id="cb33-6"><a></a></span>
+<span id="cb33-7"><a></a><span class="kw">let</span> origin <span class="op">=</span> Point <span class="op">{</span> x<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> y<span class="op">:</span> <span class="dv">0</span><span class="op">,</span> z<span class="op">:</span> <span class="dv">0</span> <span class="op">};</span></span>
+<span id="cb33-8"><a></a></span>
+<span id="cb33-9"><a></a><span class="cf">match</span> origin <span class="op">{</span></span>
+<span id="cb33-10"><a></a>    Point <span class="op">{</span> x<span class="op">,</span> <span class="op">..</span> <span class="op">}</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"x is {x}"</span>)<span class="op">,</span></span>
+<span id="cb33-11"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb34-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb34-2"><a></a>    <span class="kw">let</span> numbers <span class="op">=</span> (<span class="dv">2</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="dv">32</span>)<span class="op">;</span></span>
+<span id="cb34-3"><a></a></span>
+<span id="cb34-4"><a></a>    <span class="cf">match</span> numbers <span class="op">{</span></span>
+<span id="cb34-5"><a></a>        (first<span class="op">,</span> <span class="op">..,</span> last) <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb34-6"><a></a>            <span class="pp">println!</span>(<span class="st">"Some numbers: {first}, {last}"</span>)<span class="op">;</span></span>
+<span id="cb34-7"><a></a>        <span class="op">}</span></span>
+<span id="cb34-8"><a></a>    <span class="op">}</span></span>
+<span id="cb34-9"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside class="notes">
+<p>Sometimes we might only care about the first value of a composite type</p>
+<p>In that case we can use <code>..</code> ignore all the remaining values</p>
+<p>And actually <code>..</code> is not restricted to the end, we can use it in the middle and just pull out the first and last values for example</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="match-guards" class="slide level2">
+<h2>Match guards</h2>
+<blockquote>
+<p>A <em>match guard</em> is an additional if condition, specified after the pattern in a match arm, that must also match for that arm to be chosen.</p>
+</blockquote>
+<aside class="notes">
+<p>Rust also has something called a <em>match guard</em> which lets us specify an additional pattern that must be met</p>
+<p>This lets us express more complex patterns</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="match-guards-1" class="slide level2">
+<h2>Match guards</h2>
+<div class="sourceCode" id="cb35"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb35-1"><a></a><span class="kw">let</span> num <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb35-2"><a></a></span>
+<span id="cb35-3"><a></a><span class="cf">match</span> num <span class="op">{</span></span>
+<span id="cb35-4"><a></a>    <span class="cn">Some</span>(x) <span class="cf">if</span> x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"The number {x} is even"</span>)<span class="op">,</span></span>
+<span id="cb35-5"><a></a>    <span class="cn">Some</span>(x) <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"The number {x} is odd"</span>)<span class="op">,</span></span>
+<span id="cb35-6"><a></a>    <span class="cn">None</span> <span class="op">=&gt;</span> ()<span class="op">,</span></span>
+<span id="cb35-7"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>In this example, we want to determine if the number is even</p>
+<p>But we also have to account for the fact that it’s an option type so it could have no value</p>
+<p>With a pattern alone, there is no way to use the <code>x % 2 == 0</code> expression, but with a match guard we can</p>
+<p>It’s worth noting that we are using <code>x</code> in the match guard, which was created in the pattern <code>Some(x)</code></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="match-guards-2" class="slide level2">
+<h2>Match guards</h2>
+<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb36-1"><a></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb36-2"><a></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="cn">Some</span>(<span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb36-3"><a></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb36-4"><a></a></span>
+<span id="cb36-5"><a></a>    <span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb36-6"><a></a>        <span class="cn">Some</span>(<span class="dv">50</span>) <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Got 50"</span>)<span class="op">,</span></span>
+<span id="cb36-7"><a></a>        <span class="cn">Some</span>(n) <span class="cf">if</span> n <span class="op">==</span> y <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Matched, n = {n}"</span>)<span class="op">,</span></span>
+<span id="cb36-8"><a></a>        _ <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Default case, x = {x:?}"</span>)<span class="op">,</span></span>
+<span id="cb36-9"><a></a>    <span class="op">}</span></span>
+<span id="cb36-10"><a></a></span>
+<span id="cb36-11"><a></a>    <span class="pp">println!</span>(<span class="st">"at the end: x = {x:?}, y = {y}"</span>)<span class="op">;</span></span>
+<span id="cb36-12"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>We can also use a match guard to compare against a variable outside our <code>match</code> expression</p>
+<p>We had an example of this before where we couldn’t do that because of pattern shadowing</p>
+<p>A match guard let’s us get around this</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="match-guard" class="slide level2">
+<h2>Match guard</h2>
+<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb37-1"><a></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb37-2"><a></a><span class="kw">let</span> y <span class="op">=</span> <span class="cn">false</span></span>
+<span id="cb37-3"><a></a><span class="cf">match</span> x <span class="op">{</span></span>
+<span id="cb37-4"><a></a>    <span class="dv">4</span> <span class="op">|</span> <span class="dv">5</span> <span class="op">|</span> <span class="dv">6</span> <span class="cf">if</span> y <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"yes"</span>)<span class="op">,</span></span>
+<span id="cb37-5"><a></a>    _ <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"no"</span>)<span class="op">,</span></span>
+<span id="cb37-6"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p>Lastly, we can use a match guard with multiple patterns</p>
+<p>In this example, the <code>if</code> condition applies to all the patterns</p>
+<p>So regardless of whether we match 4, 5, or 6, <code>y</code> must also be true for the expression to run</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="bindings" class="slide level2">
+<h2><code>@</code> Bindings</h2>
+<blockquote>
+<p>The <em>at</em> operator @ lets us create a variable that holds a value at the same time as we’re testing that value for a pattern match</p>
+</blockquote>
+<aside class="notes">
+<p>OK, one last thing, this is it!</p>
+<p>Rust has this thing called an <em>at</em> binding</p>
+<p>What this does is give us access to the actual value that matched</p>
+<p>This is best shown in an example</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="bindings-1" class="slide level2">
+<h2><code>@</code> Bindings</h2>
+<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb38-1"><a></a><span class="kw">enum</span> Message <span class="op">{</span></span>
+<span id="cb38-2"><a></a>    Hello <span class="op">{</span> id<span class="op">:</span> <span class="dt">i32</span> <span class="op">},</span></span>
+<span id="cb38-3"><a></a></span>
+<span id="cb38-4"><a></a><span class="kw">let</span> msg <span class="op">=</span> <span class="pp">Message::</span>Hello <span class="op">{</span> id<span class="op">:</span> <span class="dv">5</span> <span class="op">}</span></span>
+<span id="cb38-5"><a></a><span class="cf">match</span> msg <span class="op">{</span></span>
+<span id="cb38-6"><a></a>    <span class="pp">Message::</span>Hello <span class="op">{</span></span>
+<span id="cb38-7"><a></a>        id<span class="op">:</span> id_variable <span class="op">@</span> <span class="dv">3</span><span class="op">..=</span><span class="dv">7</span><span class="op">,</span></span>
+<span id="cb38-8"><a></a>    <span class="op">}</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Found an id in range: {id_variable}"</span>)<span class="op">,</span></span>
+<span id="cb38-9"><a></a>    <span class="pp">Message::</span>Hello <span class="op">{</span> id<span class="op">:</span> <span class="dv">10</span><span class="op">..=</span><span class="dv">12</span> <span class="op">}</span> <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb38-10"><a></a>        <span class="pp">println!</span>(<span class="st">"Found an id in another range"</span>)</span>
+<span id="cb38-11"><a></a>    <span class="op">}</span></span>
+<span id="cb38-12"><a></a>    <span class="pp">Message::</span>Hello <span class="op">{</span> id <span class="op">}</span> <span class="op">=&gt;</span> <span class="pp">println!</span>(<span class="st">"Found some other id: {id}"</span>)<span class="op">,</span></span>
+<span id="cb38-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="footer">
+<p><a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=218308ce1e9980e18340756d1c2f7ffe">Rust Playground</a></p>
+</div>
+<aside class="notes">
+<p>In this example we want to check wheter <code>id</code> is in the range 3 to 7</p>
+<p>We saw before we can do this with a range pattern</p>
+<p>But we also want to use the actual value that matched within our expression, which a range pattern doesn’t allow</p>
+<p>So we can use an <code>@</code> binding to say create this variable called <code>id_variable</code></p>
+<p>If I get a match in this arm, if <code>id</code> is 3 to 7, I want to use the value that was matched within the expression</p>
+<p>In this case <code>id</code> is 5, which is within the range of 3 to 7, so the <code>@</code> binding <code>id_variable</code> will have the value 5 within the expression</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 
 
 </section></section>
