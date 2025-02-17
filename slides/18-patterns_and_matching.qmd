@@ -3,29 +3,986 @@ engine: knitr
 title: "18. Patterns and Matching"
 ---
 
-# Learning objectives
+# Introduction
+
+## Learning objectives
 
 ::: nonincremental
-- THESE ARE NICE TO HAVE BUT NOT ABSOLUTELY NECESSARY
+- Identify the available patterns we can match against
+- Understand the difference between _refutable_ and _irrefutable_ patterns
+:::
+
+## Patterns and Matching
+
+> _Patterns_ are a special syntax in Rust for matching against the structure of types ...
+
+::: {.fragment}
+We can _control_ the _flow_ of a program by _matching_ against patterns.
 :::
 
 ::: notes
-- You can add notes on each slide with blocks like this!
-- Load a deck in the browser and type "s" to see these notes.
+Patterns are a way to denote the structure of a type
+
+We can use patterns as control flow, where different code is run depending on which pattern a value matches
 :::
 
-# SLIDE SECTION
+## Patterns
 
-## SLIDE
+Patterns describe the _shape_ of data
 
-- DENOTE MAJOR SECTIONS WITH `# TITLE` (eg `# Installation`)
-- ADD INDIVIDUAL SLIDES WITH `##` (eg `## rustup on Linux/macOS`)
-- KEEP THEM RELATIVELY SLIDE-LIKE; THESE ARE NOTES, NOT THE BOOK ITSELF.
+::: {.fragment}
+Ex: $m \times n$ matrix vs. $n \times p$ matrix
+:::
 
-## SLIDE
+::: notes
+Another way to think about pattern is that they describe the shape of our data
 
-# SLIDE SECTION
+For example, we always describe matrices by the shape of their rows and columns
 
-## SLIDE
+An m x n matrix is one shape, or pattern
 
-## SLIDE
+An n x p matrix is a different shape
+:::
+
+## Types of patterns
+
+::: nonincremental
+- Literals (`1`)
+- Destructured arrays, enums, structs, tuples (`(x, y) = (1, 2)`)
+- Variables (`match x ...`)
+- Wildcards (`_`)
+- Placeholders (`_`)
+:::
+
+::: notes
+Patterns can be comprised of different things and can be very simple like a literal `1` or more complex like destructuring a tuple
+:::
+
+# Where patterns can be used
+
+## `match` expression
+
+:::{style="margin-bottom:2rem;"}
+```rust
+match x {
+    None => None,
+    Some(i) => Some(i + 1),
+}
+```
+:::
+
+::: {.fragment}
+```rust
+match VALUE {
+  PATTERN => EXPRESSION,
+  PATTERN => EXPRESSION,
+  ...
+}
+```
+:::
+
+::: notes
+We've seen the match expression a lot so far, so this should look familiar
+
+What I want to point out here is the structure
+
+We match a _value_ to different _patterns_
+
+If a _pattern_ is found, we run it's corresponding _expression_
+:::
+
+## `if let` expression
+
+:::{style="margin-bottom:2rem;"}
+```rust
+if let PATTERN = VALUE {
+  EXPRESSION
+}
+```
+:::
+
+:::{.fragment}
+```rust
+if let PATTERN = VALUE {
+  EXPRESSION
+} else if PATTERN = VALUE {
+  EXPRESSION
+}
+...
+```
+:::
+
+
+::: notes
+Another place we've seen patterns is `if let` expressions
+
+The structure here is if the _value_ matches the _pattern_, then we run the _expression_
+
+And of course we can extend this with more `if`s, `else`s and `if else`s
+
+Adding more branches like this is just like a `match` statement
+
+But `if let` expressions are actually more general than `match` expressions
+
+With `match` we can only compare patterns to one value
+:::
+
+## `if let` expression
+
+```rust
+fn main() {
+    let favorite_color: Option<&str> = None;
+    let is_tuesday = false;
+    let age: Result<u8, _> = "34".parse();
+
+    if let Some(color) = favorite_color {
+        println!("Using your favorite color, {color}, as the background");
+    } else if is_tuesday { // unrelated to favorite_color
+        println!("Tuesday is green day!");
+    } else if let Ok(age) = age {
+        if age > 30 { // shadow variable age
+            println!("Using purple as the background color");
+        } else {
+            println!("Using orange as the background color");
+        }
+    } else {
+        println!("Using blue as the background color");
+    }
+}
+```
+
+::: footer
+[Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=9444027241fcf7eb73d157dc5dbee348)
+:::
+
+:::notes
+But with `if let` we can use different patterns and different values
+
+The branch conditions don't have to relate to each other
+
+Ex: `is_tuesday` on like 8 doesn't have anything to do with `favorite_color` on like 6
+
+Another thing to note with `if let` statements is that we can use _shadow_ variables
+
+Ex: on line 10 we have a shadow variable `age`
+
+This `age` as a `u8` is scoped only to these brackets
+
+That's why the `age > 30` on line 11 must be _within_ the brackets on line 10
+
+Outside of that scope, `age` is a `Result` type
+
+The last thing to note is that the compiler doesn't check for exhaustiveness of an `if let` expression like it does with a match expression
+
+So we have to be careful and make sure we've captured all possible conditions
+:::
+
+## `while let` expression
+
+:::{style="margin-bottom:2rem;"}
+```rust
+while let PATTERN = VALUE {
+  EXPRESSION
+}
+```
+:::
+
+::: {.fragment}
+```rust
+    let mut stack = Vec::new();
+
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+
+    while let Some(top) = stack.pop() {
+        println!("{top}");
+    }
+```
+:::
+
+::: notes
+We also have while expressions which are pretty straightforward
+
+As long as the _value_ matches the _pattern_, the _expression_ will keep running.
+
+Ex: we pick off the last element of a vector until we run out of elements
+:::
+
+## `for` loop
+
+:::{style="margin-bottom:2rem;"}
+```rust
+for PATTERN in VALUE {
+  EXPRESSION
+}
+```
+:::
+
+::: {.fragment}
+```rust
+    let v = vec!['a', 'b', 'c'];
+
+    for (index, value) in v.iter().enumerate() {
+        println!("{value} is at index {index}");
+    }
+
+```
+:::
+
+::: notes
+Similarly, we can use patterns in for loops
+
+In this example the pattern is a tuple where we're destructuring the tuple into individual values
+:::
+
+## `let`
+
+
+:::{style="margin-bottom:2rem;"}
+```rust
+let PATTERN = EXPRESSION
+```
+:::
+
+::: {.fragment}
+```rust
+let x = 5;
+
+let (x, y, z) = (1, 2, 3);
+```
+:::
+
+::: notes
+It's worth noting that we've been using patterns all along
+
+A very simiple case is a `let` statement where we're saying take whatever the _expression_ produces and assign it to the _pattern_
+
+In this case the pattern is one or more variable names
+:::
+
+## `fun` parameters
+
+:::{style="margin-bottom:2rem;"}
+```rust
+fun name(PATTERN: type) {}
+```
+:::
+
+::: {.fragment}
+```rust
+
+fn foo(x: i32) {}
+
+fn print_coordinates(&(x, y): &(i32, i32)) {
+    println!("Current location: ({x}, {y})");
+}
+
+fn main() {
+    let point = (3, 5);
+    print_coordinates(&point);
+}
+```
+:::
+
+::: footer
+[Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=28406459f66f41b6625afff871635d19)
+:::
+
+
+::: notes
+Similarly, we've been using patterns in functions
+
+Here the parameters are a pattern
+
+It could be something simple like `x` in line 2
+
+Or more complex like in line 3 where we use a reference to a tuple
+:::
+
+# Refutable vs. irrefutable patterns
+
+::: notes
+We've seen a lot of places where patterns can be used
+
+But it's important to note that patterns don't work the same in every place
+:::
+
+## Refutable vs. irrefutable
+
+> Patterns that can fail to match for some possible value are _refutable_.
+
+> Patterns that will match for any possible value passed are _irrefutable_.
+
+::: notes
+In general there are 2 types of patterns: refutable and irrefutable
+
+A _refutable_ pattern means a pattern that does _not_ caputure all possibilities
+
+An _irrefutable_ pattern is the opposite, where every possible outcome is accounted for
+:::
+
+## Refutable vs. irrefutable
+
+```rust
+// refutable
+if let Some(x) = value {};
+
+// irrefutable
+let x = 5;
+```
+
+::: notes
+For example `let Some(x) = value` is refutable because it doesn't account for the possibility that `values` is `None`
+
+And `let x = 5` is irrefutable because `x` matches whatever the right-hand-side is so it accounts for every possibility
+:::
+
+## Refutable vs. irrefutable
+
+Some places require _refutable_ patterns, some places require _irrefutable_ patterns
+
+::: notes
+We generally don't need to think about refutability vs. irrefutability
+
+But sometimes Rust expects patterns of a particular type and the compiler will refer to the type by name
+
+So we need to know what the terms mean
+:::
+
+## Refutable pattern - irrefutable expected
+
+:::{style="margin-bottom:2rem;"}
+```rust
+fn main() {
+    let some_option_value: Option<i32> = None;
+    let Some(x) = some_option_value;
+}
+```
+:::
+
+::: {.fragment}
+```rust
+fn main() {
+    let some_option_value: Option<i32> = None;
+    if let Some(x) = some_option_value {
+        println!("{x}");
+    }
+}
+```
+:::
+
+::: footer
+[Rust Playground (error)](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=efe8a4d4cac33aacffee5ffec5096390) | [Rust Playground (working)](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=b9e24ec74388cbd53da4470ed6c3a4a1)
+:::
+
+::: notes
+A `let` statement requires an irrrefutable pattern, b/c it needs to know the type of the value being assigned
+
+But `Some(x)` is a refutable pattern because it doesn't account for `None`
+
+In this case the compiler will tell us that `let` statements require an irrefutable pattern so we need to know what that means in order to fix our code
+
+To fix this we can use `if let` instead of just `let` so if the pattern doesn't match we can skip the expression and our code has a valid way of continuing
+:::
+
+
+## Irrefutable pattern - refutable expected
+
+```rust
+fn main() {
+    if let x = 5 {
+        println!("{x}");
+    };
+}
+```
+
+::: footer
+[Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=220d9705dcc698869ab824259540322a)
+:::
+
+::: notes
+Conversely, we can use an irrefutable pattern where a refutable pattern is expected
+
+Here `if let` expects a refutable pattern but we're giving it an irrefutable pattern b/c `x` will always match
+
+In this case our program can still run b/c it's not at risk of crashing, but the compiler will give us a warning, telling us that the `if` part doesn't matter
+:::
+
+# Pattern Syntax
+
+::: notes
+So far we've looked at a lot of different patterns and where they can be used
+
+Now we'll look at more of the syntax for patterns and when we might want to use different patterns
+
+We'll look at a _lot_ of examples here and I'll run through them fairly quickly
+
+Don't think of this as needing to remember them all, just think of this section as a reference for the future
+:::
+
+## Literals
+
+:::{style="margin-bottom:2rem;"}
+Usage: respond to specific values
+:::
+
+```rust
+    let x = 1;
+
+    match x {
+        1 => println!("one"),
+        2 => println!("two"),
+        3 => println!("three"),
+        _ => println!("anything"),
+    }
+```
+
+::: notes
+The simplest syntax is matching against literals
+
+We use this pattern when we want to take some action based on specific, concrete values
+:::
+
+## Named variables
+
+:::{style="margin-bottom:2rem;"}
+Usage: match any value
+:::
+
+```rust
+    let x = Some(5);
+    let y = 10;
+
+    match x {
+        Some(50) => println!("Got 50"),
+        Some(y) => println!("Matched, y = {y}"),
+        _ => println!("Default case, x = {x:?}"),
+    }
+
+    println!("at the end: x = {x:?}, y = {y}");
+```
+
+::: notes
+Sometimes we may want to match against any value, using a named variable to represent that value
+
+In this code, the `y` in the expression after `Some(y)` refers to whatever value `x` holds
+
+This is _not_ the same `y` defined in line 2
+:::
+
+## Multiple patterns
+
+:::{style="margin-bottom:2rem;"}
+Usage: match against multiple patterns
+:::
+
+```rust
+    let x = 1;
+
+    match x {
+        1 | 2 => println!("one or two"),
+        3 => println!("three"),
+        _ => println!("anything"),
+    }
+```
+
+::: notes
+Sometimes we may want to run some code if we match more than 1 pattern.
+
+This is what we're doing in line 4
+
+We're saying that I want to match against both the literal `1` and the literal `2`
+
+If `x` matches either pattern, then I want to run this expression
+:::
+
+## Multiple patterns in a range
+
+:::{style="margin-bottom:2rem;"}
+Usage: match against a range of values
+:::
+
+:::{style="margin-bottom:2rem;"}
+```rust
+    let x = 5;
+
+    match x {
+        1..=5 => println!("one through five"),
+        _ => println!("something else"),
+    }
+```
+:::
+
+::: {.fragment}
+```rust
+    let x = 'c';
+
+    match x {
+        'a'..='j' => println!("early ASCII letter"),
+        'k'..='z' => println!("late ASCII letter"),
+        _ => println!("something else"),
+    }
+```
+:::
+
+::: notes
+We can generalize matching against multiple literal patterns by matching against a range of values
+
+Here, the pattern on line 4 is the range of values 1 to 5
+
+We could use `1 | 2 | 3 | 4 | 5` but this syntax gives us a shortcut
+
+We can also use this syntax for `char` values
+
+Just note that this only works for numeric or `char` values b/c those are the only types where Rust can tell if a range is empty or not
+:::
+
+## Destructuring - structs
+
+:::{style="margin-bottom:2rem;"}
+Usage: match against different parts
+:::
+
+:::{style="margin-bottom:2rem;"}
+```rust
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    let Point { x: a, y: b } = p;
+    assert_eq!(0, a);
+    assert_eq!(7, b);
+}
+```
+:::
+
+::: {.fragment}
+```rust
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    let Point { x, y } = p;
+    assert_eq!(0, x);
+    assert_eq!(7, y);
+}
+```
+:::
+
+::: notes
+Another common syntax is destructuring which we can use with structs, tuples, and enums
+
+We can use this when we want to use different parts of a composite type
+
+Here we want the pull out the different components of the `Point` struct and use each value separately
+
+On line 9 we're saying break apart `p` and assign the `x` component to `a` and the `y` component to `b`
+
+But it's a bit clearer to use the same names as in the struct so Rust gives us a shorthand syntax for this
+:::
+
+
+## Destructuring - enums
+
+:::{style="margin-bottom:2rem;"}
+Usage: match against different parts
+:::
+
+```rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn main() {
+    let msg = Message::ChangeColor(0, 160, 255);
+
+    match msg {
+        Message::Quit => {
+            println!("The Quit variant has no data to destructure.");
+        }
+        Message::Move { x, y } => {
+            println!("Move in the x direction {x} and in the y direction {y}");
+        }
+        Message::Write(text) => {
+            println!("Text message: {text}");
+        }
+        Message::ChangeColor(r, g, b) => {
+            println!("Change the color to red {r}, green {g}, and blue {b}")
+        }
+    }
+}
+```
+
+
+::: notes
+Similarly we can destructure enums
+
+More specifically we can use a `match` where the patterns destructure the inner values of the enum so we can use them in the corresponding expressions
+:::
+
+
+## Destructuring - nested enums
+
+:::{style="margin-bottom:2rem;"}
+Usage: match against different parts
+:::
+
+```rust
+enum Color {
+    Rgb(i32, i32, i32),
+    Hsv(i32, i32, i32),
+}
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(Color),
+}
+
+fn main() {
+    let msg = Message::ChangeColor(Color::Hsv(0, 160, 255));
+
+    match msg {
+        Message::ChangeColor(Color::Rgb(r, g, b)) => {
+            println!("Change color to red {r}, green {g}, and blue {b}");
+        }
+        Message::ChangeColor(Color::Hsv(h, s, v)) => {
+            println!("Change color to hue {h}, saturation {s}, value {v}")
+        }
+        _ => (),
+    }
+}
+```
+
+
+::: notes
+We can even nest structs and enums and use patterns that reflect the nested structure
+
+For example we can extend the previous example so color can be either RGB or HSV by using a nested enum
+
+We can match against the `Rgb` variant within the `ChangeColor` variant of `Message` or we can match against the `Hsv` variant nested with `ChangeColor`
+
+And since we're using a destructuring pattern we can use the inner nested values within the expression
+:::
+
+
+## Destructuring - structs & tuples
+
+:::{style="margin-bottom:2rem;"}
+Usage: match against different parts
+:::
+
+```rust
+let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
+
+```
+
+
+::: notes
+We can even get really wild and mix different types together, destructuring to get at the individual values we need
+:::
+
+## Ignoring values in a pattern
+
+::: notes
+We've seen before how to use `_` to ignore values in a `match` expression
+
+But there are other places we can use `_` and other ways to ignore things
+:::
+
+## Ignore a value
+
+:::{style="margin-bottom:2rem;"}
+Usage: ignore an entire value
+:::
+
+```rust
+fn foo(_: i32, y: i32) {
+    println!("This code only uses the y parameter: {y}");
+}
+
+fn main() {
+    foo(3, 4);
+}
+```
+
+::: notes
+We can even use `_` in a function parameter
+
+The function `foo` here takes 2 integers but it really only cares about the second one so we can ignore the first
+:::
+
+## Ignore part of a value
+
+:::{style="margin-bottom:2rem;"}
+Usage: ignore only part of a value
+:::
+
+```rust
+fn foo(_: i32, y: i32) {
+    println!("This code only uses the y parameter: {y}");
+}
+
+fn main() {
+    foo(3, 4);
+}
+```
+
+::: notes
+We can even use `_` in a function parameter
+
+The function `foo` here takes 2 integers but it really only cares about the second one so we can ignore the first
+
+This can be used when implementing a trait for example, where your function needs a particular signature but your implementation doesn't need all the values in the requried signature
+:::
+
+## Ignore a nested value
+
+:::{style="margin-bottom:2rem;"}
+Usage: ignore a nested value
+:::
+
+```rust
+    let mut setting_value = Some(5);
+    let new_setting_value = Some(10);
+
+    match (setting_value, new_setting_value) {
+        (Some(_), Some(_)) => {
+            println!("Can't overwrite an existing customized value");
+        }
+        _ => {
+            setting_value = new_setting_value;
+        }
+    }
+
+    println!("setting is {setting_value:?}");
+```
+
+::: notes
+Like we saw with nested enums, we can use `_` to ignore a nested value
+
+For example maybe we don't need the actual value of the option type but we do need to ensure whether it's a `Some` or a `None`
+:::
+
+## Ignore multiple places
+
+:::{style="margin-bottom:2rem;"}
+Usage: ignore multiple places in a single pattern
+:::
+
+```rust
+let numbers = (2, 4, 8, 16, 32);
+
+match numbers {
+      (first, _, third, _, fifth) => {
+          println!("Some numbers: {first}, {third}, {fifth}")
+      }
+}
+```
+
+::: notes
+We can also use `_` to ignore multiple values within the same pattern
+:::
+
+## Ignore unused variable
+
+:::{style="margin-bottom:2rem;"}
+Usage: ignore an unused variable
+:::
+
+```rust
+fn main() {
+    let _x = 5;
+    let y = 10;
+}
+```
+
+::: notes
+Remember that the compiler will complain if you have a value that isnt' used
+
+If the name of that variable starts with an `_` however, we signal to the compiler that yes we know we aren't using the variable and that's OK
+:::
+
+## Ignore remaining parts
+
+:::{style="margin-bottom:2rem;"}
+Usage: use first part(s) of a value, ignore the rest
+:::
+
+:::{style="margin-bottom:2rem;"}
+```rust
+struct Point {
+    x: i32,
+    y: i32,
+    z: i32,
+}
+
+let origin = Point { x: 0, y: 0, z: 0 };
+
+match origin {
+    Point { x, .. } => println!("x is {x}"),
+}
+```
+:::
+
+::: {.fragment}
+```rust
+fn main() {
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (first, .., last) => {
+            println!("Some numbers: {first}, {last}");
+        }
+    }
+}
+```
+:::
+
+::: notes
+Sometimes we might only care about the first value of a composite type
+
+In that case we can use `..` ignore all the remaining values
+
+And actually `..` is not restricted to the end, we can use it in the middle and just pull out the first and last values for example
+:::
+
+## Match guards
+
+> A _match guard_ is an additional if condition, specified after the pattern in a match arm, that must also match for that arm to be chosen.
+
+::: notes
+Rust also has something called a _match guard_ which lets us specify an additional pattern that must be met
+
+This lets us express more complex patterns
+:::
+
+## Match guards
+
+```rust
+let num = Some(4);
+
+match num {
+    Some(x) if x % 2 == 0 => println!("The number {x} is even"),
+    Some(x) => println!("The number {x} is odd"),
+    None => (),
+}
+```
+
+::: notes
+In this example, we want to determine if the number is even
+
+But we also have to account for the fact that it's an option type so it could have no value
+
+With a pattern alone, there is no way to use the `x % 2 == 0` expression, but with a match guard we can
+
+It's worth noting that we are using `x` in the match guard, which was created in the pattern `Some(x)`
+:::
+
+
+## Match guards
+
+```rust
+fn main() {
+    let x = Some(5);
+    let y = 10;
+
+    match x {
+        Some(50) => println!("Got 50"),
+        Some(n) if n == y => println!("Matched, n = {n}"),
+        _ => println!("Default case, x = {x:?}"),
+    }
+
+    println!("at the end: x = {x:?}, y = {y}");
+}
+```
+
+::: notes
+We can also use a match guard to compare against a variable outside our `match` expression
+
+We had an example of this before where we couldn't do that because of pattern shadowing
+
+A match guard let's us get around this
+:::
+
+## Match guard
+
+```rust
+let x = 4;
+let y = false
+match x {
+    4 | 5 | 6 if y => println!("yes"),
+    _ => println!("no"),
+}
+```
+
+::: notes
+Lastly, we can use a match guard with multiple patterns
+
+In this example, the `if` condition applies to all the patterns
+
+So regardless of whether we match 4, 5, or 6, `y` must also be true for the expression to run
+:::
+
+## `@` Bindings
+
+> The _at_ operator @ lets us create a variable that holds a value at the same time as we’re testing that value for a pattern match
+
+::: notes
+OK, one last thing, this is it!
+
+Rust has this thing called an _at_ binding
+
+What this does is give us access to the actual value that matched
+
+This is best shown in an example
+:::
+
+## `@` Bindings
+
+```rust
+enum Message {
+    Hello { id: i32 },
+
+let msg = Message::Hello { id: 5 }
+match msg {
+    Message::Hello {
+        id: id_variable @ 3..=7,
+    } => println!("Found an id in range: {id_variable}"),
+    Message::Hello { id: 10..=12 } => {
+        println!("Found an id in another range")
+    }
+    Message::Hello { id } => println!("Found some other id: {id}"),
+}
+```
+
+::: footer
+[Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=218308ce1e9980e18340756d1c2f7ffe)
+:::
+
+::: notes
+In this example we want to check wheter `id` is in the range 3 to 7
+
+We saw before we can do this with a range pattern
+
+But we also want to use the actual value that matched within our expression, which a range pattern doesn't allow
+
+So we can use an `@` binding to say create this variable called `id_variable`
+
+If I get a match in this arm, if `id` is 3 to 7, I want to use the value that was matched within the expression
+
+In this case `id` is 5, which is within the range of 3 to 7, so the `@` binding `id_variable` will have the value 5 within the expression
+:::
