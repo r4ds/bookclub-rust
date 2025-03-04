@@ -11,7 +11,7 @@ As we read, we are producing [slides for the book](https://dslc.io/rust).
 
 If you would like to present, please see the sign-up sheet for your cohort (linked below, and pinned in the [#book_club-rust](https://dslcio.slack.com/archives/C073XR73XT8) channel on Slack)!
 
-- [Cohort 1](https://docs.google.com/spreadsheets/d/1MbPzQ8hhM9Oi198_cj9w6cdtbsG9-eTAqv_W7_KFkYA/edit?usp=sharing) (started 2024-10-07, facilitated by Andrew Bates): [Mondays, 4:00 PM CST/CDT](https://www.timeanddate.com/worldclock/converter.html?iso=20241007T210000&p1=24&p2=1440) | [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGi7HsPRKCXTf8OuyG9IwZeR)
+- Cohort 1 (started 2024-10-07, finished 2025-03-03): [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGi7HsPRKCXTf8OuyG9IwZeR)
 
 <hr>
 
